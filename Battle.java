@@ -17,7 +17,7 @@ public class Battle {
 		return my_Hero.getTempHP();//Returns the temporary Hp of the user to be used in class Main
 	}//End of method BattleMethod
 	
-	//Lets user choose which move to use
+	//Lets user choose which move to use 
 	public Move chooseMyMove(Hero my_Hero) {
 		//Printing user's moves
 		System.out.println(my_Hero.getMove1.toString());
