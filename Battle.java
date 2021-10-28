@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.util.Random;
 //A class that implements the battle mechanic of our game
 public class Battle {
+	public Scanner sc = new Scanner(System.in);//Creating Scanner object
+	Random rand = new Random();//Creating Random object
 	
 	//The most essential method of class Battle
 	//It implements the battle mechanic
@@ -25,7 +27,7 @@ public class Battle {
 		System.out.println(my_Hero.getMove3.toString());
 		System.out.println(my_Hero.getMove4.toString());
 		System.out.println("Choose your Move");
-		Scanner sc = new Scanner(System.in);//Creating Scanner object
+		//Scanner sc = new Scanner(System.in);
 		int chosenMove = sc.nextInt();//Reading user's chosen move
 		switch (chosenMove) {//Matching integer variable chosenMove with the right move of the user's Hero
 			case 1:
@@ -46,7 +48,7 @@ public class Battle {
 	
 	//The PC decides which move the rival god uses
 	public Move chooseOpponentsMove(Hero god) {
-		Random rand = new Random();//Creating Random object
+		//Random rand = new Random();
 		int randomMove = rand.nextInt(4) + 1;//Making a random integer [1,4]
 		switch (randomMove) {//Matching integer variable randomMove with the right move of the rival god
 		case 1:
@@ -69,7 +71,7 @@ public class Battle {
 		if (num_of_Battle <= 6) {//For the first 6 Stages (Rival gods) 
 			return true;
 		}else if (num_of_Battle <= 9){//For the next 3 Stages the user and the rival have the same chance of going first
-			Random rand = new Random();
+			//Random rand = new Random();
 			return rand.nextBoolean();
 		}else {//For the last 3 Stages the user always goes last
 			return false;
