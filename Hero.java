@@ -85,87 +85,87 @@ public class Hero {
 
 	public Hero (int numOfBattle) {
 		switch (numOfBattle) {
-		// Εστία 
-		//Για το αν χρειαζομαστε το ονομα των θεων 2 λυσεισ 
-		//1: Ως δεύτερο πεδίο στον κονστρακτορα 
-		//2:Ως μήνυμα στον χρήστη
+		// Hestia 
+		// An xreiazomaste to onoma twn thewn yparxoun 2 lyseis
+		// 1: Ws 2o pedio ston constructor
+		// 2: Ws munhma ston xrhsth
 		case 1:
 			hp = 100;
 			attack = 100;
 			armour = 100;
 			energy = 10;
 			break;
-		//Ήφαιστος
+		//Hefestus
 		case 2:
 			hp = 110;
 			attack = 110;
 			armour = 110;
 			energy = 10;
 			break;
-		//Ερμής
+		//Hermes
 		case 3:
 			hp = 120;
 			attack = 120;
 			armour = 120;
 			energy = 10;
 			break;
-		//Δήμητρα
+		//Demetra
 		case 4:
 			hp = 130;
 			attack = 130;
 			armour = 130;
 			energy = 10;
 			break;
-		//Αφροδίτη
+		//Aphrodite
 		case 5:
 			hp = 140;
 			attack = 140;
 			armour = 140;
 			energy = 10;
 			break;
-		//Απόλλωνας 
+		//Apollo
 		case 6:
 			hp = 150;
 			attack = 150;
 			armour = 150;
 			energy = 10;
 			break;
-		//Ερμής
+		//Artemis
 		case 7:
 			hp = 160;
 			attack = 160;
 			armour = 160;
 			energy = 10;
 			break;
-		//Ποσειδώνας 
+		//Poseidon
 		case 8:
 			hp = 170;
 			attack = 170;
 			armour = 170;
 			energy = 10;
 			break;
-		//Άρης 
+		//Ares
 		case 9:
 			hp = 180;
 			attack = 180;
 			armour = 180;
 			energy = 10;
 			break;
-		//Ήρα
+		//Hera
 		case 10:
 			hp = 190;
 			attack = 190;
 			armour = 190;
 			energy = 10;
 			break;
-		//Αθηνά
+		//Athena
 		case 11:
 			hp = 200;
 			attack = 200;
 			armour = 200;
 			energy = 10;
 			break;
-		//Δίας
+		//Zeus
 		case 12:
 			hp = 210;
 			attack = 210;
