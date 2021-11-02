@@ -82,8 +82,9 @@ public class Hero {
 		energy = en;
 		
 	}
-
-	public Hero (int numOfBattle) {
+	
+	public Hero(int h, int at, int ar, int en, int numOfBattle) {
+		this(h, at, ar, en);
 		switch (numOfBattle) {
 		// Hestia 
 		// An xreiazomaste to onoma twn thewn yparxoun 2 lyseis
