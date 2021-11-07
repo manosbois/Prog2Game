@@ -15,7 +15,7 @@ public class Stages {
 		int attribute_points;
 		boolean death=false;
 		Battle myBattle = new Battle();
-		Hero myHero = new Hero(0);//Creating the object for the rival god
+		Hero myHero = new Hero(0);//Creating the object for the user
 		
 		int i=1;
 		while (i<=12) {//We define the number of attribute points
@@ -30,7 +30,7 @@ public class Stages {
 					tempArmor = myHero.getArmour();
 				}
 				
-			} else { 	//After he have died we check about the checkpoints
+			} else { 	//After the user's player is dead we check for the checkpoints
 				if (death==false) {
 					findCheckpoint(i, myHero);
 					death = true;
@@ -42,6 +42,7 @@ public class Stages {
 			i += 1;
 		}
 	}
+	
 	public void findCheckpoint(int i, Hero myHero) {//A method that finds the checkpoint of the player
 		if (i<6) {//Before the battle with the sixth god
 			System.out.println("Game Over!");
@@ -51,15 +52,15 @@ public class Stages {
 			myHero.setAttack(tempAttack);
 			myHero.setArmour(tempArmor);
 			i=5;
-		} else if (i==12) {//After the player had lost by the last god
+		} else if (i==12) {//After the player has lost by the last god
 			myHero.setHp(tempHP);
 			myHero.setAttack(tempAttack);
-			myHero.setArmour(tempArmor);
-			
+			myHero.setArmour(tempArmor);			
 			i=11;
 		}
 		
 	}
+	
 	public void giveAttributesPoints(int attribute_points, Hero myHero) {//A method that distributes the attribute points
 		int key=0;
 		//Να φτιάξουμε το max δια 2
