@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.util.Random;
 //A class that implements the battle mechanic of our game
 public class Battle {
+	Scanner sc = new Scanner(System.in);//Creating Scanner object
+	Random rand = new Random();//Creating Random object
 	
 	private final int energyReplenishment = 8;//The variable that shows how much energy is replenished every round
 	
@@ -34,7 +36,6 @@ public class Battle {
 			System.out.println(my_Hero.getBuffMove.toString());
 			System.out.println(my_Hero.getNoMove.toString());
 			System.out.println("Choose your Move");
-			Scanner sc = new Scanner(System.in);//Creating Scanner object
 			int chosenMove = sc.nextInt();//Reading user's chosen move
 			Move move;//Creating a variable of type Move to assist us in switch structure
 			switch (chosenMove) {//Matching integer variable chosenMove with the right move of the user's Hero
@@ -60,7 +61,6 @@ public class Battle {
 	
 	//The PC decides which move the rival god uses
 	public Move chooseOpponentsMove(Hero god) {
-		Random rand = new Random();//Creating Random object
 		boolean sufficientEnergy;
 		do {		
 			sufficientEnergy = true;	
@@ -90,7 +90,6 @@ public class Battle {
 		if (num_of_Battle <= 6) {//For the first 6 Stages (Rival gods) 
 			return true;
 		}else if (num_of_Battle <= 9){//For the next 3 Stages the user and the rival have the same chance of going first
-			Random rand = new Random();
 			return rand.nextBoolean();
 		}else {//For the last 3 Stages the user always goes last
 			return false;
