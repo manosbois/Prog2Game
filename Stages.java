@@ -10,6 +10,8 @@ public class Stages {
 	protected int ap_attack=0;//Attribute Points for Attack
 	protected int ap_armor=0;//Attribute Points for Armor
 	
+	//public Stages() {
+	
 	public void stageControl() {
 		
 		int attribute_points;
