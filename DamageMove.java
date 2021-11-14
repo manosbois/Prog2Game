@@ -1,30 +1,19 @@
 package Moves;
 public class DamageMove extends Move {
 	private int damage;
-	public DamageMove(int energy, String name) {
-		super();
+	
+	public DamageMove(int energy, String name, int damage) {
+		super(energy , name);
+		this.damage = damage;
 	}
-	public int getEnergy() {
-		return energy;
+	
+	public int getDamage() {
+		return damage;
 	}
-	public String getName() {
-		return name;
-	}
-	public int effect() {
-		return 9;
-	}
-}
-
-//NEW
-package Moves;
-public class DamageMove extends Move {
-    private int damage;
-	public DamageMove(int e, String n) {
-		this.energy=energy;
-		this.name=name;
-	}
-	public void effect(Hero mh, Hero g) {
-		int tempHP = (damage * Hero.temp_attack) / (4 * Hero.temp_defense);
-		Hero.tempHP=Hero.tempHP-tempHP;
+	
+	@Override
+	public void effect(Hero hero1, Hero hero2) {
+		int tempHP = (this.damage * hero1.getTempAttack()) / (4 * hero2.getTempDefense());
+		hero1.setTempHP(hero1.getTempHP() - tempHP);
 	}
 }
