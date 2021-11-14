@@ -3,30 +3,14 @@ package Moves;
 public class BuffMove extends Move {
 
 	public BuffMove(int energy, String name) {
-		super();
+		super(energy , name);
 	}
-	public int getEnergy() {
-		return energy;
+	
+	@Override
+	public void effect(Hero hero1, Hero hero2) {
+		int tempAttack = hero1.getTempAttack() + hero1.getTempAttack() / 2;
+		int tempArmour = hero1.getTempArmour() + hero1.getTempArmour() / 2;
+ 		hero1.setTempAttack(tempAttack);
+ 		hero1.setTempArmour(tempArmour);
 	}
-	public String getName() {
-		return name;
-	}
-	public int effect() {
-		return 9;
-	}
-}
-
-//NEW
-package Moves;
-public class BuffMove extends Move {
-	public BuffMove(int e, String n) {
-		this.energy=energy;
-		this.name=name;
-	}
-	public void effect(Hero mh, Hero g) {
-		int tempAttack = Hero.tempAttack + Hero.tempAttack * 0.5;
-		int tempArmour = Hero.tempArmour + Hero.tempArmour * 0.5;
- 	    Hero.setTempAttack(int tempAttack);
- 	    Hero.setTempArmour(int tempArmour);
-    }
 }
