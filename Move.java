@@ -1,9 +1,9 @@
 package Moves;
 public class Move {
-       protected int energy;
-       protected String name;
+       private int energy;
+       private String name;
        
-       public void Move() {
+       public Move(int energy , String name) {
     	   this.energy=energy;
     	   this.name=name;
        }
@@ -13,35 +13,12 @@ public class Move {
        public String getName() {
     	   return name;
        }
-       public int effect() {
-    	   return 9;
-       }
-       @Override
-      public String toString() {
-    	   return String.format("The %s's energy is %d",name,energy);
-       }
-}
-
-//NEW
-package Moves;
-public class Move {
-       protected int energy;
-       protected String name;
        
-       public void Move(int e, String n) {
-    	   this.energy=energy;
-    	   this.name=name;
-       }
-       public int getEnergy() {
-    	   return energy;
-       }
-       public String getName() {
-    	   return name;
-       }
-       public void effect() {
+       public void effect(Hero my_Hero , Hero god) {
     	   System.out.println("No move has been selected");
        }
-       @Override
+
+      @Override
       public String toString() {
     	   return String.format("The %s's energy is %d",name,energy);
        }
