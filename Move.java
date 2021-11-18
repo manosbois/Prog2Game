@@ -1,4 +1,3 @@
-package Moves;
 public class Move {
        private int energy;
        private String name;
@@ -14,12 +13,13 @@ public class Move {
     	   return name;
        }
        
-       public void effect(Hero my_Hero , Hero god) {
-    	   System.out.println("No move has been selected");
+       public void effect(Hero hero1 , Hero hero2) {
+    	   System.out.printf("%s used %s.\n\n" , hero1.getName() , this.getName());
+    	   System.out.println("This move had no effect");
        }
 
       @Override
       public String toString() {
-    	   return String.format("The %s's energy is %d",name,energy);
+    	   return String.format("%s's energy is %d", name, energy);
        }
 }
