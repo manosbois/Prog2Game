@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class Stages {
 	public Scanner input = new Scanner(System.in);
 	protected int tempHP = 0;// We temporarily save HP for checkpoints
-	protected int tempAttack = 0;// We temporarily save Attack for checkpoints
-	protected int tempArmor = 0;// We temporarily save Armor for checkpoints
+	protected int tempAttack = 0;// We temporarily save attack for checkpoints
+	protected int tempArmor = 0;// We temporarily save armor for checkpoints
 
 	protected int ap_hp;// Attribute Points for HP
 	protected int ap_attack;// Attribute Points for Attack
@@ -19,7 +19,6 @@ public class Stages {
 		int attribute_points;
 		boolean death = false;
 		Battle myBattle = new Battle();
-		// RWTA GIA TO MY HERO
 		Hero myHero = new Hero(100, 100, 100, MYHEROSENERGY, "THE HERO");// Creating the object for the user
 
 		i = 1;
@@ -68,9 +67,9 @@ public class Stages {
 	public void giveAttributesPoints(int attribute_points, Hero myHero) {// A method that distributes the attribute
 																			// points
 		int key = 0;
-		// NÎ± Ï†Ï„Î¹Î¬Î¾Î¿Ï…Î¼Îµ Ï„Î¿ max Î´Î¹Î± 2
+		int ap_Left = attribute_points;
+		// Nα φτιάξουμε το max δια 2
 		do { // We ask the player about the distribution of the attributes points
-			int ap_Left = attribute_points;
 			System.out.printf("You have %d attributes points! ", ap_Left);
 			System.out.printf(
 					"Choose what stat you want to upgrade:\nPress 1 for Health Power.(max %d)\nPress 2 for Attack(max %d).\nPress 3 for Armor(max %d).\n",
@@ -80,10 +79,6 @@ public class Stages {
 				System.out.print("\nHealth Power:");
 				ap_hp = input.nextInt() + ap_hp;
 				ap_Left = ap_Left - ap_hp;
-				
-				// x=input.nextInt()
-				// if(x<max/2 kai x<ap_Left) tote ap_hp kai ap_Left , alliws Wrong Input
-				
 			} else if (key == 2) {
 				System.out.print("\nAttack:");
 				ap_attack = input.nextInt() + ap_attack;
@@ -95,15 +90,12 @@ public class Stages {
 			} else {
 				System.out.println("Wrong Input");
 			}
-			if (ap_Left == 0) {
-
-				System.out.println(
-						"If you want to rearrange your attribute points press 4. Eitherweise press anything else.");
-				key = input.nextInt();
-				if (key == 4) {
-					setApStatstoZero();
-					ap_Left = attribute_points;
-				}
+			System.out.println(
+					"If you want to rearrange your attribute points press 4. Eitherweise press anything else.");
+			key = input.nextInt();
+			if (key == 4) {
+				setApStatstoZero();
+				ap_Left = attribute_points;
 			}
 		} while (ap_hp <= attribute_points / 2 && ap_attack <= attribute_points / 2 && ap_armor <= attribute_points / 2
 				&& (ap_hp + ap_attack + ap_armor) < attribute_points);
@@ -117,3 +109,4 @@ public class Stages {
 		ap_attack = 0;
 		ap_armor = 0;
 	}
+}
