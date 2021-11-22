@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 
+// test
 //A class that implements the battle mechanic of our game
 public class Battle {
 	Scanner sc = new Scanner(System.in);// Creating Scanner object
