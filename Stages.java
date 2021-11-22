@@ -76,7 +76,7 @@ public class Stages {
 		Clip clip2 = AudioSystem.getClip();
 		clip2.open(audioStream2);
 		clip2.start();
-		//NΞ± Ο†Ο„ΞΉΞ¬ΞΎΞΏΟ…ΞΌΞµ Ο„ΞΏ max Ξ΄ΞΉΞ± 2
+		
 		do { //We ask the player about the distribution of the attributes points
 			System.out.printf("You have %d attributes points! ",ap_Left);
 			System.out.printf("Choose what stat you want to upgrade:\nPress 1 for Health Power.(max %d)\nPress 2 for Attack(max %d).\nPress 3 for Armor(max %d).\n",attribute_points/2,attribute_points/2,attribute_points/2);
