@@ -1,136 +1,136 @@
 import java.util.Scanner;
+import javax.sound.sampled.*;
+import java.io.IOException;
+import java.io.File;
 import java.util.Random;
 
-// test
 //A class that implements the battle mechanic of our game
 public class Battle {
-	Scanner sc = new Scanner(System.in);// Creating Scanner object
-	Random rand = new Random();// Creating Random object
-
-	private final int ENERGYREPLENISHMENT = 8;// The variable that shows how much energy is replenished every round
-
-	// The most essential method of class Battle
-	// It implements the battle mechanic
-	public int BattleMethod(Hero my_Hero, int num_of_Battle) {
-		my_Hero.setTempStats(my_Hero.getHp(), my_Hero.getAttack(), my_Hero.getArmour(), my_Hero.getEnergy());// Setting
-																												// the
-																												// tempStats
-		// before the battle to the values of the non tempStats
-		Hero god = new Hero(num_of_Battle);// Creating the object for the rival god
+	Scanner sc = new Scanner(System.in);//Creating Scanner object
+	Random rand = new Random();//Creating Random object
+	
+	private final int ENERGYREPLENISHMENT = 8;//The variable that shows how much energy is replenished every round
+	
+	//The most essential method of class Battle
+	//It implements the battle mechanic
+	public int BattleMethod(Hero my_Hero, int num_of_Battle) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
+		my_Hero.setTempStats(my_Hero.getHp() , my_Hero.getAttack() , my_Hero.getArmour() , my_Hero.getEnergy());//Setting the tempStats 
+		//before the battle to the values of the non tempStats
+		Hero god = new Hero(num_of_Battle);//Creating the object for the rival god
 		boolean roundEnds;
 		System.out.println(my_Hero.getName() + " VS " + god.getName() + "\n");
-		do {// Start of do...while loop that implements the round system
-			Move myMove = chooseMyMove(my_Hero, god);// Lets user choose which move to use
-			Move opponentsMove = chooseOpponentsMove(god);// The PC decides which move the rival god uses
-			boolean iPlayFirst = decideWhoGoesFirst(num_of_Battle);// Decides if the users goes first
-			roundResult(myMove, opponentsMove, my_Hero, god, iPlayFirst);// It modifies the TempStats of the objects
-																			// my_Hero and
-			// god according to used moves
-			roundEnds = (my_Hero.getTempHP() <= 0) || (god.getTempHP() <= 0);// The round ends when either side's tempHP
-																				// is below zero
-			if (roundEnds == false)// It will not replenish the energy if either side has lost
-				replenishEnergy(my_Hero, god);// Replenishes the energy of the hero and god
-		} while (roundEnds == false); // End of do...while loop
-
-		return my_Hero.getTempHP();// Returns the temporary Hp of the user to be used in class Main
-	}// End of method BattleMethod
-
-	// Lets user choose which move to use
-	public Move chooseMyMove(Hero my_Hero, Hero god) {
+		File file = new File("Song.wav");
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioStream);
+		clip.start();
+		do {//Start of do...while loop that implements the round system
+			Move myMove = chooseMyMove(my_Hero , god);//Lets user choose which move to use
+			Move opponentsMove = chooseOpponentsMove(god);//The PC decides which move the rival god uses
+			boolean iPlayFirst = decideWhoGoesFirst(num_of_Battle);//Decides if the users goes first
+			roundResult(myMove , opponentsMove , my_Hero, god , iPlayFirst);//It modifies the TempStats of the objects my_Hero and 
+			//god according to used moves
+			roundEnds = (my_Hero.getTempHP() <= 0) || (god.getTempHP() <= 0);//The round ends when either side's tempHP is below zero
+			if (roundEnds == false)//It will not replenish the energy if either side has lost
+				replenishEnergy(my_Hero, god);//Replenishes the energy of the hero and god
+		}while (roundEnds == false); // End of do...while loop
+		clip.stop();
+		return my_Hero.getTempHP();//Returns the temporary Hp of the user to be used in class Main
+	}//End of method BattleMethod
+	
+	//Lets user choose which move to use
+	public Move chooseMyMove(Hero my_Hero , Hero god) {
 		boolean sufficientEnergy;
-		Move move = my_Hero.getNoMove();// Creating a variable of type Move to assist us in switch structure.
+		Move move = my_Hero.getNoMove();//Creating a variable of type Move to assist us in switch structure.
 		do {
 			sufficientEnergy = true;
-			System.out.printf("%s %14s\nHP: %d %14d\nEnergy: %d\n\n", my_Hero.getName(), god.getName(),
-					my_Hero.getTempHP(), god.getTempHP(), my_Hero.getTempEnergy());
+			System.out.printf("%s %14s\nHP: %d %14d\nEnergy: %d\n\n" , my_Hero.getName() , god.getName() 
+					, my_Hero.getTempHP() , god.getTempHP() , my_Hero.getTempEnergy());
 			System.out.println("Choose your move!");
-			// Printing user's moves
+			//Printing user's moves
 			System.out.println(my_Hero.getDamagingMove1().toString());
 			System.out.println(my_Hero.getDamagingMove2().toString());
 			System.out.println(my_Hero.getBuffMove().toString());
 			System.out.println(my_Hero.getNoMove().toString());
-			int chosenMove = sc.nextInt();// Reading user's chosen move
-			switch (chosenMove) {// Matching integer variable chosenMove with the right move of the user's Hero
-			case 1:
-				move = my_Hero.getDamagingMove1(); // Assigning the chosen move to the variable move
-				break;
-			case 2:
-				move = my_Hero.getDamagingMove2();
-				break;
-			case 3:
-				move = my_Hero.getBuffMove();
-				break;
-			case 4:
-				move = my_Hero.getNoMove();
-				break;
-			}// End of switch
-			if (my_Hero.getTempEnergy() < move.getEnergy()) {// Checking if the user has enough energy
+			int chosenMove = sc.nextInt();//Reading user's chosen move
+			switch (chosenMove) {//Matching integer variable chosenMove with the right move of the user's Hero
+				case 1:
+					move = my_Hero.getDamagingMove1(); //Assigning the chosen move to the variable move
+					break;
+				case 2:
+					move = my_Hero.getDamagingMove2(); 
+					break;
+				case 3:
+					move = my_Hero.getBuffMove(); 
+					break;
+				case 4:	
+					move = my_Hero.getNoMove(); 
+					break;
+			}//End of switch
+			if (my_Hero.getTempEnergy() < move.getEnergy()) {//Checking if the user has enough energy
 				sufficientEnergy = false;
-				System.out.printf("You need %d more Energy to use the move %s\n",
-						move.getEnergy() - my_Hero.getTempEnergy(), move.getName());
+				System.out.printf("You need %d more Energy to use the move %s\n" , move.getEnergy() - my_Hero.getTempEnergy() , move.getName());
 			}
-		} while (sufficientEnergy == false);
+		}while(sufficientEnergy == false);
 		return move;
-	}// End of method chooseMymove
-
-	// The PC decides which move the rival god uses
+	}//End of method chooseMymove
+	
+	//The PC decides which move the rival god uses
 	public Move chooseOpponentsMove(Hero god) {
 		boolean sufficientEnergy;
-		Move move = god.getNoMove();// Creating a variable of type Move to assist us in switch structure
+		Move move = god.getNoMove();//Creating a variable of type Move to assist us in switch structure
 
-		do {
-			sufficientEnergy = true;
-			int randomMove = rand.nextInt(4) + 1;// Making a random integer [1,4]
-			switch (randomMove) {// Matching integer variable randomMove with the right move of the rival god
+		do {		
+			sufficientEnergy = true;	
+			int randomMove = rand.nextInt(4) + 1;//Making a random integer [1,4]
+			switch (randomMove) {//Matching integer variable randomMove with the right move of the rival god
 			case 1:
-				move = god.getDamagingMove1();// Assigning the chosen move to the variable move
+				move = god.getDamagingMove1();//Assigning the chosen move to the variable move
 				break;
 			case 2:
-				move = god.getDamagingMove2();
+				move = god.getDamagingMove2(); 
 				break;
 			case 3:
-				move = god.getBuffMove();
+				move = god.getBuffMove(); 
 				break;
-			case 4:
-				move = god.getNoMove();
+			case 4:	
+				move = god.getNoMove(); 
 				break;
-			}// End of switch
-			if (god.getTempEnergy() < move.getEnergy())// Checking if the opponent has enough energy
+			}//End of switch
+			if (god.getTempEnergy() < move.getEnergy())//Checking if the opponent has enough energy
 				sufficientEnergy = false;
-		} while (sufficientEnergy == false);
+		}while (sufficientEnergy == false);
 		return move;
-	}// End of method chooseOpponentsMove
-
-	// Decides if the users goes first
+	}//End of method chooseOpponentsMove
+	
+	//Decides if the users goes first
 	private boolean decideWhoGoesFirst(int num_of_Battle) {
-		if (num_of_Battle <= 6) {// For the first 6 Stages (Rival gods)
+		if (num_of_Battle <= 6) {//For the first 6 Stages (Rival gods) 
 			return true;
-		} else if (num_of_Battle <= 9) {// For the next 3 Stages the user and the rival have the same chance of going
-										// first
+		}else if (num_of_Battle <= 9){//For the next 3 Stages the user and the rival have the same chance of going first
 			return rand.nextBoolean();
-		} else {// For the last 3 Stages the user always goes last
+		}else {//For the last 3 Stages the user always goes last
 			return false;
-		} // End of if
-	}// End of method decideWhoGoesFirst
-
-	// It modifies the TempStats of the objects my_Hero and god according to used
-	// moves
+		}//End of if
+	}//End of method decideWhoGoesFirst
+	
+	//It modifies the TempStats of the objects my_Hero and god according to used moves
 	private void roundResult(Move my_Move, Move opponentsMove, Hero my_Hero, Hero god, boolean iPlayFirst) {
-		// Checks who plays first
-		if (iPlayFirst == true) {// If the user plays first
-			my_Move.effect(my_Hero, god);// The user makes his move
-			if (god.getTempHP() <= 0)// Checks if the opponent has lost
+		//Checks who plays first
+		if (iPlayFirst == true) {//If the user plays first
+			my_Move.effect(my_Hero, god);//The user makes his move
+			if (god.getTempHP() <= 0)//Checks if the opponent has lost 
 				return;
-			opponentsMove.effect(god, my_Hero);// The opponent makes his move
-		} else {// If the opponent plays first
-			opponentsMove.effect(god, my_Hero);// The opponent makes his move
-			if (my_Hero.getTempHP() <= 0)// Checks if the user has lost
+			opponentsMove.effect(god, my_Hero);//The opponent makes his move
+		} else {//If the opponent plays first
+			opponentsMove.effect(god, my_Hero);//The opponent makes his move
+			if (my_Hero.getTempHP() <= 0)//Checks if the user has lost
 				return;
-			my_Move.effect(my_Hero, god);// The user makes his move
+			my_Move.effect(my_Hero, god);//The user makes his move
 		}
 	}
-
-	// Replenishes the energy of the hero and god
+	
+	//Replenishes the energy of the hero and god
 	public void replenishEnergy(Hero my_Hero, Hero god) {
 		my_Hero.setTempEnergy(my_Hero.getTempEnergy() + ENERGYREPLENISHMENT);
 		god.setTempEnergy(god.getTempEnergy() + ENERGYREPLENISHMENT);
