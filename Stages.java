@@ -75,7 +75,7 @@ public class Stages {
 		AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
 		Clip clip2 = AudioSystem.getClip();
 		clip2.open(audioStream2);
-		clip2.start();
+		clip2.loop(Clip.LOOP_CONTINUOUSLY);
 		
 		do { //We ask the player about the distribution of the attributes points
 			System.out.printf("You have %d attributes points! ",ap_Left);
