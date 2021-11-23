@@ -23,7 +23,7 @@ public class Battle {
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
-		clip.start();
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 		do {//Start of do...while loop that implements the round system
 			Move myMove = chooseMyMove(my_Hero , god);//Lets user choose which move to use
 			Move opponentsMove = chooseOpponentsMove(god);//The PC decides which move the rival god uses
