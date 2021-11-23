@@ -11,44 +11,53 @@ import javax.swing.JProgressBar;
 
 public class Graph {
 	JFrame frame;// We define the frame of the project.
-	JPanel centralpanel, bottompanel;// We define the two panel that appear on the screen
-	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basics buttons
+	JPanel centralpanel, buttonpanel, bottompanel;// We define three panels that appear on the screen
+	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basic buttons
 																							// of the game
-	Label introlabel, mainlabel, attackbarlabel, armorbarlabel, hpbarlabel;// We define the basic label that appear on
-																			// the game
+	Button swordbutton, spearbutton, shieldbutton, meditatebutton, nomovebutton;// We define the move buttons
+	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
+			hpplus1, hpplus5, hpplus10, hpreset;
+	Label introlabel, mainlabel; // We define the basic labels that appear on the game
+	Label attackbarlabel, armorbarlabel, hpbarlabel, attackremain, armorremain, hpremain;// We define the basic
+																							// statistics labels
 	JProgressBar attackbar, armorbar, hpbar;// We define the progress bars that appear on the statistics screen
 	final int WIDTH = 1280, HEIGHT = 800;// We define the the width and the height of the window
-
+	Stages myStages = new Stages();
+	
 	public Graph(String title) {// We create the constructor of the class Graph
+
 		frame = new JFrame(title);// We give the frame a title
-		frame.setBounds(0, 0, WIDTH, HEIGHT);// I define the bounds of the frame
-		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);// We define that the window can close if i want to close it
+		frame.setBounds(0, 0, WIDTH, HEIGHT);// We define the bounds of the frame
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);// We define that the window can close if I want to close it
 		frame.setResizable(false);// We do not allow to resize the window
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);// We define that the window will appear
-		frame.setLayout(new BorderLayout());// We define the layout that i'm going to use for the labels and the buttons
+		frame.setLayout(new BorderLayout());// We define the layout that I'm going to use for the labels and the buttons
 
 		createMainWindow();// We call the method createMainWindow that designs the first window that opens
 							// when we start the game
 	}
 
-	public void createMainWindow() {// That method creates the first window that the user will see when he opens the
+	public void createMainWindow() {// This method creates the first window that the user will see when he opens the
 									// game
 		centralpanel = new JPanel();// We define the main panel of the window
-		centralpanel.setBackground(new Color(42, 82, 142));// We define the define the color of the panel centralpanel
+		centralpanel.setBackground(new Color(42, 82, 142));// We define the color of the panel centralpanel
 															// based on rgb color
 		centralpanel.setLayout(null);
 		centralpanel.setLocation(0, 0);// We define the location of this panel
-		centralpanel.setSize(WIDTH, HEIGHT * 14 / 15);// We define the size of this panel
+		centralpanel.setSize(WIDTH, HEIGHT);// We define the size of this panel
 
-		bottompanel = new JPanel();// We define the secondary panel of the window
-		bottompanel.setBackground(Color.DARK_GRAY);// We define the define the color of the panel bottompanel
-		bottompanel.setLayout(null);// We define that we are not going to use a specific layout
-		bottompanel.setLocation(0, 500);// We define the location of this panel
-		bottompanel.setSize(WIDTH, HEIGHT / 15);// We define the size of this panel
+		/*
+		 * bottompanel = new JPanel();// We define the secondary panel of the window
+		 * bottompanel.setBackground(Color.DARK_GRAY);// We define the define the color
+		 * of the panel bottompanel bottompanel.setLayout(null);// We define that we are
+		 * not going to use a specific layout bottompanel.setLocation(0, 500);// We
+		 * define the location of this panel bottompanel.setSize(WIDTH, HEIGHT / 15);//
+		 * We define the size of this panel
+		 */
 
 		frame.add(centralpanel);// We add the panel centralpanel to the frame
-		frame.add(bottompanel);// We add the panel bottompanel to the frame
+		// frame.add(bottompanel);// We add the panel bottompanel to the frame
 
 		introbutton = new Button("LET'S BEGIN OUR ADVENTURE");// We define the button on the first window that leads to
 																// main menu
@@ -73,7 +82,7 @@ public class Graph {
 		centralpanel.add(introlabel);// We add the label introlabel to the main panel(centralpanel)
 		centralpanel.add(introbutton);// We add the button introbutton to the main panel(centralpanel)
 		introbutton.addActionListener(new ActionListener() {// We define that if the user clicks the button that says
-															// "LET'S BEGIN OUR ADVENTURE", he's goin to be transformed
+															// "LET'S BEGIN OUR ADVENTURE", he's goin to be returned
 															// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.remove(introbutton);// We remove button introbutton from the panel centralpanel
@@ -185,9 +194,20 @@ public class Graph {
 	}
 
 	public void createStartWindow() {// We create the window that the player is going to play to
+		buttonpanel = new JPanel();
+		buttonpanel.setBackground(Color.BLACK);// We define the color of the panel centralpanel
+												// based on rgb color
+		buttonpanel.setLayout(null);
+		buttonpanel.setLocation(0, HEIGHT * 4 / 5);// We define the location of this panel
+		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);
+		buttonpanel.setSize(WIDTH, HEIGHT / 5);// We define the size of this panel
+		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);// We customize the size of the panel centralpanel so we can insert
+													// the panel buttonpanel
+		frame.add(buttonpanel);
 
 		mainbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				centralpanel.setSize(WIDTH, HEIGHT);
 				centralpanel.remove(mainbutton);
 				createMenuWindow();
 			}
@@ -210,6 +230,31 @@ public class Graph {
 		attackbar.setBounds(WIDTH / 10, HEIGHT * 1 / 5, 300, 75);// We define the location and the size of the progress
 																	// bar
 
+		attackplus1 = new Button("+1");
+		attackplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 1 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai
+																					// symmetrika me to bar
+		attackplus1.setBackground(Color.WHITE);
+		attackplus1.setForeground(Color.BLACK);
+		attackplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		attackplus5 = new Button("+5");
+		attackplus5.setBounds((WIDTH / 10) + 525, HEIGHT * 1 / 5 + 25 / 2, 50, 50);
+		attackplus5.setBackground(Color.WHITE);
+		attackplus5.setForeground(Color.BLACK);
+		attackplus5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		attackplus10 = new Button("+10");
+		attackplus10.setBounds((WIDTH / 10) + 600, HEIGHT * 1 / 5 + 25 / 2, 50, 50);
+		attackplus10.setBackground(Color.WHITE);
+		attackplus10.setForeground(Color.BLACK);
+		attackplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		attackremain = new Label(" Remaining: " + 15);
+		attackremain.setBounds((WIDTH / 10) + 675, HEIGHT * 1 / 5 + 25 / 2, 230, 50);
+		attackremain.setBackground(Color.WHITE);
+		attackremain.setForeground(Color.BLACK);
+		attackremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+
 		armorbarlabel = new Label("ARMOR");// We create the label for the statistic bar for armor
 		armorbarlabel.setLocation(WIDTH / 10, 270);// We define the location of the label armorbarlabel
 		armorbarlabel.setSize(300, 75);// We define the size of the label armorbarlabel
@@ -217,6 +262,11 @@ public class Graph {
 		armorbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
 																		// armorbarlabel and that the text is going to
 																		// be bold
+		attackreset = new Button("Reset");
+		attackreset.setBounds((WIDTH / 10) + 930, HEIGHT * 1 / 5 + 25 / 2, 100, 50);
+		attackreset.setBackground(Color.WHITE);
+		attackreset.setForeground(Color.BLACK);
+		attackreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
 		armorbar = new JProgressBar(0, 300);// We create the progress bar for the statistic bar for armor
 		armorbar.setValue(100);// We set the first value of the progress bar armorbar
@@ -224,6 +274,36 @@ public class Graph {
 		armorbar.setBackground(Color.red);// We define the color of the progress bar
 		armorbar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 300, 75);// We define the location and the size of the progress
 																// bar
+		armorplus1 = new Button("+1");
+		armorplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 2 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai
+																					// symmetrika me to bar
+		armorplus1.setBackground(Color.WHITE);
+		armorplus1.setForeground(Color.BLACK);
+		armorplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		armorplus5 = new Button("+5");
+		armorplus5.setBounds((WIDTH / 10) + 525, HEIGHT * 2 / 5 + 25 / 2, 50, 50);
+		armorplus5.setBackground(Color.WHITE);
+		armorplus5.setForeground(Color.BLACK);
+		armorplus5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		armorplus10 = new Button("+10");
+		armorplus10.setBounds((WIDTH / 10) + 600, HEIGHT * 2 / 5 + 25 / 2, 50, 50);
+		armorplus10.setBackground(Color.WHITE);
+		armorplus10.setForeground(Color.BLACK);
+		armorplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		armorremain = new Label(" Remaining: " + 15);
+		armorremain.setBounds((WIDTH / 10) + 675, HEIGHT * 2 / 5 + 25 / 2, 230, 50);
+		armorremain.setBackground(Color.WHITE);
+		armorremain.setForeground(Color.BLACK);
+		armorremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+		
+		armorreset = new Button("Reset");
+		armorreset.setBounds((WIDTH / 10) + 930, HEIGHT * 2 / 5 + 25 / 2, 100, 50);
+		armorreset.setBackground(Color.WHITE);
+		armorreset.setForeground(Color.BLACK);
+		armorreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
 		hpbarlabel = new Label("HEALTH POWER");// We create the label for the statistic bar for health power
 		hpbarlabel.setLocation(WIDTH / 10, 430);// We define the location of the label hpbarlabel
@@ -239,12 +319,62 @@ public class Graph {
 		hpbar.setBackground(Color.red);// We define the color of the progress bar
 		hpbar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 300, 75);// We define the location and the size of the progress bar
 
+		hpplus1 = new Button("+1");
+		hpplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 3 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai symmetrika
+																				// me to bar
+		hpplus1.setBackground(Color.WHITE);
+		hpplus1.setForeground(Color.BLACK);
+		hpplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		hpplus5 = new Button("+5");
+		hpplus5.setBounds((WIDTH / 10) + 525, HEIGHT * 3 / 5 + 25 / 2, 50, 50);
+		hpplus5.setBackground(Color.WHITE);
+		hpplus5.setForeground(Color.BLACK);
+		hpplus5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
+		hpplus10 = new Button("+10");
+		hpplus10.setBounds((WIDTH / 10) + 600, HEIGHT * 3 / 5 + 25 / 2, 50, 50);
+		hpplus10.setBackground(Color.WHITE);
+		hpplus10.setForeground(Color.BLACK);
+		hpplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		
+		hpremain = new Label(" Remaining: " + 15);
+		hpremain.setBounds((WIDTH / 10) + 675, HEIGHT * 3 / 5 + 25 / 2, 230, 50);
+		hpremain.setBackground(Color.WHITE);
+		hpremain.setForeground(Color.BLACK);
+		hpremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+		
+		hpreset = new Button("Reset");
+		hpreset.setBounds((WIDTH / 10) + 930, HEIGHT * 3 / 5 + 25 / 2, 100, 50);
+		hpreset.setBackground(Color.WHITE);
+		hpreset.setForeground(Color.BLACK);
+		hpreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+
 		centralpanel.add(attackbar);// We add the progress bar attackbar at the panel
 		centralpanel.add(armorbar);// We add the progress bar armorbar at the panel
 		centralpanel.add(hpbar);// We add the progress bar hpbar at the panel
+
 		centralpanel.add(attackbarlabel);// We add the label attackbarlabel at the panel
 		centralpanel.add(armorbarlabel);// We add the label armorbarlabel at the panel
 		centralpanel.add(hpbarlabel);// We add the label hpbarlabel at the panel
+
+		centralpanel.add(attackplus1);
+		centralpanel.add(attackplus5);
+		centralpanel.add(attackplus10);
+		centralpanel.add(attackremain);
+		centralpanel.add(attackreset);
+
+		centralpanel.add(armorplus1);
+		centralpanel.add(armorplus5);
+		centralpanel.add(armorplus10);
+		centralpanel.add(armorremain);
+		centralpanel.add(armorreset);
+		
+		centralpanel.add(hpplus1);
+		centralpanel.add(hpplus5);
+		centralpanel.add(hpplus10);
+		centralpanel.add(hpremain);
+		centralpanel.add(hpreset);
 
 		mainbutton.addActionListener(new ActionListener() {// If the user clicks the button mainbutton the game returns
 															// to the menu window
@@ -252,9 +382,29 @@ public class Graph {
 				centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
 				centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
 				centralpanel.remove(hpbar);// We remove the progress bar hpbar from the panel
+
 				centralpanel.remove(attackbarlabel);// We remove the progress bar attackbarlabel from the panel
 				centralpanel.remove(armorbarlabel);// We remove the progress bar armorbarlabel from the panel
 				centralpanel.remove(hpbarlabel);// We remove the progress bar hpbarlabel from the panel
+
+				centralpanel.remove(attackplus1);
+				centralpanel.remove(attackplus5);
+				centralpanel.remove(attackplus10);
+				centralpanel.remove(attackremain);
+				centralpanel.remove(attackreset);
+
+				centralpanel.remove(armorplus1);
+				centralpanel.remove(armorplus5);
+				centralpanel.remove(armorplus10);
+				centralpanel.remove(armorremain);
+				centralpanel.remove(armorreset);
+
+				centralpanel.remove(hpplus1);
+				centralpanel.remove(hpplus5);
+				centralpanel.remove(hpplus10);
+				centralpanel.remove(hpremain);
+				centralpanel.remove(hpreset);
+
 				centralpanel.remove(mainbutton);// We remove the progress bar mainbutton from the panel
 				createMenuWindow();
 			}
