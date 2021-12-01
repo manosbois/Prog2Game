@@ -20,7 +20,11 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(my_Hero.getName() + " VS " + god.getName() + "\n");
 		File file = new File("Song.wav");
+		File zeusmusic = new File("ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+		if (num_of_Battle == 12) {
+		 audioStream = AudioSystem.getAudioInputStream(zeusmusic);
+		}
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
