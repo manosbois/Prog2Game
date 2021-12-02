@@ -6,109 +6,19 @@ public class Hero {
 	private int attack;
 	private int armour;
 	private int energy;
+
 	// Temp Stats
 	private int tempHP;
 	private int tempAttack;
 	private int tempArmour;
 	private int tempEnergy;
 	private String name;
+
 	// Moves
 	private DamageMove damagingMove1 = new DamageMove(6, "Sword", 90);
 	private DamageMove damagingMove2 = new DamageMove(4, "Spear", 70);
 	private BuffMove buffMove = new BuffMove(10, "Meditate");
 	private Move noMove = new Move(0, "No Move");
-
-	// Getters & Setters for Stats
-	public int getHp() {
-		return hp;
-	}
-
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
-
-	public int getAttack() {
-		return attack;
-	}
-
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
-
-	public int getArmour() {
-		return armour;
-	}
-
-	public void setArmour(int armour) {
-		this.armour = armour;
-	}
-
-	public int getEnergy() {
-		return energy;
-	}
-
-	public void setEnergy(int energy) {
-		this.energy = energy;
-	}
-
-	// Getters & Setters for Temp Stats
-	public int getTempHP() {
-		return tempHP;
-	}
-
-	public void setTempHP(int tempHP) {
-		if (tempHP < 0) {
-			this.tempHP = 0;
-		} else {
-			this.tempHP = tempHP;
-		}
-	}
-
-	public int getTempAttack() {
-		return tempAttack;
-	}
-
-	public void setTempAttack(int tempAttack) {
-		this.tempAttack = tempAttack;
-	}
-
-	public int getTempArmour() {
-		return tempArmour;
-	}
-
-	public void setTempArmour(int tempArmour) {
-		this.tempArmour = tempArmour;
-	}
-
-	public int getTempEnergy() {
-		return tempEnergy;
-	}
-
-	public void setTempEnergy(int tempEnergy) {
-		this.tempEnergy = tempEnergy;
-	}
-
-	// Getter for name
-	public String getName() {
-		return name;
-	}
-
-	// Getters for the Hero's Moves
-	public DamageMove getDamagingMove1() {
-		return damagingMove1;
-	}
-
-	public DamageMove getDamagingMove2() {
-		return damagingMove2;
-	}
-
-	public BuffMove getBuffMove() {
-		return buffMove;
-	}
-
-	public Move getNoMove() {
-		return noMove;
-	}
 
 	// Useful methods
 	public void setStats(int hp, int attack, int armour, int energy) {
@@ -126,8 +36,7 @@ public class Hero {
 	}
 
 	// Constructors
-	public Hero(int hp, int attack, int armour, int energy, String name) {
-		this.name = name;
+	public Hero(int hp, int attack, int armour, int energy) {
 		this.hp = hp;
 		this.attack = attack;
 		this.armour = armour;
@@ -136,8 +45,6 @@ public class Hero {
 		tempAttack = attack;
 		tempArmour = armour;
 		tempEnergy = energy;
-		// Idea an xreiastei h dhmiourgia antikeimenou mesa ston constructor
-		// BuffMove buffMove = new BuffMove(10, "Meditate");
 	}
 
 	public Hero(int numOfBattle) {
@@ -217,4 +124,99 @@ public class Hero {
 		}
 	}
 
+	// Getters & Setters for Stats
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	public int getArmour() {
+		return armour;
+	}
+
+	public void setArmour(int armour) {
+		this.armour = armour;
+	}
+
+	public int getEnergy() {
+		return energy;
+	}
+
+	public void setEnergy(int energy) {
+		this.energy = energy;
+	}
+
+	// Getters & Setters for Temp Stats
+	public int getTempHP() {
+		return tempHP;
+	}
+
+	public void setTempHP(int tempHP) {
+		if (tempHP < 0) {
+			this.tempHP = 0;
+		} else {
+			this.tempHP = tempHP;
+		}
+	}
+
+	public int getTempAttack() {
+		return tempAttack;
+	}
+
+	public void setTempAttack(int tempAttack) {
+		this.tempAttack = tempAttack;
+	}
+
+	public int getTempArmour() {
+		return tempArmour;
+	}
+
+	public void setTempArmour(int tempArmour) {
+		this.tempArmour = tempArmour;
+	}
+
+	public int getTempEnergy() {
+		return tempEnergy;
+	}
+
+	public void setTempEnergy(int tempEnergy) {
+		this.tempEnergy = tempEnergy;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	// Getter for name
+	public String getName() {
+		return name;
+	}
+
+	// Getters for the Hero's Moves
+	public DamageMove getDamagingMove1() {
+		return damagingMove1;
+	}
+
+	public DamageMove getDamagingMove2() {
+		return damagingMove2;
+	}
+
+	public BuffMove getBuffMove() {
+		return buffMove;
+	}
+
+	public Move getNoMove() {
+		return noMove;
+	}
 }
