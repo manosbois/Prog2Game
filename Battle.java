@@ -25,6 +25,7 @@ public class Battle {
 		if (num_of_Battle == 12) {
 		 audioStream = AudioSystem.getAudioInputStream(zeusmusic);
 		}
+		
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -43,7 +44,7 @@ public class Battle {
 	}//End of method BattleMethod
 	
 	//Lets user choose which move to use
-	public Move chooseMyMove(Hero my_Hero , Hero god) {
+	public Move chooseMyMove(Hero my_Hero , Hero god) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
 		boolean sufficientEnergy;
 		Move move = my_Hero.getNoMove();//Creating a variable of type Move to assist us in switch structure.
 		do {
@@ -56,21 +57,34 @@ public class Battle {
 			System.out.println(my_Hero.getDamagingMove2().toString());
 			System.out.println(my_Hero.getBuffMove().toString());
 			System.out.println(my_Hero.getNoMove().toString());
+			File swordsound = new File("Swordsound.wav");
+			File spearsound = new File("Spearsound.wav");
+			AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(swordsound);
+			Clip clip3 = AudioSystem.getClip();
+			
 			int chosenMove = sc.nextInt();//Reading user's chosen move
 			switch (chosenMove) {//Matching integer variable chosenMove with the right move of the user's Hero
 				case 1:
 					move = my_Hero.getDamagingMove1(); //Assigning the chosen move to the variable move
+					audioStreammove = AudioSystem.getAudioInputStream(swordsound);
+					clip3.open(audioStreammove);
+					clip3.start();
 					break;
 				case 2:
-					move = my_Hero.getDamagingMove2(); 
+					move = my_Hero.getDamagingMove2();
+					audioStreammove = AudioSystem.getAudioInputStream(spearsound);
+					clip3.open(audioStreammove);
+					clip3.start();
 					break;
 				case 3:
 					move = my_Hero.getBuffMove(); 
 					break;
 				case 4:	
 					move = my_Hero.getNoMove(); 
-					break;
+					break;										
+					
 			}//End of switch
+			
 			if (my_Hero.getTempEnergy() < move.getEnergy()) {//Checking if the user has enough energy
 				sufficientEnergy = false;
 				System.out.printf("You need %d more Energy to use the move %s\n" , move.getEnergy() - my_Hero.getTempEnergy() , move.getName());
@@ -80,19 +94,34 @@ public class Battle {
 	}//End of method chooseMymove
 	
 	//The PC decides which move the rival god uses
-	public Move chooseOpponentsMove(Hero god) {
+	public Move chooseOpponentsMove(Hero god) throws UnsupportedAudioFileException, IOException,LineUnavailableException{
+		try {
+		    Thread.sleep(1000);
+		} catch (InterruptedException ie) {
+		    Thread.currentThread().interrupt();
+		}
 		boolean sufficientEnergy;
 		Move move = god.getNoMove();//Creating a variable of type Move to assist us in switch structure
 
 		do {		
 			sufficientEnergy = true;	
 			int randomMove = rand.nextInt(4) + 1;//Making a random integer [1,4]
+			File godswordsound = new File("Swordsound.wav");
+			File godspearsound = new File("Spearsound.wav");
+			AudioInputStream audioStreamgodmove = AudioSystem.getAudioInputStream(godswordsound);
+			Clip clip4 = AudioSystem.getClip();
 			switch (randomMove) {//Matching integer variable randomMove with the right move of the rival god
 			case 1:
 				move = god.getDamagingMove1();//Assigning the chosen move to the variable move
+				audioStreamgodmove = AudioSystem.getAudioInputStream(godswordsound);
+				clip4.open(audioStreamgodmove);
+				clip4.start();
 				break;
 			case 2:
-				move = god.getDamagingMove2(); 
+				move = god.getDamagingMove2();
+				audioStreamgodmove = AudioSystem.getAudioInputStream(godspearsound);
+				clip4.open(audioStreamgodmove);
+				clip4.start();
 				break;
 			case 3:
 				move = god.getBuffMove(); 
