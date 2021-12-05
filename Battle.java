@@ -1,10 +1,9 @@
 
 import javax.sound.sampled.LineUnavailableException;
-import java.io.File;
-import java.util.Scanner;
-import javax.sound.sampled.*;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 //A class that implements the battle mechanic of our game
 public class Battle {
@@ -95,18 +94,18 @@ public class Battle {
 	//The PC decides which move the rival god uses
 	public Move chooseOpponentsMove(God god) {
 
-		try {
-		    Thread.sleep(1000);
+		/*try {
+			Thread.sleep(1000);
 		} catch (InterruptedException ie) {
-		    Thread.currentThread().interrupt();
-		}
+			Thread.currentThread().interrupt();
+		}*/
 
 		boolean sufficientEnergy;
 		Move move; //Creating a
 		// variable of type Move to assist us in switch structure
 
-		do {		
-			sufficientEnergy = true;	
+		do {
+			sufficientEnergy = true;
 			int randomMove = rand.nextInt(4) + 1;
 			move = getMove(god, randomMove);
 			if (god.getTempEnergy() < move.getEnergy()) {
@@ -119,21 +118,15 @@ public class Battle {
 
 	private Move getMove(Character hero, int chosenMove) {
 
-		File swordsound = new File("Swordsound.wav");
+		/*File swordsound = new File("Swordsound.wav");
 		File spearsound = new File("Spearsound.wav");
 		AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(swordsound);
-		Clip clip3 = AudioSystem.getClip();
+		Clip clip3 = AudioSystem.getClip();*/
 
 		switch (chosenMove) {
 			case 1:
-				audioStreammove = AudioSystem.getAudioInputStream(swordsound);
-				clip3.open(audioStreammove);
-				clip3.start();
 				return hero.getDamagingMove1();
 			case 2:
-				audioStreammove = AudioSystem.getAudioInputStream(spearsound);
-				clip3.open(audioStreammove);
-				clip3.start();
 				return hero.getDamagingMove2();
 			case 3:
 				return hero.getBuffMove();
@@ -166,7 +159,7 @@ public class Battle {
 
 	//It modifies the TempStats of the objects myHero and god according to used moves
 	private void roundResult(Move myMove, Move opponentsMove,
-							 Hero myHero, God god, boolean iPlayFirst) {
+                             Hero myHero, God god, boolean iPlayFirst) {
 		//Checks who plays first
 		if (iPlayFirst) { //If the user plays first
 			myMove.effect(myHero, god, opponentsMove.getModifier()); //The user makes his move
