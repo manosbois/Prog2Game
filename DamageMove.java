@@ -1,9 +1,11 @@
+package BattleConnection.src;
+
 //A class for Moves that do damage
 public class DamageMove extends Move {
 
-    private static final int DENOMINATORMULTIPLIER = 4; //A number
+    private static final int DENOMINATOR_MULTIPLIER = 4; //A number
     // that helps the calculation in effect method
-    private int damage; //This variable show how much damage this move does
+    private final int damage; //This variable show how much damage this move does
 
 	//Constructor
     public DamageMove(int energy, String name, int damage) {
@@ -16,11 +18,11 @@ public class DamageMove extends Move {
     }
 
     @Override
-    public void effect(Hero hero1, Hero hero2, double modifier) {
+    public void effect(Character hero1, Character hero2, double modifier) {
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         //Calculating damage
-        double tempHP = (double) modifier * (this.damage * hero1.getTempAttack())
-                / (DENOMINATORMULTIPLIER * hero2.getTempArmour());
+        double tempHP = modifier * (getDamage() * hero1.getTempAttack())
+                / (DENOMINATOR_MULTIPLIER * hero2.getTempArmour());
         //Removing HP from player taking damage
         hero2.setTempHP(hero2.getTempHP() - (int) Math.round(tempHP));
         //Removing Energy from player using the move
@@ -32,6 +34,6 @@ public class DamageMove extends Move {
     @Override
     public String toString() {
         return String.format("%s and it's damage is %d",
-                super.toString(), damage);
+                super.toString(), getDamage());
     }
 }
