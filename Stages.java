@@ -2,7 +2,7 @@
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Scanner;
-
+import javax.sound.sampled.LineUnavailableException;
 
 public class Stages {
 	private final Scanner input = new Scanner(System.in);
