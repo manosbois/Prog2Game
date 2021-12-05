@@ -1,4 +1,3 @@
-package BattleConnection.src;
 
 //A class for Moves that do damage
 public class DamageMove extends Move {
