@@ -1,27 +1,35 @@
+package SuperCharacter.src;
+
+//The class that creates the Move objects that the Heroes use
 public class Move {
-	private int energy;
-	private String name;
 
-	public Move(int energy, String name) {
-		this.energy = energy;
-		this.name = name;
-	}
+    private final int energy; //How much energy the Move consumes
+    private final String name; //The name of the Move
+    private static final double MODIFIER = 1;
 
-	public int getEnergy() {
-		return energy;
-	}
+    //Constructor
+    public Move(int energy, String name) {
+        this.energy = energy;
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getEnergy() {
+        return energy;
+    }
 
-	public void effect(Hero hero1, Hero hero2) {
-		System.out.printf("%s used %s.\n\n", hero1.getName(), this.getName());
-		System.out.println("This move had no effect");
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("%s's energy is %d", name, energy);
-	}
+    public double getModifier() {return MODIFIER;}
+
+    public void effect(Character hero1, Character hero2, double modifier) {
+        System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
+        System.out.printf("This move had no effect%n%n");
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s's energy is %d", name, energy);
+    }
 }
