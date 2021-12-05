@@ -1,5 +1,4 @@
 
-
 //The class that creates the Move objects that the Heroes use
 public class Move {
 
