@@ -1,4 +1,3 @@
-package SuperCharacter.src;
 
 public class ProtectiveMove extends Move {
 
