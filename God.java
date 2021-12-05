@@ -1,4 +1,4 @@
-package SuperCharacter.src;
+
 
 public class God extends Character {
 
