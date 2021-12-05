@@ -1,11 +1,10 @@
-package SuperCharacter.src;
 
 public class Hero extends Character {
 
 	public Hero(int tempHP, int tempAttack, int tempArmour,
-				int tempEnergy, String name) {
+				int tempEnergy) {
 
-		super(tempHP, tempAttack, tempArmour, tempEnergy, name);
+		super(tempHP, tempAttack, tempArmour, tempEnergy);
 		this.hp = tempHP;
 		this.attack = tempAttack;
 		this.armour = tempArmour;
@@ -17,6 +16,7 @@ public class Hero extends Character {
 	private int attack;
 	private int armour;
 	private int energy;
+
 
 	// Getters & Setters for Stats
 	public int getHp() {
