@@ -1,16 +1,14 @@
-package SuperCharacter.src;
 
 public abstract class Character {
 
     public Character() { }
 
     public Character(int tempHP, int tempAttack,
-                     int tempArmour, int tempEnergy, String name) {
+                     int tempArmour, int tempEnergy) {
         this.tempHP = tempHP;
         this.tempAttack = tempAttack;
         this.tempArmour = tempArmour;
         this.tempEnergy = tempEnergy;
-        this.name = name;
     }
 
     private int tempHP;
