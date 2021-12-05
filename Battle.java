@@ -28,7 +28,7 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		File file = new File("Song.wav");
+		/*File file = new File("Song.wav");
 		File zeusmusic = new File("ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		if (numOfBattle == 12) {
