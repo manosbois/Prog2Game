@@ -1,12 +1,17 @@
-package SuperCharacter.src;
 
-import java.util.Scanner;
-import javax.sound.sampled.*;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 public class Stages {
 	private final Scanner input = new Scanner(System.in);
+
+	public static Hero myHero;
+	public Stages() {
+		myHero = new Hero(100 , 100 , 100 , MY_HERO_ENERGY);//Creating the object for the user
+	}
+
 	protected int tempHP = 0; //We temporarily save HP for checkpoints
 	protected int tempAttack = 0; //We temporarily save attack for checkpoints
 	protected int tempArmor = 0; //We temporarily save armor for checkpoints
@@ -14,6 +19,47 @@ public class Stages {
 	protected int apHp; //Attribute Points for HP
 	protected int apAttack; //Attribute Points for Attack
 	protected int apArmour; //Attribute Points for Armor
+	private int attributePoints;
+
+	public int getApHp() { return apHp;	}
+
+	public void setApHp(int apHp) {
+		this.apHp += apHp;
+		attributePoints -= apHp;
+	}
+
+	public int getApAttack() { return apAttack;	}
+
+	public void setApAttack(int apAttack) {
+		this.apAttack += apAttack;
+		attributePoints -= apAttack;
+	}
+
+	public int getApArmour() { return apArmour;	}
+
+	public void setApArmour(int apArmour) {
+		this.apArmour += apArmour;
+		attributePoints -= apArmour;
+	}
+	public void setAttackZero() {
+		attributePoints += apAttack;
+		apAttack = 0;
+	}
+	public void setArmorZero() {
+		attributePoints += apArmour;
+		apArmour = 0;
+	}
+	public void setHpZero() {
+		attributePoints += apHp;
+		apHp = 0;
+	}
+	public void setApStatsToZero() {
+		apHp = 0;
+		apAttack = 0;
+		apArmour = 0;
+	}
+	public void setAttributePoints(int attributePoints) { this.attributePoints = attributePoints; }
+	public int getAttributePoints() { return attributePoints; }
 
 	private static final int END_OF_GAME = 13;
 	private static final int FIRST_CHECKPOINT = 5;
@@ -25,10 +71,8 @@ public class Stages {
 	public void stageControl() throws UnsupportedAudioFileException,
 			IOException, LineUnavailableException {
 
-		int attributePoints;
 		boolean death = false;
 		Battle myBattle = new Battle();
-		Hero myHero = new Hero(100, 100, 100, MY_HERO_ENERGY, "THE HERO");
 		//Creating the object for the user
 
 		i = 1;
@@ -36,16 +80,16 @@ public class Stages {
 			attributePoints = myBattle.battleMethod(myHero, i);
 			setApStatsToZero(); //Setting apStats to 0
 			// so they can be used correctly in every loop
-		
+
 			if (attributePoints > 0) { //Give attribute points
-				giveAttributesPoints(attributePoints, myHero);
-			
+				giveAttributesPoints();
+
 				if (i == FIRST_CHECKPOINT || i == SECOND_CHECKPOINT) { //We use temps for the checkpoints
 					tempHP = myHero.getHp();
 					tempAttack = myHero.getAttack();
 					tempArmor = myHero.getArmour();
 				}
-			
+
 			} else { //After the user's player is dead we check for the checkpoints
 				if (death == false) {
 					findCheckpoint(myHero);
@@ -56,7 +100,7 @@ public class Stages {
 					i = END_OF_GAME;
 				}
 			}
-	
+
 			i += 1;
 		}
 	}
@@ -76,7 +120,7 @@ public class Stages {
 	}
 
 	//A method that distributes the attribute points
-	public void giveAttributesPoints(int attributePoints, Hero myHero)
+	public void giveAttributesPoints()
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 
 		int key;
@@ -88,7 +132,7 @@ public class Stages {
 		clip2.open(audioStream2);
 		clip2.loop(Clip.LOOP_CONTINUOUSLY);*/
 
-		do { //We ask the player about the distribution of the attributes points
+		/*do { //We ask the player about the distribution of the attributes points
 			System.out.printf("You have %d attributes points! ", apLeft);
 			System.out.printf("Choose which stat you want to upgrade:"
 							+ "%nPress 1 for Health Power.(max %d)%nPress 2 for "
@@ -119,15 +163,11 @@ public class Stages {
 			}
 		} while (apHp <= attributePoints / 2 && apAttack <= attributePoints / 2
 				&& apArmour <= attributePoints / 2
-				&& (apHp + apAttack + apArmour) < attributePoints);
+				&& (apHp + apAttack + apArmour) < attributePoints);*/
+
 		/*clip2.stop();*/
 		
 		myHero.setStats(apHp + myHero.getHp(), apAttack + myHero.getAttack(), apArmour + myHero.getArmour(), MY_HERO_ENERGY);
 	}
 
-	public void setApStatsToZero() {
-		apHp = 0;
-		apAttack = 0;
-		apArmour = 0;
-	}
 }
