@@ -1,27 +1,37 @@
 //A class for Moves that do damage
 public class DamageMove extends Move {
-	private int damage;
 
-	public DamageMove(int energy, String name, int damage) {
-		super(energy, name);
-		this.damage = damage;
-	}
+    private static final int DENOMINATORMULTIPLIER = 4; //A number
+    // that helps the calculation in effect method
+    private int damage; //This variable show how much damage this move does
 
-	public int getDamage() {
-		return damage;
-	}
+	//Constructor
+    public DamageMove(int energy, String name, int damage) {
+        super(energy, name);
+        this.damage = damage;
+    }
 
-	@Override
-	public void effect(Hero hero1, Hero hero2) {
-		System.out.printf("%s used %s.\n", hero1.getName(), this.getName());
-		int tempHP = (this.damage * hero1.getTempAttack()) / (4 * hero2.getTempArmour());
-		hero2.setTempHP(hero2.getTempHP() - tempHP);
-		hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
-		System.out.printf("%s's HP is now %d. The damage was %d HP.\n\n", hero2.getName(), hero2.getTempHP(), tempHP);
-	}
+    public int getDamage() {
+        return damage;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("%s and it's damage is %d", super.toString(), damage);
-	}
+    @Override
+    public void effect(Hero hero1, Hero hero2, double modifier) {
+        System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
+        //Calculating damage
+        double tempHP = (double) modifier * (this.damage * hero1.getTempAttack())
+                / (DENOMINATORMULTIPLIER * hero2.getTempArmour());
+        //Removing HP from player taking damage
+        hero2.setTempHP(hero2.getTempHP() - (int) Math.round(tempHP));
+        //Removing Energy from player using the move
+        hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
+        System.out.printf("%s's HP is now %d. The damage was %d HP.%n%n",
+               hero2.getName(), hero2.getTempHP(), (int) Math.round(tempHP));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s and it's damage is %d",
+                super.toString(), damage);
+    }
 }
