@@ -1,20 +1,11 @@
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Graph {// Creating the class Graph
 	private String title;
@@ -22,7 +13,7 @@ public class Graph {// Creating the class Graph
 	JPanel centralpanel, buttonpanel, bottompanel; // We define three panels that appear on the screen
 	JTextField username;
 	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basic buttons
-																							// of the game
+	// of the game
 	Label heroname, godname; // Label names(hero and god names)
 	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;// We define the move buttons
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
@@ -54,14 +45,14 @@ public class Graph {// Creating the class Graph
 		frame.setLayout(new BorderLayout());// We define the layout that I'm going to use for the labels and the buttons
 
 		createMainWindow();// We call the method createMainWindow that designs the first window that opens
-							// when we start the game
+		// when we start the game
 	}
 
 	public void createMainWindow() {// This method creates the first window that the user will see when he opens the
-									// game
+		// game
 		centralpanel = new JPanel();// We define the main panel of the window
 		centralpanel.setBackground(Color.BLACK);// We define the color of the panel centralpanel
-												// based on rgb color
+		// based on rgb color
 		centralpanel.setLayout(null);
 		centralpanel.setLocation(0, 0);// We define the location of this panel
 		centralpanel.setSize(WIDTH, HEIGHT);// We define the size of this panel
@@ -80,7 +71,7 @@ public class Graph {// Creating the class Graph
 		frame.add(buttonpanel);// We add the panel bottompanel to the frame
 
 		introbutton = new Button("LET'S BEGIN OUR ADVENTURE");// We define the button on the first window that leads to
-																// main menu
+		// main menu
 
 		username = new JTextField("Hercules");
 		username.setBounds((WIDTH - 350) / 2, HEIGHT * 3 / 5, 350, 50);
@@ -90,30 +81,30 @@ public class Graph {// Creating the class Graph
 		Stages.myHero.setName(username.getText());
 
 		introbutton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);// We define the location of the button introbutton
-																	// based on the width and the height of the
-																	// window(so it could change if we change the size
-																	// of the window
+		// based on the width and the height of the
+		// window(so it could change if we change the size
+		// of the window
 		introbutton.setSize(450, 100);// We define the size of the introbutton
 		introbutton.setBackground(Color.white);// We define the color of the introbutton
 		introbutton.setForeground(Color.black);// We define the font color of the introbutton
 		introbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));// We define the size of the text of the
-																		// introbutton and that the text is going to be
-																		// bold
+		// introbutton and that the text is going to be
+		// bold
 
 		introlabel = new Label("Welcome to our Game!");// We define the label that appears on the first window
 		introlabel.setLocation((WIDTH - 450) / 2, HEIGHT * 2 / 10);// We define the location of the introlabel
 		introlabel.setSize(450, 200);// We define the size of the introlabel
 		introlabel.setForeground(Color.WHITE);// We define the font color of the introlabel
 		introlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));// We define the size of the text of the introlabel
-																		// and that the text is going to be bold
+		// and that the text is going to be bold
 
 		centralpanel.add(introlabel);// We add the label introlabel to the main panel(centralpanel)
 		centralpanel.add(introbutton);// We add the button introbutton to the main panel(centralpanel)
 		centralpanel.add(username);
-		
+
 		introbutton.addActionListener(new ActionListener() {// We define that if the user clicks the button that says
-															// "LET'S BEGIN OUR ADVENTURE", he's goin to be returned
-															// to the menu window
+			// "LET'S BEGIN OUR ADVENTURE", he's goin to be returned
+			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				Stages.myHero.setName(username.getText());
 				centralpanel.remove(introbutton);// We remove button introbutton from the panel centralpanel
@@ -126,34 +117,34 @@ public class Graph {// Creating the class Graph
 
 	public void createMenuWindow() {// That method creates the window that contains the menu
 		startbutton = new Button("START THE GAME");// We create the button with the name startbutton that leads the user
-													// to the game
+		// to the game
 		startbutton.setLocation(WIDTH / 10, HEIGHT * 3 / 20);// We define the location of the button startbutton
 		startbutton.setSize(350, 100);// We define the size of the button startbutton
 		startbutton.setBackground(Color.white);// We define the color of the button startbutton
 		startbutton.setForeground(Color.black);// We define the font color of the button startbutton
 		startbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
-																		// startbutton and that the text is going to be
-																		// bold
+		// startbutton and that the text is going to be
+		// bold
 
 		statsbutton = new Button("STATISTICS");// We create the button with the name statsbutton that leads the user to
-												// his statistics
+		// his statistics
 		statsbutton.setLocation(WIDTH / 10, HEIGHT * 7 / 20);// We define the location of the button statsbutton
 		statsbutton.setSize(350, 100);// We define the size of the button statsbutton
 		statsbutton.setBackground(Color.white);// We define the size of the button statsbutton
 		statsbutton.setForeground(Color.black);// We define the font color of the button statsbutton
 		statsbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
-																		// statsbutton and that the text is going to be
-																		// bold
+		// statsbutton and that the text is going to be
+		// bold
 
 		settingsbutton = new Button("SETTINGS");// We create the button with the name settingsbutton that leads the user
-												// to the settings of the game
+		// to the settings of the game
 		settingsbutton.setLocation(WIDTH / 10, HEIGHT * 11 / 20);// We define the location of the button settingsbutton
 		settingsbutton.setSize(350, 100);// We define the size of the button settingsbutton
 		settingsbutton.setBackground(Color.white);// We define the size of the button settingsbutton
 		settingsbutton.setForeground(Color.black);// We define the font color of the button settingsbutton
 		settingsbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
-																			// settingsbutton and that the text is going
-																			// to be bold
+		// settingsbutton and that the text is going
+		// to be bold
 
 		quitbutton = new Button("QUIT");// We create the button with the name quitbutton that exits the game
 		quitbutton.setLocation(WIDTH / 10, HEIGHT * 15 / 20);// We define the location of the button quitbutton
@@ -161,10 +152,10 @@ public class Graph {// Creating the class Graph
 		quitbutton.setBackground(Color.white);// We define the size of the button quitbutton
 		quitbutton.setForeground(Color.black);// We define the font color of the button quitbutton
 		quitbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the quitbutton
-																		// and that the text is going to be bold
+		// and that the text is going to be bold
 
 		mainbutton = new Button("CODERUNNERS");// We create the main button that appears on the top of the screen if we
-												// choose any of the menu options so we can go back to the menu window
+		// choose any of the menu options so we can go back to the menu window
 		mainbutton.setLocation((WIDTH - 350) / 2, 0);
 		mainbutton.setSize(350, 50);
 		mainbutton.setBackground(Color.BLACK);
@@ -239,13 +230,13 @@ public class Graph {// Creating the class Graph
 		godname.setAlignment(Label.CENTER);
 
 		buttonpanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
-													// based on rgb color
+		// based on rgb color
 		buttonpanel.setLayout(null);
 		buttonpanel.setLocation(0, HEIGHT * 4 / 5);// We define the location of this panel
 		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);
 		buttonpanel.setSize(WIDTH, HEIGHT / 5);// We define the size of this panel
 		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);// We customize the size of the panel centralpanel so we can insert
-													// the panel buttonpanel
+		// the panel buttonpanel
 
 		swordbutton = new Button("1. Sword");
 		swordbutton.setBounds(40 * 1 + 200 * 0, 20, 200, 50);
@@ -307,26 +298,26 @@ public class Graph {// Creating the class Graph
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
 		int maxap = myStages.getAttributePoints() / 2;
 		attackbarlabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
-																			// for attack
+		// for attack
 		attackbarlabel.setLocation(WIDTH / 10, 110);// We define the location of the label attackbarlabel
 		attackbarlabel.setSize(325, 75);// We define the size of the label attackbarlabel
 		attackbarlabel.setForeground(Color.WHITE);// We define the font color of the label attackbarlabel
 		attackbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
-																			// attackbarlabel and that the text is going
-																			// to be bold
+		// attackbarlabel and that the text is going
+		// to be bold
 
 		attackbar = new JProgressBar();// We create the progress bar for the statistic bar for attack
 		attackbar.setValue((int) (double) Stages.myHero.getAttack() * 100
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
-																									// value of the
-																									// progress bar
-																									// attackbar4
+		// value of the
+		// progress bar
+		// attackbar4
 		attackbar.setStringPainted(true);// The progress bar appear on the screen
 		attackbar.setBackground(Color.red);// We define the color of the progress bar
 		attackbar.setBounds(WIDTH / 10, HEIGHT * 1 / 5, 325, 75);// We define the location and the size of the progress
-																	// bar
+		// bar
 
-		apattacklabel = new Label("" + myStages.getAp_attack());
+		apattacklabel = new Label("" + myStages.getApAttack());
 		apattacklabel.setLocation((WIDTH / 10) + 350, HEIGHT * 1 / 5 + 25 / 2);
 		apattacklabel.setSize(75, 50);
 		apattacklabel.setBackground(Color.WHITE);
@@ -335,7 +326,7 @@ public class Graph {// Creating the class Graph
 
 		attackplus1 = new Button("+1");
 		attackplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 1 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai
-																					// symmetrika me to bar
+		// symmetrika me to bar
 		attackplus1.setBackground(Color.WHITE);
 		attackplus1.setForeground(Color.BLACK);
 		attackplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -359,13 +350,13 @@ public class Graph {// Creating the class Graph
 		attackremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		armorbarlabel = new Label("ARMOR: " + Stages.myHero.getArmour());// We create the label for the statistic bar
-																			// for armor
+		// for armor
 		armorbarlabel.setLocation(WIDTH / 10, 270);// We define the location of the label armorbarlabel
 		armorbarlabel.setSize(325, 75);// We define the size of the label armorbarlabel
 		armorbarlabel.setForeground(Color.WHITE);// We define the font color of the label armorbarlabel
 		armorbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
-																		// armorbarlabel and that the text is going to
-																		// be bold
+		// armorbarlabel and that the text is going to
+		// be bold
 		attackreset = new Button("Reset");
 		attackreset.setBounds((WIDTH / 10) + 675, HEIGHT * 1 / 5 + 25 / 2, 100, 50);
 		attackreset.setBackground(Color.WHITE);
@@ -375,15 +366,15 @@ public class Graph {// Creating the class Graph
 		armorbar = new JProgressBar();// We create the progress bar for the statistic bar for armor
 		armorbar.setValue((int) (double) Stages.myHero.getArmour() * 100
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
-																									// value of the
-																									// progress bar
-																									// armorbar
+		// value of the
+		// progress bar
+		// armorbar
 		armorbar.setStringPainted(true);// The progress bar appear on the screen
 		armorbar.setBackground(Color.red);// We define the color of the progress bar
 		armorbar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 325, 75);// We define the location and the size of the progress
-																// bar
+		// bar
 
-		aparmorlabel = new Label("" + myStages.getAp_attack());
+		aparmorlabel = new Label("" + myStages.getApAttack());
 		aparmorlabel.setLocation((WIDTH / 10) + 350, HEIGHT * 2 / 5 + 25 / 2);
 		aparmorlabel.setSize(75, 50);
 		aparmorlabel.setBackground(Color.WHITE);
@@ -392,7 +383,7 @@ public class Graph {// Creating the class Graph
 
 		armorplus1 = new Button("+1");
 		armorplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 2 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai
-																					// symmetrika me to bar
+		// symmetrika me to bar
 		armorplus1.setBackground(Color.WHITE);
 		armorplus1.setForeground(Color.BLACK);
 		armorplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -422,25 +413,25 @@ public class Graph {// Creating the class Graph
 		armorreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
 		hpbarlabel = new Label("HEALTH POWER: " + Stages.myHero.getHp());// We create the label for the statistic bar
-																			// for health power
+		// for health power
 		hpbarlabel.setLocation(WIDTH / 10, 430);// We define the location of the label hpbarlabel
 		hpbarlabel.setSize(325, 75);// We define the size of the label hpbarlabel
 		hpbarlabel.setForeground(Color.WHITE);// We define the font color of the label hpbarlabel
 		hpbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
-																		// hpbarlabel and that the text is going to be
-																		// bold
+		// hpbarlabel and that the text is going to be
+		// bold
 
 		hpbar = new JProgressBar();// We create the progress bar for the statistic bar for health power
 		hpbar.setValue((int) (double) Stages.myHero.getHp() * 100
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
-																									// value of the
-																									// progress bar
-																									// armorbar
+		// value of the
+		// progress bar
+		// armorbar
 		hpbar.setStringPainted(true);// The progress bar appear on the screen
 		hpbar.setBackground(Color.red);// We define the color of the progress bar
 		hpbar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);// We define the location and the size of the progress bar
 
-		aphplabel = new Label("" + myStages.getAp_hp());
+		aphplabel = new Label("" + myStages.getApHp());
 		aphplabel.setLocation((WIDTH / 10) + 350, HEIGHT * 3 / 5 + 25 / 2);
 		aphplabel.setSize(75, 50);
 		aphplabel.setBackground(Color.WHITE);
@@ -449,7 +440,7 @@ public class Graph {// Creating the class Graph
 
 		hpplus1 = new Button("+1");
 		hpplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 3 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai symmetrika
-																				// me to bar
+		// me to bar
 		hpplus1.setBackground(Color.WHITE);
 		hpplus1.setForeground(Color.BLACK);
 		hpplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -528,7 +519,7 @@ public class Graph {// Creating the class Graph
 		centralpanel.add(hpreset);
 
 		mainbutton.addActionListener(new ActionListener() {// If the user clicks the button mainbutton the game returns
-															// to the menu window
+			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
 				centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
@@ -574,7 +565,15 @@ public class Graph {// Creating the class Graph
 					 * try { myStages.giveAttributesPoints(); } catch (UnsupportedAudioFileException
 					 * | IOException | LineUnavailableException e1) { e1.printStackTrace(); }
 					 */
-					myStages.giveAttributesPoints();
+					try {
+						myStages.giveAttributesPoints();
+					} catch (UnsupportedAudioFileException ex) {
+						ex.printStackTrace();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					} catch (LineUnavailableException ex) {
+						ex.printStackTrace();
+					}
 
 					centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
 					centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
@@ -613,7 +612,7 @@ public class Graph {// Creating the class Graph
 					hpbar.setValue(Stages.myHero.getHp());
 
 					centralpanel.remove(mainbutton);// We remove the progress bar mainbutton from the panel
-					myStages.setApStatstoZero();
+					myStages.setApStatsToZero();
 					apattacklabel.setText("0");
 					aparmorlabel.setText("0");
 					aphplabel.setText("0");
@@ -627,9 +626,9 @@ public class Graph {// Creating the class Graph
 
 		attackplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_attack() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
-					myStages.setAp_attack(1);
-					apattacklabel.setText("" + myStages.getAp_attack());
+				if (myStages.getApAttack() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
+					myStages.setApAttack(1);
+					apattacklabel.setText("" + myStages.getApAttack());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// attackremain.setText(" Remaining: " + apattackrem);
 				}
@@ -637,9 +636,9 @@ public class Graph {// Creating the class Graph
 		});
 		attackplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_attack() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
-					myStages.setAp_attack(5);
-					apattacklabel.setText("" + myStages.getAp_attack());
+				if (myStages.getApAttack() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
+					myStages.setApAttack(5);
+					apattacklabel.setText("" + myStages.getApAttack());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// attackremain.setText(" Remaining: " + apattackrem);
 				}
@@ -647,9 +646,9 @@ public class Graph {// Creating the class Graph
 		});
 		attackplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_attack() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
-					myStages.setAp_attack(10);
-					apattacklabel.setText("" + myStages.getAp_attack());
+				if (myStages.getApAttack() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
+					myStages.setApAttack(10);
+					apattacklabel.setText("" + myStages.getApAttack());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// attackremain.setText(" Remaining: " + apattackrem);
 				}
@@ -658,16 +657,16 @@ public class Graph {// Creating the class Graph
 		attackreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myStages.setAttackZero();
-				apattacklabel.setText("" + myStages.getAp_attack());
+				apattacklabel.setText("" + myStages.getApAttack());
 				attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 				// attackremain.setText(" Remaining: " + apattackrem);
 			}
 		});
 		armorplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_armor() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
-					myStages.setAp_armor(1);
-					aparmorlabel.setText("" + myStages.getAp_armor());
+				if (myStages.getApArmour() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
+					myStages.setApArmour(1);
+					aparmorlabel.setText("" + myStages.getApArmour());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
@@ -675,9 +674,9 @@ public class Graph {// Creating the class Graph
 		});
 		armorplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_armor() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
-					myStages.setAp_armor(5);
-					aparmorlabel.setText("" + myStages.getAp_armor());
+				if (myStages.getApArmour() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
+					myStages.setApArmour(5);
+					aparmorlabel.setText("" + myStages.getApArmour());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
@@ -685,9 +684,9 @@ public class Graph {// Creating the class Graph
 		});
 		armorplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_armor() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
-					myStages.setAp_armor(10);
-					aparmorlabel.setText("" + myStages.getAp_armor());
+				if (myStages.getApArmour() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
+					myStages.setApArmour(10);
+					aparmorlabel.setText("" + myStages.getApArmour());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
@@ -696,16 +695,16 @@ public class Graph {// Creating the class Graph
 		armorreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myStages.setArmorZero();
-				aparmorlabel.setText("" + myStages.getAp_armor());
+				aparmorlabel.setText("" + myStages.getApArmour());
 				attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 				// armorremain.setText(" Remaining: " + aparmorrem);
 			}
 		});
 		hpplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_hp() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
-					myStages.setAp_hp(1);
-					aphplabel.setText("" + myStages.getAp_hp());
+				if (myStages.getApHp() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
+					myStages.setApHp(1);
+					aphplabel.setText("" + myStages.getApHp());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// hpremain.setText(" Remaining: " + aphprem);
 				}
@@ -713,9 +712,9 @@ public class Graph {// Creating the class Graph
 		});
 		hpplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_hp() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
-					myStages.setAp_hp(5);
-					aphplabel.setText("" + myStages.getAp_hp());
+				if (myStages.getApHp() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
+					myStages.setApHp(5);
+					aphplabel.setText("" + myStages.getApHp());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// hpremain.setText(" Remaining: " + aphprem);
 				}
@@ -723,9 +722,9 @@ public class Graph {// Creating the class Graph
 		});
 		hpplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAp_hp() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
-					myStages.setAp_hp(10);
-					aphplabel.setText("" + myStages.getAp_hp());
+				if (myStages.getApHp() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
+					myStages.setApHp(10);
+					aphplabel.setText("" + myStages.getApHp());
 					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 					// hpremain.setText(" Remaining: " + aphprem);
 				}
@@ -734,7 +733,7 @@ public class Graph {// Creating the class Graph
 		hpreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myStages.setHpZero();
-				aphplabel.setText("" + myStages.getAp_hp());
+				aphplabel.setText("" + myStages.getApHp());
 				attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
 				// hpremain.setText(" Remaining: " + aphprem);
 			}
@@ -782,7 +781,7 @@ public class Graph {// Creating the class Graph
 			}
 		});
 		mainbutton.addActionListener(new ActionListener() {// If the user clicks the button mainbutton the game returns
-															// to the menu window
+			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.remove(mainbutton);// We remove the progress bar mainbutton from the panel
 				centralpanel.remove(darkmode);
