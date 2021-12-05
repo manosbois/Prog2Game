@@ -1,5 +1,4 @@
 
-
 //A class for Moves that raise the tempStats
 public class BuffMove extends Move {
 
