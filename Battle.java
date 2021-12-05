@@ -31,7 +31,7 @@ public class Battle {
 		File file = new File("Song.wav");
 		File zeusmusic = new File("ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-		if (num_of_Battle == 12) {
+		if (numOfBattle == 12) {
 		 audioStream = AudioSystem.getAudioInputStream(zeusmusic);
 		}
 
