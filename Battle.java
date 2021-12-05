@@ -28,8 +28,13 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		/*File file = new File("Song.wav");
+		File file = new File("Song.wav");
+		File zeusmusic = new File("ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+		if (num_of_Battle == 12) {
+		 audioStream = AudioSystem.getAudioInputStream(zeusmusic);
+		}
+
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);*/
@@ -89,6 +94,13 @@ public class Battle {
 
 	//The PC decides which move the rival god uses
 	public Move chooseOpponentsMove(God god) {
+
+		try {
+		    Thread.sleep(1000);
+		} catch (InterruptedException ie) {
+		    Thread.currentThread().interrupt();
+		}
+
 		boolean sufficientEnergy;
 		Move move; //Creating a
 		// variable of type Move to assist us in switch structure
@@ -106,10 +118,22 @@ public class Battle {
 	} //End of method chooseOpponentsMove
 
 	private Move getMove(Character hero, int chosenMove) {
+
+		File swordsound = new File("Swordsound.wav");
+		File spearsound = new File("Spearsound.wav");
+		AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(swordsound);
+		Clip clip3 = AudioSystem.getClip();
+
 		switch (chosenMove) {
 			case 1:
+				audioStreammove = AudioSystem.getAudioInputStream(swordsound);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getDamagingMove1();
 			case 2:
+				audioStreammove = AudioSystem.getAudioInputStream(spearsound);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getDamagingMove2();
 			case 3:
 				return hero.getBuffMove();
