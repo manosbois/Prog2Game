@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class Graph {// Creating the class Graph
+public class Graph extends Thread{// Creating the class Graph
 	private String title;
 	JFrame frame; // We define the frame of the project.
 	JPanel centralpanel, buttonpanel, bottompanel; // We define three panels that appear on the screen
@@ -25,7 +25,6 @@ public class Graph {// Creating the class Graph
 	JProgressBar attackbar, armorbar, hpbar;// We define the progress bars that appear on the statistics screen
 	Button lightmode, darkmode, greekbutton, englishbutton;// settings' buttons
 	final int WIDTH = 1280, HEIGHT = 800;// We define the the width and the height of the window
-
 	Stages myStages;
 
 	public Graph(String title) {// We create the constructor of the class Graph
@@ -276,7 +275,8 @@ public class Graph {// Creating the class Graph
 		buttonpanel.add(meditatebutton);
 		buttonpanel.add(shieldbutton);
 		buttonpanel.add(nomovebutton);
-
+	
+		
 		mainbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.setSize(WIDTH, HEIGHT);
@@ -293,6 +293,33 @@ public class Graph {// Creating the class Graph
 				createMenuWindow();
 			}
 		});
+		swordbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent emove) {
+				/*myBattle.setMove(1);
+				hppanelhero.setSize();*/
+			}
+		});
+		spearbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent emove) {
+				
+			}
+		});
+		shieldbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent emove) {
+				
+			}
+		});
+		meditatebutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent emove) {
+				
+			}
+		});
+		nomovebutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 	}
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
@@ -565,15 +592,16 @@ public class Graph {// Creating the class Graph
 					 * try { myStages.giveAttributesPoints(); } catch (UnsupportedAudioFileException
 					 * | IOException | LineUnavailableException e1) { e1.printStackTrace(); }
 					 */
-					try {
+					/*try {
 						myStages.giveAttributesPoints();
 					} catch (UnsupportedAudioFileException ex) {
 						ex.printStackTrace();
 					} catch (IOException ex) {
 						ex.printStackTrace();
-					} catch (LineUnavailableException ex) {
-						ex.printStackTrace();
-					}
+					//} catch (LineUnavailableException ex) {
+						//ex.printStackTrace();
+					}*/
+					myStages.giveAttributesPoints();
 
 					centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
 					centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
