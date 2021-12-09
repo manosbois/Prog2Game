@@ -1,163 +1,188 @@
-import java.util.Scanner;
-import javax.sound.sampled.*;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
-import java.io.File;
+import java.util.Scanner;
 
 
 public class Stages {
-	public Scanner input = new Scanner(System.in);
-	protected int tempHP = 0;//We temporarily save HP for checkpoints
-	protected int tempAttack = 0;//We temporarily save attack for checkpoints
-	protected int tempArmor = 0;//We temporarily save armor for checkpoints
-	
-	protected int ap_hp;//Attribute Points for HP
-	protected int ap_attack;//Attribute Points for Attack
-	protected int ap_armor;//Attribute Points for Armor
-	private int attribute_points;
-	
-	private final static int MYHEROSENERGY = 10;
-	int i;//Declaring i var here
-	static Hero myHero ;
+	private final Scanner input = new Scanner(System.in);
+
+	public static Hero myHero;
 	public Stages() {
-		myHero = new Hero(100 , 100 , 100 , MYHEROSENERGY);//Creating the object for the user
+		myHero = new Hero(100 , 100 , 100 , MY_HERO_ENERGY);//Creating the object for the user
 	}
-	public void stageControl() /*throws UnsupportedAudioFileException, IOException, LineUnavailableException*/ {
+
+	protected int tempHP = 0; //We temporarily save HP for checkpoints
+	protected int tempAttack = 0; //We temporarily save attack for checkpoints
+	protected int tempArmor = 0; //We temporarily save armor for checkpoints
+
+	protected int apHp; //Attribute Points for HP
+	protected int apAttack; //Attribute Points for Attack
+	protected int apArmour; //Attribute Points for Armor
+	private int attributePoints;
+
+	public int getApHp() { return apHp;	}
+
+	public void setApHp(int apHp) {
+		this.apHp += apHp;
+		attributePoints -= apHp;
+	}
+
+	public int getApAttack() { return apAttack;	}
+
+	public void setApAttack(int apAttack) {
+		this.apAttack += apAttack;
+		attributePoints -= apAttack;
+	}
+
+	public int getApArmour() { return apArmour;	}
+
+	public void setApArmour(int apArmour) {
+		this.apArmour += apArmour;
+		attributePoints -= apArmour;
+	}
+	public void setAttackZero() {
+		attributePoints += apAttack;
+		apAttack = 0;
+	}
+	public void setArmorZero() {
+		attributePoints += apArmour;
+		apArmour = 0;
+	}
+	public void setHpZero() {
+		attributePoints += apHp;
+		apHp = 0;
+	}
+	public void setApStatsToZero() {
+		apHp = 0;
+		apAttack = 0;
+		apArmour = 0;
+	}
+	public void setAttributePoints(int attributePoints) { this.attributePoints = attributePoints; }
+	public int getAttributePoints() { return attributePoints; }
+
+	private static final int END_OF_GAME = 13;
+	private static final int FIRST_CHECKPOINT = 5;
+	private static final int SECOND_CHECKPOINT = 11;
+	private static final int MY_HERO_ENERGY = 10;
+	private int i; //Declaring i var here
+	//public Stages() {
+
+	public void stageControl()  {
 
 		boolean death = false;
 		Battle myBattle = new Battle();
-		
-		
+		//Creating the object for the user
+
 		i = 1;
-		while (i <= 12) {//We define the number of attribute points
-			attribute_points = myBattle.BattleMethod(myHero, i);
-			setApStatstoZero();//Setting apStats to 0 so they can be used correctly in every loop
-			
-			if (attribute_points > 0) {//Give attribute points
-				giveAttributesPoints();
-				
-				if (i == 5 || i == 11) {//We use temps for the checkpoints
+		while (i <= 12) { //We define the number of attribute points
+			try {
+				attributePoints = myBattle.battleMethod(myHero, i);
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+			setApStatsToZero(); //Setting apStats to 0
+			// so they can be used correctly in every loop
+
+			if (attributePoints > 0) { //Give attribute points
+				try {
+					giveAttributesPoints();
+				} catch (UnsupportedAudioFileException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (LineUnavailableException e) {
+					e.printStackTrace();
+				}
+
+				if (i == FIRST_CHECKPOINT || i == SECOND_CHECKPOINT) { //We use temps for the checkpoints
 					tempHP = myHero.getHp();
 					tempAttack = myHero.getAttack();
 					tempArmor = myHero.getArmour();
 				}
-				
-			} else { 	//After the user's player is dead we check for the checkpoints
-				if (death == false) {
+
+			} else { //After the user's player is dead we check for the checkpoints
+				if (!death) {
 					findCheckpoint(myHero);
 					death = true;
-				}else {
+				} else {
 					System.out.println("You have already used your checkpoint.");
 					System.out.println("Game over!");
-					i = 13;
+					i = END_OF_GAME;
 				}
 			}
-			
+
 			i += 1;
 		}
 	}
-	
-	public void findCheckpoint(Hero myHero) {//A method that finds the checkpoint of the player
-		if (i<6) {//Before the battle with the sixth god
+
+	public void findCheckpoint(Hero myHero) { //A method that finds the checkpoint of the player
+		if (i < 6) { //Before the battle with the sixth god
 			System.out.println("Game Over!");
-			i=13;
-		} else if (i>6 && i<12) {//Before the battle with the twelfth god
-			myHero.setStats(tempHP, tempAttack, tempArmor, MYHEROSENERGY);
-			i=5;
-		} else if (i==12) {//After the player has lost by the last god
-			myHero.setStats(tempHP, tempAttack, tempArmor, MYHEROSENERGY);			
-			i=11;
+			i = END_OF_GAME;
+		} else if (i > 6 && i < 12) { //Before the battle with the twelfth god
+			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
+			i = FIRST_CHECKPOINT;
+		} else if (i == 12) { //After the player has lost by the last god
+			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
+			i = SECOND_CHECKPOINT;
 		}
-		
+
 	}
-	
-	public void giveAttributesPoints() /*throws UnsupportedAudioFileException, IOException, LineUnavailableException*/ {//A method that distributes the attribute points
-		int key = 0;
-		int ap_Left = attribute_points;
-		File file2 = new File("src/Song2.wav");
+
+	//A method that distributes the attribute points
+	public void giveAttributesPoints() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+		int key;
+		int apLeft = attributePoints;
+
+		/*File file2 = new File("Song2.wav");
 		AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
 		Clip clip2 = AudioSystem.getClip();
 		clip2.open(audioStream2);
-		clip2.start();
-		
-		/*do { //We ask the player about the distribution of the attributes points
-			System.out.printf("You have %d attributes points! ",ap_Left);
-			System.out.printf("Choose what stat you want to upgrade:\nPress 1 for Health Power.(max %d)\nPress 2 for Attack(max %d).\nPress 3 for Armor(max %d).\n",attribute_points/2,attribute_points/2,attribute_points/2);
-			key=input.nextInt();
-			if (key==1) {
-				System.out.print("\nHealth Power:");
-				ap_hp = input.nextInt() + ap_hp; 
-				ap_Left = ap_Left - ap_hp;
-			}else if (key==2) {
-				System.out.print("\nAttack:");
-				ap_attack = input.nextInt() + ap_attack;
-				ap_Left = ap_Left - ap_attack;
-			}else if (key==3) {
-				System.out.println("\nHealth Power:");
-				ap_armor = input.nextInt()  + ap_armor;
-				ap_Left = ap_Left - ap_armor;
-			}else {
+		clip2.loop(Clip.LOOP_CONTINUOUSLY);*/
+
+		do { //We ask the player about the distribution of the attributes points
+			System.out.printf("You have %d attributes points! ", apLeft);
+			System.out.printf("Choose which stat you want to upgrade:"
+							+ "%nPress 1 for Health Power.(max %d)%nPress 2 for "
+							+ "Attack(max %d).%nPress 3 for Armor(max %d).%n",
+					attributePoints / 2, attributePoints / 2, attributePoints / 2);
+			key = input.nextInt();
+			if (key == 1) {
+				System.out.printf("%nHealth Power:");
+				apHp = input.nextInt() + apHp; 
+				apLeft = apLeft - apHp;
+			} else if (key == 2) {
+				System.out.printf("%nAttack:");
+				apAttack = input.nextInt() + apAttack;
+				apLeft = apLeft - apAttack;
+			} else if (key == 3) {
+				System.out.printf("%nArmour:");
+				apArmour = input.nextInt()  + apArmour;
+				apLeft = apLeft - apArmour;
+			} else {
 				System.out.println("Wrong Input");
 			}
-			System.out.println("If you want to rearrange your attribute points press 4. Eitherweise press anything else.");
+			System.out.println("If you want to rearrange your "
+					+ "attribute points press 4. Otherwise press anything else.");
 			key = input.nextInt();
 			if (key == 4) {
-				setApStatstoZero();
-				ap_Left = attribute_points;
+				setApStatsToZero();
+				apLeft = attributePoints;
 			}
-		} while(ap_hp <= attribute_points / 2 && ap_attack <= attribute_points / 2 && ap_armor <= attribute_points / 2 
-				&& (ap_hp + ap_attack + ap_armor) < attribute_points);*/
-		clip2.stop();
+		} while (apHp <= attributePoints / 2 && apAttack <= attributePoints / 2
+				&& apArmour <= attributePoints / 2
+				&& (apHp + apAttack + apArmour) < attributePoints);
+
+		/*clip2.stop();*/
 		
-		myHero.setStats(ap_hp + myHero.getHp() , ap_attack + myHero.getAttack(), ap_armor + myHero.getArmour(), MYHEROSENERGY);
-	}
-	
-	public int getAp_hp() {
-		return ap_hp;
+		myHero.setStats(apHp + myHero.getHp(), apAttack + myHero.getAttack(), apArmour + myHero.getArmour(), MY_HERO_ENERGY);
 	}
 
-	public void setAp_hp(int ap_hp) {
-		this.ap_hp += ap_hp;
-		attribute_points -= ap_hp;
-	}
-
-	public int getAp_attack() {
-		return ap_attack;
-	}
-
-	public void setAp_attack(int ap_attack) {
-		this.ap_attack += ap_attack;
-		attribute_points -= ap_attack;
-	}
-
-	public int getAp_armor() {
-		return ap_armor;
-	}
-
-	public void setAp_armor(int ap_armor) {
-		this.ap_armor += ap_armor;
-		attribute_points -= ap_armor;
-	}
-	public void setAttackZero() {
-		attribute_points += ap_attack;
-		ap_attack = 0;
-	}
-	public void setArmorZero() {
-		attribute_points += ap_armor;
-		ap_armor = 0;
-	}
-	public void setHpZero() {
-		attribute_points += ap_hp;
-		ap_hp = 0;
-	}
-	public void setApStatstoZero() {
-		ap_hp = 0;
-		ap_attack = 0;
-		ap_armor = 0;		
-	}
-	public void setAttributePoints(int attribute_points) {
-		this.attribute_points = attribute_points;
-	}
-	public int getAttributePoints() {
-		return attribute_points;
-	}
 }
