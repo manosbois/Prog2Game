@@ -1,3 +1,4 @@
+package BattleConnection.src;
 
 public class ProtectiveMove extends Move {
 
@@ -13,5 +14,6 @@ public class ProtectiveMove extends Move {
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         System.out.printf("%s will be partially protected by the shield%n%n",
                 hero1.getName());
+        hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
     }
 }
