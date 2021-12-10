@@ -1,4 +1,3 @@
-package BattleConnection.src;
 
 public class ProtectiveMove extends Move {
 
