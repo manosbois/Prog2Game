@@ -129,9 +129,9 @@ public class Battle {
 			case 2:
 				return hero.getDamagingMove2();
 			case 3:
-				return hero.getBuffMove();
-			case 4:
 				return hero.getProtectiveMove();
+			case 4:
+				return hero.getBuffMove();
 			default:
 				return hero.getNoMove();
 		}
