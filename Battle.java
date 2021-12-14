@@ -58,7 +58,7 @@ public class Battle {
 								// energy of the hero and god
 			}
 		} while (!roundEnds); // End of do...while loop
-		/*clip.stop();*/
+		clip.stop();
 		return myHero.getTempHP(); //Returns the
 		// temporary Hp of the user to be used in class Game
 	} //End of method BattleMethod
