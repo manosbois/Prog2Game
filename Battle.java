@@ -27,7 +27,7 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		/*File file = new File("Song.wav");
+		File file = new File("Song.wav");
 		File zeusmusic = new File("ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		if (numOfBattle == 12) {
@@ -36,7 +36,7 @@ public class Battle {
 
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);*/
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 
 		do { //Start of do...while loop that implements the round system
 			Move myMove = chooseMyMove(myHero, god);
@@ -94,11 +94,11 @@ public class Battle {
 	//The PC decides which move the rival god uses
 	public Move chooseOpponentsMove(God god) {
 
-		/*try {
+		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException ie) {
 			Thread.currentThread().interrupt();
-		}*/
+		}
 
 		boolean sufficientEnergy;
 		Move move; //Creating a
@@ -118,21 +118,43 @@ public class Battle {
 
 	private Move getMove(Character hero, int chosenMove) {
 
-		/*File swordsound = new File("Swordsound.wav");
+		File swordsound = new File("Swordsound.wav");
 		File spearsound = new File("Spearsound.wav");
+		File meditate = new File("Meditate.wav");
+		File nomove = new File("Nomove.wav");
+		File shieldsound = new File("Shield.wav");
 		AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(swordsound);
-		Clip clip3 = AudioSystem.getClip();*/
+		Clip clip3 = AudioSystem.getClip();
 
 		switch (chosenMove) {
 			case 1:
+				
+				audioStreammove = AudioSystem.getAudioInputStream(swordsound);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getDamagingMove1();
 			case 2:
+				
+				audioStreammove = AudioSystem.getAudioInputStream(spearsound);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getDamagingMove2();
 			case 3:
+				
+				audioStreammove = AudioSystem.getAudioInputStream(shieldsound);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getProtectiveMove();
 			case 4:
+				
+				audioStreammove = AudioSystem.getAudioInputStream(meditate);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getBuffMove();
 			default:
+				audioStreammove = AudioSystem.getAudioInputStream(nomove);
+				clip3.open(audioStreammove);
+				clip3.start();
 				return hero.getNoMove();
 		}
 	}
