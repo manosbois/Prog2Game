@@ -76,8 +76,8 @@ public class Battle {
 			//Printing user's moves
 			System.out.println(myHero.getDamagingMove1().toString());
 			System.out.println(myHero.getDamagingMove2().toString());
-			System.out.println(myHero.getBuffMove().toString());
 			System.out.println(myHero.getProtectiveMove().toString());
+			System.out.println(myHero.getBuffMove().toString());
 			System.out.println(myHero.getNoMove().toString());
 			int chosenMove = sc.nextInt(); //Reading user's chosen move
 			move = getMove(myHero, chosenMove);
