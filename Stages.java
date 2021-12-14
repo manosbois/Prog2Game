@@ -126,13 +126,13 @@ public class Stages {
 		int key;
 		int apLeft = attributePoints;
 
-		/*File file2 = new File("Song2.wav");
+		File file2 = new File("Song2.wav");
 		AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
 		Clip clip2 = AudioSystem.getClip();
 		clip2.open(audioStream2);
-		clip2.loop(Clip.LOOP_CONTINUOUSLY);*/
+		clip2.loop(Clip.LOOP_CONTINUOUSLY);
 
-		/*do { //We ask the player about the distribution of the attributes points
+		do { //We ask the player about the distribution of the attributes points
 			System.out.printf("You have %d attributes points! ", apLeft);
 			System.out.printf("Choose which stat you want to upgrade:"
 							+ "%nPress 1 for Health Power.(max %d)%nPress 2 for "
@@ -163,9 +163,9 @@ public class Stages {
 			}
 		} while (apHp <= attributePoints / 2 && apAttack <= attributePoints / 2
 				&& apArmour <= attributePoints / 2
-				&& (apHp + apAttack + apArmour) < attributePoints);*/
+				&& (apHp + apAttack + apArmour) < attributePoints);
 
-		/*clip2.stop();*/
+		clip2.stop();
 		
 		myHero.setStats(apHp + myHero.getHp(), apAttack + myHero.getAttack(), apArmour + myHero.getArmour(), MY_HERO_ENERGY);
 	}
