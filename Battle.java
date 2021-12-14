@@ -64,7 +64,7 @@ public class Battle {
 	} //End of method BattleMethod
 
 	//Lets user choose which move to use
-	public Move chooseMyMove(Hero myHero, God god) {
+	public Move chooseMyMove(Hero myHero, God god) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
 		boolean sufficientEnergy;
 		Move move; //Creating a variable of type Move to assist us in switch structure.
 		do {
@@ -117,7 +117,7 @@ public class Battle {
 		return move;
 	} //End of method chooseOpponentsMove
 
-	private Move getMove(Character hero, int chosenMove) {
+	private Move getMove(Character hero, int chosenMove) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
 
 		File swordsound = new File("Swordsound.wav");
 		File spearsound = new File("Spearsound.wav");
