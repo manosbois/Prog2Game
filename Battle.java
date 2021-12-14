@@ -93,7 +93,7 @@ public class Battle {
 	} //End of method chooseMyMove
 
 	//The PC decides which move the rival god uses
-	public Move chooseOpponentsMove(God god) {
+	public Move chooseOpponentsMove(God god) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
 
 		try {
 			Thread.sleep(1000);
