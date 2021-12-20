@@ -1,22 +1,21 @@
 import javax.sound.sampled.*;
 import java.io.File;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Scanner;
 
 //A class that implements the battle mechanic of our game
 public class Battle {
-	private final Scanner sc = new Scanner(System.in); //Creating Scanner object
-	private final Random rand = new Random(); //Creating Random object
+	private static final Random rand = new Random(); //Creating Random object
+
+	private static final Object lock = new Object();
+	public static Object getLock() { return lock; }
 
 	private static final int ENERGY_REPLENISHMENT = 8; //The variable that
 	// shows how much energy is replenished every round
 
 	//The most essential method of class Battle
 	//It implements the battle mechanic
-	public int battleMethod(Hero myHero, int numOfBattle)
+	public static int battleMethod(Hero myHero, int numOfBattle)
 			throws UnsupportedAudioFileException, IOException,
 			LineUnavailableException {
 
@@ -25,14 +24,15 @@ public class Battle {
 				myHero.getArmour(), myHero.getEnergy());
 
 		God god = new God(numOfBattle); //Creating the object for the rival god
+		Graph.godname.setText(god.getName());
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		File file = new File("Song.wav");
-		File zeusmusic = new File("ZeusMusic.wav");
+		File file = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song.wav");
+		File zeusMusic = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		if (numOfBattle == 12) {
-		 audioStream = AudioSystem.getAudioInputStream(zeusmusic);
+		 audioStream = AudioSystem.getAudioInputStream(zeusMusic);
 		}
 
 		Clip clip = AudioSystem.getClip();
@@ -64,7 +64,7 @@ public class Battle {
 	} //End of method BattleMethod
 
 	//Lets user choose which move to use
-	public Move chooseMyMove(Hero myHero, God god) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
+	public static Move chooseMyMove(Hero myHero, God god) {
 		boolean sufficientEnergy;
 		Move move; //Creating a variable of type Move to assist us in switch structure.
 		do {
@@ -77,10 +77,19 @@ public class Battle {
 			//Printing user's moves
 			System.out.println(myHero.getDamagingMove1().toString());
 			System.out.println(myHero.getDamagingMove2().toString());
-			System.out.println(myHero.getProtectiveMove().toString());
 			System.out.println(myHero.getBuffMove().toString());
+			System.out.println(myHero.getProtectiveMove().toString());
 			System.out.println(myHero.getNoMove().toString());
-			int chosenMove = sc.nextInt(); //Reading user's chosen move
+
+			synchronized (lock){
+				try {
+					lock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			int chosenMove = Graph.getChosenMove(); //Reading user's chosen move
 			move = getMove(myHero, chosenMove);
 			if (myHero.getTempEnergy() < move.getEnergy()) {
 				//Checking if the user has enough energy
@@ -93,7 +102,7 @@ public class Battle {
 	} //End of method chooseMyMove
 
 	//The PC decides which move the rival god uses
-	public Move chooseOpponentsMove(God god) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
+	public static Move chooseOpponentsMove(God god) {
 
 		try {
 			Thread.sleep(1000);
@@ -117,51 +126,52 @@ public class Battle {
 		return move;
 	} //End of method chooseOpponentsMove
 
-	private Move getMove(Character hero, int chosenMove) throws UnsupportedAudioFileException, IOException,LineUnavailableException {
+	private static Move getMove(Character hero, int chosenMove) {
 
-		File swordsound = new File("Swordsound.wav");
-		File spearsound = new File("Spearsound.wav");
-		File meditate = new File("Meditate.wav");
-		File nomove = new File("Nomove.wav");
-		File shieldsound = new File("Shield.wav");
-		AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(swordsound);
-		Clip clip3 = AudioSystem.getClip();
+		File swordSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Swordsound.wav");
+		File spearSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Spearsound.wav");
+		File meditate = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\meditate.wav");
+		File noMove = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Nomove.wav");
+		File shieldSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Shield.wav");
+		Clip clip3;
+		try {
+			clip3 = AudioSystem.getClip();
 
-		switch (chosenMove) {
-			case 1:
-				
-				audioStreammove = AudioSystem.getAudioInputStream(swordsound);
-				clip3.open(audioStreammove);
-				clip3.start();
-				return hero.getDamagingMove1();
-			case 2:
-				
-				audioStreammove = AudioSystem.getAudioInputStream(spearsound);
-				clip3.open(audioStreammove);
-				clip3.start();
-				return hero.getDamagingMove2();
-			case 3:
-				
-				audioStreammove = AudioSystem.getAudioInputStream(shieldsound);
-				clip3.open(audioStreammove);
-				clip3.start();
-				return hero.getProtectiveMove();
-			case 4:
-				
-				audioStreammove = AudioSystem.getAudioInputStream(meditate);
-				clip3.open(audioStreammove);
-				clip3.start();
-				return hero.getBuffMove();
-			default:
-				audioStreammove = AudioSystem.getAudioInputStream(nomove);
-				clip3.open(audioStreammove);
-				clip3.start();
-				return hero.getNoMove();
+			switch (chosenMove) {
+				case 1:
+					makeSound(swordSound, clip3);
+					return hero.getDamagingMove1();
+				case 2:
+					makeSound(spearSound, clip3);
+					return hero.getDamagingMove2();
+				case 3:
+					makeSound(shieldSound, clip3);
+					return hero.getProtectiveMove();
+				case 4:
+					makeSound(meditate, clip3);
+					return hero.getBuffMove();
+				default:
+					makeSound(noMove, clip3);
+					return hero.getNoMove();
+			}
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return hero.getNoMove(); //In case try fails
+	}
+
+	private static void makeSound(File moveSound, Clip clip3) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(moveSound);
+		clip3.open(audioStreammove);
+		clip3.start();
 	}
 
 	//Decides if the users goes first
-	private boolean decideWhoGoesFirst(int numOfBattle, Move myMove, Move opponentsMove) {
+	private static boolean decideWhoGoesFirst(int numOfBattle, Move myMove, Move opponentsMove) {
 		//Checking if anyone used a Protective move
 		if (myMove instanceof ProtectiveMove) {
 			return true;
@@ -181,8 +191,8 @@ public class Battle {
 	}//End of method decideWhoGoesFirst
 
 	//It modifies the TempStats of the objects myHero and god according to used moves
-	private void roundResult(Move myMove, Move opponentsMove,
-                             Hero myHero, God god, boolean iPlayFirst) {
+	private static void roundResult(Move myMove, Move opponentsMove,
+									Hero myHero, God god, boolean iPlayFirst) {
 		//Checks who plays first
 		if (iPlayFirst) { //If the user plays first
 			myMove.effect(myHero, god, opponentsMove.getModifier()); //The user makes his move
@@ -200,7 +210,7 @@ public class Battle {
 	}
 	
 	//Replenishes the energy of the hero and god
-	private void replenishEnergy(Hero myHero, God god) {
+	private static void replenishEnergy(Hero myHero, God god) {
 		myHero.setTempEnergy(myHero.getTempEnergy() + ENERGY_REPLENISHMENT);
 		god.setTempEnergy(god.getTempEnergy() + ENERGY_REPLENISHMENT);
 	}
