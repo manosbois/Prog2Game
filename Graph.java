@@ -1,20 +1,19 @@
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
-public class Graph extends Thread{// Creating the class Graph
+public class Graph {// Creating the class Graph
 	private String title;
 	JFrame frame; // We define the frame of the project.
 	JPanel centralpanel, buttonpanel, bottompanel; // We define three panels that appear on the screen
 	JTextField username;
 	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basic buttons
 	// of the game
-	Label heroname, godname; // Label names(hero and god names)
+	static Label heroname, godname; // Label names(hero and god names)
 	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;// We define the move buttons
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
 			hpplus1, hpplus5, hpplus10, hpreset, donebutton;// statistics buttons
@@ -24,14 +23,31 @@ public class Graph extends Thread{// Creating the class Graph
 	// statistics labels
 	JProgressBar attackbar, armorbar, hpbar;// We define the progress bars that appear on the statistics screen
 	Button lightmode, darkmode, greekbutton, englishbutton;// settings' buttons
-	final int WIDTH = 1280, HEIGHT = 800;// We define the the width and the height of the window
-	Stages myStages;
+	static final int WIDTH = 1280, HEIGHT = 800;// We define the width and the height of the window
+
+	private Clip clip2; //For music.
+	private boolean FirstGod = true; //Variable that's used to know whether to start the battleThread or to notify it.
+	private static int chosenMove;
+
+	public static int getChosenMove() {
+		return chosenMove;
+	}
+
+	public static void setChosenMove(int move) {
+		chosenMove = move;
+		System.out.println(move);
+	}
+
+	private Thread battleThread;
+	private Runnable battleTasks = Stages::stageControl;
 
 	public Graph(String title) {// We create the constructor of the class Graph
+
+		Runnable graphTasks = this::createFrame;
+		Thread graphThread = new Thread(graphTasks);
+		graphThread.start();
+
 		this.title = title;
-		myStages = new Stages();
-		myStages.setAttributePoints(50);
-		createFrame();
 	}
 
 	public void createFrame() {
@@ -58,7 +74,7 @@ public class Graph extends Thread{// Creating the class Graph
 
 		/*
 		 * bottompanel = new JPanel();// We define the secondary panel of the window
-		 * bottompanel.setBackground(Color.DARK_GRAY);// We define the define the color
+		 * bottompanel.setBackground(Color.DARK_GRAY);// We define the color
 		 * of the panel bottompanel bottompanel.setLayout(null);// We define that we are
 		 * not going to use a specific layout bottompanel.setLocation(0, 500);// We
 		 * define the location of this panel bottompanel.setSize(WIDTH, HEIGHT / 15);//
@@ -153,8 +169,8 @@ public class Graph extends Thread{// Creating the class Graph
 		quitbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the quitbutton
 		// and that the text is going to be bold
 
-		mainbutton = new Button("CODERUNNERS");// We create the main button that appears on the top of the screen if we
-		// choose any of the menu options so we can go back to the menu window
+		mainbutton = new Button("CODERUNNERS");// We create the main button that appears at the top of the screen if we
+		// choose any of the menu options, so we can go back to the menu window
 		mainbutton.setLocation((WIDTH - 350) / 2, 0);
 		mainbutton.setSize(350, 50);
 		mainbutton.setBackground(Color.BLACK);
@@ -220,7 +236,7 @@ public class Graph extends Thread{// Creating the class Graph
 		heroname.setBackground(Color.ORANGE);
 		heroname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 
-		godname = new Label("Estia");
+		godname = new Label();
 		godname.setBounds(WIDTH - 250, HEIGHT / 10, 200, 50);
 		// godname.setBackground(new Color(42,82,0));
 		godname.setForeground(Color.BLACK);
@@ -234,7 +250,7 @@ public class Graph extends Thread{// Creating the class Graph
 		buttonpanel.setLocation(0, HEIGHT * 4 / 5);// We define the location of this panel
 		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);
 		buttonpanel.setSize(WIDTH, HEIGHT / 5);// We define the size of this panel
-		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);// We customize the size of the panel centralpanel so we can insert
+		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);// We customize the size of the panel centralpanel, so we can insert
 		// the panel buttonpanel
 
 		swordbutton = new Button("1. Sword");
@@ -275,8 +291,7 @@ public class Graph extends Thread{// Creating the class Graph
 		buttonpanel.add(meditatebutton);
 		buttonpanel.add(shieldbutton);
 		buttonpanel.add(nomovebutton);
-	
-		
+
 		mainbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.setSize(WIDTH, HEIGHT);
@@ -293,37 +308,91 @@ public class Graph extends Thread{// Creating the class Graph
 				createMenuWindow();
 			}
 		});
+
+		battleThread = new Thread(battleTasks);
+		if (FirstGod) {
+			battleThread.start();
+		} else {
+			synchronized (Battle.getLock()) {
+				Battle.getLock().notify();
+			}
+		}
+
 		swordbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent emove) {
+			public void actionPerformed(ActionEvent e) {
 				/*myBattle.setMove(1);
 				hppanelhero.setSize();*/
+				synchronized (Battle.getLock()) {
+					setChosenMove(1);
+					Battle.getLock().notify();
+				}
 			}
 		});
 		spearbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent emove) {
-				
+			public void actionPerformed(ActionEvent e) {
+				synchronized (Battle.getLock()) {
+					setChosenMove(2);
+					Battle.getLock().notify();
+				}
 			}
 		});
 		shieldbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent emove) {
-				
+			public void actionPerformed(ActionEvent e) {
+				synchronized (Battle.getLock()) {
+					setChosenMove(3);
+					Battle.getLock().notify();
+				}
 			}
 		});
 		meditatebutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent emove) {
-				
+			public void actionPerformed(ActionEvent e) {
+				synchronized (Battle.getLock()) {
+					setChosenMove(4);
+					Battle.getLock().notify();
+				}
 			}
 		});
 		nomovebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				synchronized (Battle.getLock()) {
+					setChosenMove(5);
+					Battle.getLock().notify();
+				}
 			}
 		});
-		
+
+
 	}
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
-		int maxap = myStages.getAttributePoints() / 2;
+
+		try {
+			File file2 = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song2.wav");
+			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
+			clip2 = AudioSystem.getClip();
+			clip2.open(audioStream2);
+			clip2.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		int maxAp = Stages.getAttributePoints() / 2;
+		FirstGod = false;
+		centralpanel.setSize(WIDTH, HEIGHT);
+		buttonpanel.setSize(0, 0);
+		centralpanel.remove(mainbutton);
+		centralpanel.remove(heroname);
+		centralpanel.remove(godname);
+		buttonpanel.remove(swordbutton);
+		buttonpanel.remove(spearbutton);
+		buttonpanel.remove(meditatebutton);
+		buttonpanel.remove(shieldbutton);
+		buttonpanel.remove(nomovebutton);
+
 		attackbarlabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
 		// for attack
 		attackbarlabel.setLocation(WIDTH / 10, 110);// We define the location of the label attackbarlabel
@@ -344,7 +413,7 @@ public class Graph extends Thread{// Creating the class Graph
 		attackbar.setBounds(WIDTH / 10, HEIGHT * 1 / 5, 325, 75);// We define the location and the size of the progress
 		// bar
 
-		apattacklabel = new Label("" + myStages.getApAttack());
+		apattacklabel = new Label("" + Stages.getApAttack());
 		apattacklabel.setLocation((WIDTH / 10) + 350, HEIGHT * 1 / 5 + 25 / 2);
 		apattacklabel.setSize(75, 50);
 		apattacklabel.setBackground(Color.WHITE);
@@ -370,7 +439,7 @@ public class Graph extends Thread{// Creating the class Graph
 		attackplus10.setForeground(Color.BLACK);
 		attackplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		attackremain = new Label(" (MAX: " + myStages.getAttributePoints() / 2 + ")");
+		attackremain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
 		attackremain.setBounds((WIDTH / 10) + 800, HEIGHT * 1 / 5 + 25 / 2, 160, 50);
 		// attackremain.setBackground(Color.WHITE);
 		attackremain.setForeground(Color.RED);
@@ -401,7 +470,7 @@ public class Graph extends Thread{// Creating the class Graph
 		armorbar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 325, 75);// We define the location and the size of the progress
 		// bar
 
-		aparmorlabel = new Label("" + myStages.getApAttack());
+		aparmorlabel = new Label("" + Stages.getApAttack());
 		aparmorlabel.setLocation((WIDTH / 10) + 350, HEIGHT * 2 / 5 + 25 / 2);
 		aparmorlabel.setSize(75, 50);
 		aparmorlabel.setBackground(Color.WHITE);
@@ -427,7 +496,7 @@ public class Graph extends Thread{// Creating the class Graph
 		armorplus10.setForeground(Color.BLACK);
 		armorplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		armorremain = new Label(" (MAX: " + myStages.getAttributePoints() / 2 + ")");
+		armorremain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
 		armorremain.setBounds((WIDTH / 10) + 800, HEIGHT * 2 / 5 + 25 / 2, 160, 50);
 		// armorremain.setBackground(Color.WHITE);
 		armorremain.setForeground(Color.RED);
@@ -458,7 +527,7 @@ public class Graph extends Thread{// Creating the class Graph
 		hpbar.setBackground(Color.red);// We define the color of the progress bar
 		hpbar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);// We define the location and the size of the progress bar
 
-		aphplabel = new Label("" + myStages.getApHp());
+		aphplabel = new Label("" + Stages.getApHp());
 		aphplabel.setLocation((WIDTH / 10) + 350, HEIGHT * 3 / 5 + 25 / 2);
 		aphplabel.setSize(75, 50);
 		aphplabel.setBackground(Color.WHITE);
@@ -484,7 +553,7 @@ public class Graph extends Thread{// Creating the class Graph
 		hpplus10.setForeground(Color.BLACK);
 		hpplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		hpremain = new Label(" (MAX: " + myStages.getAttributePoints() / 2 + ")");
+		hpremain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
 		hpremain.setBounds((WIDTH / 10) + 800, HEIGHT * 3 / 5 + 25 / 2, 160, 50);
 		// hpremain.setBackground(Color.WHITE);
 		hpremain.setForeground(Color.RED);
@@ -496,7 +565,7 @@ public class Graph extends Thread{// Creating the class Graph
 		hpreset.setForeground(Color.BLACK);
 		hpreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		attributepoints = new Label("Remaining Attribute Points: " + myStages.getAttributePoints());
+		attributepoints = new Label("Remaining Attribute Points: " + Stages.getAttributePoints());
 		attributepoints.setBounds(WIDTH / 10, HEIGHT * 4 / 5, 375, 75);
 		attributepoints.setBackground(Color.WHITE);
 		attributepoints.setForeground(Color.BLACK);
@@ -587,21 +656,12 @@ public class Graph extends Thread{// Creating the class Graph
 
 		donebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getAttributePoints() == 0) {
-					/*
-					 * try { myStages.giveAttributesPoints(); } catch (UnsupportedAudioFileException
-					 * | IOException | LineUnavailableException e1) { e1.printStackTrace(); }
-					 */
-					/*try {
-						myStages.giveAttributesPoints();
-					} catch (UnsupportedAudioFileException ex) {
-						ex.printStackTrace();
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					//} catch (LineUnavailableException ex) {
-						//ex.printStackTrace();
-					}*/
-					myStages.giveAttributesPoints();
+				if (Stages.getAttributePoints() == 0) {
+
+					Stages.giveAttributesPoints();
+
+					clip2.stop();
+
 
 					centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
 					centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
@@ -640,12 +700,12 @@ public class Graph extends Thread{// Creating the class Graph
 					hpbar.setValue(Stages.myHero.getHp());
 
 					centralpanel.remove(mainbutton);// We remove the progress bar mainbutton from the panel
-					myStages.setApStatsToZero();
+					Stages.setApStatsToZero();
 					apattacklabel.setText("0");
 					aparmorlabel.setText("0");
 					aphplabel.setText("0");
 
-					createMenuWindow();
+					createStartWindow();
 				} else {
 					JOptionPane.showMessageDialog(null, "You haven't distributed all the attribute points!");
 				}
@@ -654,115 +714,115 @@ public class Graph extends Thread{// Creating the class Graph
 
 		attackplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApAttack() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
-					myStages.setApAttack(1);
-					apattacklabel.setText("" + myStages.getApAttack());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApAttack() + 1 <= maxAp && Stages.getAttributePoints() - 1 >= 0) {
+					Stages.setApAttack(1);
+					apattacklabel.setText("" + Stages.getApAttack());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// attackremain.setText(" Remaining: " + apattackrem);
 				}
 			}
 		});
 		attackplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApAttack() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
-					myStages.setApAttack(5);
-					apattacklabel.setText("" + myStages.getApAttack());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApAttack() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
+					Stages.setApAttack(5);
+					apattacklabel.setText("" + Stages.getApAttack());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// attackremain.setText(" Remaining: " + apattackrem);
 				}
 			}
 		});
 		attackplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApAttack() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
-					myStages.setApAttack(10);
-					apattacklabel.setText("" + myStages.getApAttack());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApAttack() + 10 <= maxAp && Stages.getAttributePoints() - 10 >= 0) {
+					Stages.setApAttack(10);
+					apattacklabel.setText("" + Stages.getApAttack());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// attackremain.setText(" Remaining: " + apattackrem);
 				}
 			}
 		});
 		attackreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myStages.setAttackZero();
-				apattacklabel.setText("" + myStages.getApAttack());
-				attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				Stages.setAttackZero();
+				apattacklabel.setText("" + Stages.getApAttack());
+				attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 				// attackremain.setText(" Remaining: " + apattackrem);
 			}
 		});
 		armorplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApArmour() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
-					myStages.setApArmour(1);
-					aparmorlabel.setText("" + myStages.getApArmour());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApArmour() + 1 <= maxAp && Stages.getAttributePoints() - 1 >= 0) {
+					Stages.setApArmour(1);
+					aparmorlabel.setText("" + Stages.getApArmour());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
 			}
 		});
 		armorplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApArmour() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
-					myStages.setApArmour(5);
-					aparmorlabel.setText("" + myStages.getApArmour());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApArmour() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
+					Stages.setApArmour(5);
+					aparmorlabel.setText("" + Stages.getApArmour());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
 			}
 		});
 		armorplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApArmour() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
-					myStages.setApArmour(10);
-					aparmorlabel.setText("" + myStages.getApArmour());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApArmour() + 10 <= maxAp && Stages.getAttributePoints() - 10 >= 0) {
+					Stages.setApArmour(10);
+					aparmorlabel.setText("" + Stages.getApArmour());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
 			}
 		});
 		armorreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myStages.setArmorZero();
-				aparmorlabel.setText("" + myStages.getApArmour());
-				attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				Stages.setArmorZero();
+				aparmorlabel.setText("" + Stages.getApArmour());
+				attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 				// armorremain.setText(" Remaining: " + aparmorrem);
 			}
 		});
 		hpplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApHp() + 1 <= maxap && myStages.getAttributePoints() - 1 >= 0) {
-					myStages.setApHp(1);
-					aphplabel.setText("" + myStages.getApHp());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApHp() + 1 <= maxAp && Stages.getAttributePoints() - 1 >= 0) {
+					Stages.setApHp(1);
+					aphplabel.setText("" + Stages.getApHp());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// hpremain.setText(" Remaining: " + aphprem);
 				}
 			}
 		});
 		hpplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApHp() + 5 <= maxap && myStages.getAttributePoints() - 5 >= 0) {
-					myStages.setApHp(5);
-					aphplabel.setText("" + myStages.getApHp());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApHp() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
+					Stages.setApHp(5);
+					aphplabel.setText("" + Stages.getApHp());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// hpremain.setText(" Remaining: " + aphprem);
 				}
 			}
 		});
 		hpplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (myStages.getApHp() + 10 <= maxap && myStages.getAttributePoints() - 10 >= 0) {
-					myStages.setApHp(10);
-					aphplabel.setText("" + myStages.getApHp());
-					attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				if (Stages.getApHp() + 10 <= maxAp && Stages.getAttributePoints() - 10 >= 0) {
+					Stages.setApHp(10);
+					aphplabel.setText("" + Stages.getApHp());
+					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 					// hpremain.setText(" Remaining: " + aphprem);
 				}
 			}
 		});
 		hpreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myStages.setHpZero();
-				aphplabel.setText("" + myStages.getApHp());
-				attributepoints.setText("Remaining Attribute Points: " + myStages.getAttributePoints());
+				Stages.setHpZero();
+				aphplabel.setText("" + Stages.getApHp());
+				attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
 				// hpremain.setText(" Remaining: " + aphprem);
 			}
 		});
