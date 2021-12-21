@@ -13,8 +13,12 @@ public class Graph {// Creating the class Graph
 	JTextField username;
 	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basic buttons
 	// of the game
-	static Label heroname, godname, herohpbar, godhpbar, herobackbar, godbackbar, heroenergy, godenergy; // Label names(hero and god names)
+	static Label heroname, godname, herohpbar, godhpbar, herobackbar, godbackbar, heroenergy, godenergy; // Label
+																											// names(hero
+																											// and god
+																											// names)
 	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;// We define the move buttons
+	static Label heroEnergy, heroHp, godHp;
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
 			hpplus1, hpplus5, hpplus10, hpreset, donebutton;// statistics buttons
 	Label introlabel, mainlabel; // We define the basic labels that appear on the game
@@ -25,8 +29,9 @@ public class Graph {// Creating the class Graph
 	Button lightmode, darkmode, greekbutton, englishbutton;// settings' buttons
 	static final int WIDTH = 1280, HEIGHT = 800;// We define the width and the height of the window
 
-	private Clip clip2; //For music.
-	private boolean FirstGod = true; //Variable that's used to know whether to start the battleThread or to notify it.
+	private Clip clip2; // For music.
+	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
+										// it.
 	private static int chosenMove;
 
 	public static int getChosenMove() {
@@ -74,11 +79,11 @@ public class Graph {// Creating the class Graph
 
 		/*
 		 * bottompanel = new JPanel();// We define the secondary panel of the window
-		 * bottompanel.setBackground(Color.DARK_GRAY);// We define the color
-		 * of the panel bottompanel bottompanel.setLayout(null);// We define that we are
-		 * not going to use a specific layout bottompanel.setLocation(0, 500);// We
-		 * define the location of this panel bottompanel.setSize(WIDTH, HEIGHT / 15);//
-		 * We define the size of this panel
+		 * bottompanel.setBackground(Color.DARK_GRAY);// We define the color of the
+		 * panel bottompanel bottompanel.setLayout(null);// We define that we are not
+		 * going to use a specific layout bottompanel.setLocation(0, 500);// We define
+		 * the location of this panel bottompanel.setSize(WIDTH, HEIGHT / 15);// We
+		 * define the size of this panel
 		 */
 		buttonpanel = new JPanel();
 		buttonpanel.setBounds(0, 0, 0, 0);
@@ -194,7 +199,7 @@ public class Graph {// Creating the class Graph
 		startbutton.addActionListener(new ActionListener() {// The user has press the button startbutton
 			public void actionPerformed(ActionEvent e) {
 				removeMenuButtons();
-
+				centralpanel.remove(mainbutton);
 				createStartWindow();// We call the method that starts the game
 			}
 		});
@@ -243,30 +248,60 @@ public class Graph {// Creating the class Graph
 		godname.setBackground(Color.ORANGE);
 		godname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godname.setAlignment(Label.CENTER);
-		
+
+		battleThread = new Thread(battleTasks);
+		if (FirstGod) {
+			battleThread.start();
+		} else {
+			synchronized (Battle.getLock()) {
+				Battle.getLock().notify();
+			}
+		}
+
 		herobackbar = new Label();
-		herobackbar.setBounds(50, HEIGHT / 10 + 50, 200, 50);
+		herobackbar.setBounds(50, HEIGHT / 10 + 50, 200, 30);
 		herobackbar.setBackground(Color.WHITE);
-		herobackbar.setText(Stages.myHero.getHp() + "/" + Stages.myHero.getHp());
-		
+
 		herohpbar = new Label();
-		herohpbar.setBounds(50 + 5, HEIGHT / 10 + 50 + 5, 200 - 10, 50 - 10);
+		herohpbar.setBounds(50 , HEIGHT / 10 + 50 , 200 , 30);
 		herohpbar.setForeground(Color.BLACK);
 		herohpbar.setBackground(Color.GREEN);
 		herohpbar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		herohpbar.setAlignment(Label.CENTER);
 
+		heroHp = new Label("HP: " + String.valueOf(Stages.myHero.getHp()));
+		heroHp.setBounds(50, HEIGHT / 10 + 50 + 5 + 26, 200, 20);
+		heroHp.setForeground(Color.BLACK);
+		heroHp.setBackground(Color.RED);
+		heroHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+		heroHp.setAlignment(Label.LEFT);
+
+		heroEnergy = new Label("Energy: " + String.valueOf(Stages.myHero.getEnergy()));
+		heroEnergy.setBounds(50, HEIGHT / 10 + 50 + 5 + 48, 200, 20);
+		heroEnergy.setForeground(Color.BLACK);
+		heroEnergy.setBackground(Color.CYAN);
+		heroEnergy.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+		heroEnergy.setAlignment(Label.LEFT);
+
 		godbackbar = new Label();
-		godbackbar.setBounds(WIDTH - 250, HEIGHT / 10 + 50, 200, 50);
+		godbackbar.setBounds(WIDTH - 250, HEIGHT / 10 + 50, 200, 30);
 		godbackbar.setBackground(Color.WHITE);
-		godbackbar.setText(100 + "%");
-		
+
 		godhpbar = new Label();
-		godhpbar.setBounds(WIDTH - 250 + 5, HEIGHT / 10 + 50 + 5, 200 - 10, 50 - 10);
+		godhpbar.setBounds(WIDTH - 250, HEIGHT / 10 + 50, 200, 30);
 		godhpbar.setForeground(Color.BLACK);
 		godhpbar.setBackground(Color.GREEN);
 		godhpbar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godhpbar.setAlignment(Label.CENTER);
+		
+		godHp = new Label();
+		godHp.setBounds(WIDTH - 250, HEIGHT / 10 + 50 + 31, 200, 20);
+		godHp.setForeground(Color.BLACK);
+		godHp.setBackground(Color.RED);
+		godHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+		godHp.setAlignment(Label.LEFT);
+		godHp.setText("HP: " + 100 + "%");
+		
 
 		buttonpanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
 		// based on rgb color
@@ -313,7 +348,10 @@ public class Graph {// Creating the class Graph
 		centralpanel.add(herobackbar);
 		centralpanel.add(godhpbar);
 		centralpanel.add(godbackbar);
-
+		centralpanel.add(heroHp);
+		centralpanel.add(heroEnergy);
+		centralpanel.add(godHp);
+		
 		buttonpanel.add(swordbutton);
 		buttonpanel.add(spearbutton);
 		buttonpanel.add(meditatebutton);
@@ -331,7 +369,10 @@ public class Graph {// Creating the class Graph
 				centralpanel.remove(herobackbar);
 				centralpanel.remove(godhpbar);
 				centralpanel.remove(godbackbar);
-				
+				centralpanel.remove(heroHp);
+				centralpanel.remove(heroEnergy);
+				centralpanel.remove(godHp);
+
 				buttonpanel.remove(swordbutton);
 				buttonpanel.remove(spearbutton);
 				buttonpanel.remove(meditatebutton);
@@ -342,19 +383,8 @@ public class Graph {// Creating the class Graph
 			}
 		});
 
-		battleThread = new Thread(battleTasks);
-		if (FirstGod) {
-			battleThread.start();
-		} else {
-			synchronized (Battle.getLock()) {
-				Battle.getLock().notify();
-			}
-		}
-
 		swordbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*myBattle.setMove(1);
-				hppanelhero.setSize();*/
 				synchronized (Battle.getLock()) {
 					setChosenMove(1);
 					Battle.getLock().notify();
@@ -394,16 +424,20 @@ public class Graph {// Creating the class Graph
 			}
 		});
 
-
 	}
-	public static void resizeHpBar(Character hero, int hp, int herodamage) {
-		// int herodamage = hp - initialHp;
+
+	public static void modifyHpLabels(Character hero, int hp, int initialHp, int herodamage) {
 		if (hero.getName().equals(Stages.myHero.getName())) {
-			herohpbar.setSize(190 *(hp - herodamage)/ 100, 50 - 10);
-			// herohpbar.setText(initialHp + "/" + hp);
+			herohpbar.setSize(200 * hp / initialHp, 30);
+			heroHp.setText("HP: " + hp);
 		} else {
-			godhpbar.setSize(190 *(hp - herodamage) / 100, 50 - 10);
+			godhpbar.setSize(200 * hp / initialHp, 30);
+			godHp.setText("HP: " + hp * 100 / initialHp + "%");
 		}
+	}
+	
+	public static void modifyEnergyLabel(int energy) {
+		heroEnergy.setText("Energy: " + energy);
 	}
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
@@ -433,6 +467,10 @@ public class Graph {// Creating the class Graph
 		centralpanel.remove(mainbutton);
 		centralpanel.remove(heroname);
 		centralpanel.remove(godname);
+		centralpanel.remove(heroHp);
+		centralpanel.remove(heroEnergy);
+		centralpanel.remove(godHp);
+
 		buttonpanel.remove(swordbutton);
 		buttonpanel.remove(spearbutton);
 		buttonpanel.remove(meditatebutton);
@@ -707,7 +745,6 @@ public class Graph {// Creating the class Graph
 					Stages.giveAttributesPoints();
 
 					clip2.stop();
-
 
 					centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
 					centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
