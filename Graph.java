@@ -409,7 +409,7 @@ public class Graph {// Creating the class Graph
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
 
 		try {
-			File file2 = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song2.wav");
+			File file2 = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Song2.wav");
 			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
 			clip2 = AudioSystem.getClip();
 			clip2.open(audioStream2);
@@ -426,6 +426,10 @@ public class Graph {// Creating the class Graph
 		FirstGod = false;
 		centralpanel.setSize(WIDTH, HEIGHT);
 		buttonpanel.setSize(0, 0);
+		centralpanel.remove(herohpbar);
+		centralpanel.remove(herobackbar);
+		centralpanel.remove(godhpbar);
+		centralpanel.remove(godbackbar);
 		centralpanel.remove(mainbutton);
 		centralpanel.remove(heroname);
 		centralpanel.remove(godname);
