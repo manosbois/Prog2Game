@@ -13,7 +13,7 @@ public class Graph {// Creating the class Graph
 	JTextField username;
 	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basic buttons
 	// of the game
-	static Label heroname, godname; // Label names(hero and god names)
+	static Label heroname, godname, herohpbar, godhpbar, herobackbar, godbackbar, heroenergy, godenergy; // Label names(hero and god names)
 	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;// We define the move buttons
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
 			hpplus1, hpplus5, hpplus10, hpreset, donebutton;// statistics buttons
@@ -243,6 +243,30 @@ public class Graph {// Creating the class Graph
 		godname.setBackground(Color.ORANGE);
 		godname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godname.setAlignment(Label.CENTER);
+		
+		herobackbar = new Label();
+		herobackbar.setBounds(50, HEIGHT / 10 + 50, 200, 50);
+		herobackbar.setBackground(Color.WHITE);
+		herobackbar.setText(Stages.myHero.getHp() + "/" + Stages.myHero.getHp());
+		
+		herohpbar = new Label();
+		herohpbar.setBounds(50 + 5, HEIGHT / 10 + 50 + 5, 200 - 10, 50 - 10);
+		herohpbar.setForeground(Color.BLACK);
+		herohpbar.setBackground(Color.GREEN);
+		herohpbar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
+		herohpbar.setAlignment(Label.CENTER);
+
+		godbackbar = new Label();
+		godbackbar.setBounds(WIDTH - 250, HEIGHT / 10 + 50, 200, 50);
+		godbackbar.setBackground(Color.WHITE);
+		godbackbar.setText(100 + "%");
+		
+		godhpbar = new Label();
+		godhpbar.setBounds(WIDTH - 250 + 5, HEIGHT / 10 + 50 + 5, 200 - 10, 50 - 10);
+		godhpbar.setForeground(Color.BLACK);
+		godhpbar.setBackground(Color.GREEN);
+		godhpbar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
+		godhpbar.setAlignment(Label.CENTER);
 
 		buttonpanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
 		// based on rgb color
@@ -285,6 +309,10 @@ public class Graph {// Creating the class Graph
 
 		centralpanel.add(heroname);
 		centralpanel.add(godname);
+		centralpanel.add(herohpbar);
+		centralpanel.add(herobackbar);
+		centralpanel.add(godhpbar);
+		centralpanel.add(godbackbar);
 
 		buttonpanel.add(swordbutton);
 		buttonpanel.add(spearbutton);
@@ -299,6 +327,11 @@ public class Graph {// Creating the class Graph
 				centralpanel.remove(mainbutton);
 				centralpanel.remove(heroname);
 				centralpanel.remove(godname);
+				centralpanel.remove(herohpbar);
+				centralpanel.remove(herobackbar);
+				centralpanel.remove(godhpbar);
+				centralpanel.remove(godbackbar);
+				
 				buttonpanel.remove(swordbutton);
 				buttonpanel.remove(spearbutton);
 				buttonpanel.remove(meditatebutton);
@@ -362,6 +395,15 @@ public class Graph {// Creating the class Graph
 		});
 
 
+	}
+	public static void resizeHpBar(Character hero, int hp, int herodamage) {
+		// int herodamage = hp - initialHp;
+		if (hero.getName().equals(Stages.myHero.getName())) {
+			herohpbar.setSize(190 *(hp - herodamage)/ 100, 50 - 10);
+			// herohpbar.setText(initialHp + "/" + hp);
+		} else {
+			godhpbar.setSize(190 *(hp - herodamage) / 100, 50 - 10);
+		}
 	}
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
