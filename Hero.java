@@ -5,28 +5,18 @@ public class Hero extends Character {
 				int tempEnergy) {
 
 		super(tempHP, tempAttack, tempArmour, tempEnergy);
-		this.hp = tempHP;
 		this.attack = tempAttack;
 		this.armour = tempArmour;
 		this.energy = tempEnergy;
 	}
 
 	// Stats
-	private int hp;
 	private int attack;
 	private int armour;
 	private int energy;
 
 
 	// Getters & Setters for Stats
-	public int getHp() {
-		return hp;
-	}
-
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
-
 	public int getAttack() {
 		return attack;
 	}
@@ -51,7 +41,7 @@ public class Hero extends Character {
 
 	// Useful methods
 	public void setStats(int hp, int attack, int armour, int energy) {
-		setHp(hp);
+		super.setHp(hp);
 		setAttack(attack);
 		setArmour(armour);
 		setEnergy(energy);
