@@ -88,7 +88,7 @@ public class Stages {
 
 			if (attributePoints > 0 & i != ZEUS_BATTLE) { //Give attribute points
 
-				Game.graph.createStatisticsWindow();
+				GraphMain.graph.createStatisticsWindow();
 
 				synchronized (Battle.getLock()) {
 					try {
