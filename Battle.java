@@ -28,8 +28,8 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		File file = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song.wav");
-		File zeusMusic = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\ZeusMusic.wav");
+		File file = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Song.wav");
+		File zeusMusic = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		if (numOfBattle == 12) {
 		 audioStream = AudioSystem.getAudioInputStream(zeusMusic);
@@ -128,11 +128,11 @@ public class Battle {
 
 	private static Move getMove(Character hero, int chosenMove) {
 
-		File swordSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Swordsound.wav");
-		File spearSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Spearsound.wav");
-		File meditate = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\meditate.wav");
-		File noMove = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Nomove.wav");
-		File shieldSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Shield.wav");
+		File swordSound = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Swordsound.wav");
+		File spearSound = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Spearsound.wav");
+		File meditate = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\meditate.wav");
+		File noMove = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Nomove.wav");
+		File shieldSound = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Shield.wav");
 		Clip clip3;
 		try {
 			clip3 = AudioSystem.getClip();
@@ -213,5 +213,6 @@ public class Battle {
 	private static void replenishEnergy(Hero myHero, God god) {
 		myHero.setTempEnergy(myHero.getTempEnergy() + ENERGY_REPLENISHMENT);
 		god.setTempEnergy(god.getTempEnergy() + ENERGY_REPLENISHMENT);
+		Graph.modifyEnergyLabel(myHero.getTempEnergy());
 	}
 }
