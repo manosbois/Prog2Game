@@ -23,6 +23,7 @@ public class DamageMove extends Move {
         double tempHP = modifier * (getDamage() * hero1.getTempAttack())
                 / (DENOMINATOR_MULTIPLIER * hero2.getTempArmour());
         //Removing HP from player taking damage
+	Graph.resizeHpBar(hero2, hero2.getTempHP(), (int) Math.round(tempHP));
         hero2.setTempHP(hero2.getTempHP() - (int) Math.round(tempHP));
         //Removing Energy from player using the move
         hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
