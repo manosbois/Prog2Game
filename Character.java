@@ -5,12 +5,13 @@ public abstract class Character {
 
     public Character(int tempHP, int tempAttack,
                      int tempArmour, int tempEnergy) {
+    	this.hp = tempHP;
         this.tempHP = tempHP;
         this.tempAttack = tempAttack;
         this.tempArmour = tempArmour;
         this.tempEnergy = tempEnergy;
     }
-
+    private int hp;
     private int tempHP;
     private int tempAttack;
     private int tempArmour;
@@ -23,7 +24,17 @@ public abstract class Character {
     private final ProtectiveMove protectiveMove = new ProtectiveMove(5, "Shield");
     private final Move noMove = new Move(0, "No Move");
 
-    public int getTempHP() {
+    
+    
+    public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
+	public int getTempHP() {
         return tempHP;
     }
 
@@ -81,11 +92,12 @@ public abstract class Character {
 
     // Useful methods
 
-    public void setTempStats(int tempHP, int tempAttack,
-                             int tempArmour, int tempEnergy) {
-        this.tempHP = tempHP;
-        this.tempAttack = tempAttack;
-        this.tempArmour = tempArmour;
-        this.tempEnergy = tempEnergy;
+    public void setTempStats(int hp, int attack,
+                             int armour, int energy) {
+        this.tempHP = hp;
+        this.tempAttack = attack;
+        this.tempArmour = armour;
+        this.tempEnergy = energy;
+        this.hp = hp;
     }
 }
