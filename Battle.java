@@ -80,7 +80,9 @@ public class Battle {
 			System.out.println(myHero.getBuffMove().toString());
 			System.out.println(myHero.getProtectiveMove().toString());
 			System.out.println(myHero.getNoMove().toString());
-
+			String mes = "Choose your move!\n" + myHero.getDamagingMove1().toString() ;
+			Graph.modifyMessages(mes);
+			System.out.println(mes);
 			synchronized (lock){
 				try {
 					lock.wait();
@@ -104,11 +106,11 @@ public class Battle {
 	//The PC decides which move the rival god uses
 	public static Move chooseOpponentsMove(God god) {
 
-		try {
+		/*try {
 			Thread.sleep(1000);
 		} catch (InterruptedException ie) {
 			Thread.currentThread().interrupt();
-		}
+		}*/
 
 		boolean sufficientEnergy;
 		Move move; //Creating a
