@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Graph {// Creating the class Graph
 	private String title;
-	JFrame frame; // We define the frame of the project.
+	static JFrame frame; // We define the frame of the project.
 	JPanel centralpanel, buttonpanel, bottompanel; // We define three panels that appear on the screen
 	JTextField username;
 	Button introbutton, mainbutton, startbutton, statsbutton, settingsbutton, quitbutton;// We define the basic buttons
@@ -18,7 +18,8 @@ public class Graph {// Creating the class Graph
 																											// and god
 																											// names)
 	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;// We define the move buttons
-	static Label heroEnergy, heroHp, godHp;
+	static Label heroEnergy, heroHp, godHp, messages;
+	Label winMes, loseMes;
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
 			hpplus1, hpplus5, hpplus10, hpreset, donebutton;// statistics buttons
 	Label introlabel, mainlabel; // We define the basic labels that appear on the game
@@ -263,7 +264,7 @@ public class Graph {// Creating the class Graph
 		herobackbar.setBackground(Color.WHITE);
 
 		herohpbar = new Label();
-		herohpbar.setBounds(50 , HEIGHT / 10 + 50 , 200 , 30);
+		herohpbar.setBounds(50, HEIGHT / 10 + 50, 200, 30);
 		herohpbar.setForeground(Color.BLACK);
 		herohpbar.setBackground(Color.GREEN);
 		herohpbar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
@@ -293,7 +294,7 @@ public class Graph {// Creating the class Graph
 		godhpbar.setBackground(Color.GREEN);
 		godhpbar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godhpbar.setAlignment(Label.CENTER);
-		
+
 		godHp = new Label();
 		godHp.setBounds(WIDTH - 250, HEIGHT / 10 + 50 + 31, 200, 20);
 		godHp.setForeground(Color.BLACK);
@@ -301,7 +302,6 @@ public class Graph {// Creating the class Graph
 		godHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		godHp.setAlignment(Label.LEFT);
 		godHp.setText("HP: " + 100 + "%");
-		
 
 		buttonpanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
 		// based on rgb color
@@ -310,6 +310,7 @@ public class Graph {// Creating the class Graph
 		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);
 		buttonpanel.setSize(WIDTH, HEIGHT / 5);// We define the size of this panel
 		centralpanel.setSize(WIDTH, HEIGHT * 4 / 5);// We customize the size of the panel centralpanel, so we can insert
+		// centralpanel.setSize(0,0);
 		// the panel buttonpanel
 
 		swordbutton = new Button("1. Sword");
@@ -342,6 +343,13 @@ public class Graph {// Creating the class Graph
 		nomovebutton.setForeground(Color.BLACK);
 		nomovebutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
+		messages = new Label();
+		messages.setBounds(0, HEIGHT * 3 / 5 + HEIGHT * 2 / 35, WIDTH, HEIGHT / 7);
+		messages.setBackground(Color.white);
+		messages.setForeground(Color.BLACK);
+		messages.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+		messages.setAlignment(Label.LEFT);
+
 		centralpanel.add(heroname);
 		centralpanel.add(godname);
 		centralpanel.add(herohpbar);
@@ -351,7 +359,8 @@ public class Graph {// Creating the class Graph
 		centralpanel.add(heroHp);
 		centralpanel.add(heroEnergy);
 		centralpanel.add(godHp);
-		
+		centralpanel.add(messages);
+
 		buttonpanel.add(swordbutton);
 		buttonpanel.add(spearbutton);
 		buttonpanel.add(meditatebutton);
@@ -372,6 +381,7 @@ public class Graph {// Creating the class Graph
 				centralpanel.remove(heroHp);
 				centralpanel.remove(heroEnergy);
 				centralpanel.remove(godHp);
+				centralpanel.remove(messages);
 
 				buttonpanel.remove(swordbutton);
 				buttonpanel.remove(spearbutton);
@@ -426,6 +436,22 @@ public class Graph {// Creating the class Graph
 
 	}
 
+	static class GraphMessage extends JComponent {
+		String message;
+
+		public GraphMessage(String message) {
+			super();
+			this.message = message;
+		}
+
+		@Override
+		public void paint(Graphics g) {
+			g.setColor(Color.red);
+			g.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 18));
+			g.drawString(this.message, 50, 50);
+		}
+	}
+
 	public static void modifyHpLabels(Character hero, int hp, int initialHp, int herodamage) {
 		if (hero.getName().equals(Stages.myHero.getName())) {
 			herohpbar.setSize(200 * hp / initialHp, 30);
@@ -435,9 +461,77 @@ public class Graph {// Creating the class Graph
 			godHp.setText("HP: " + hp * 100 / initialHp + "%");
 		}
 	}
-	
+
 	public static void modifyEnergyLabel(int energy) {
 		heroEnergy.setText("Energy: " + energy);
+	}
+
+	public static void modifyMessages(String message) {
+		GraphMessage gm;
+		gm = new GraphMessage("vnidsvnfdsnvifsdv");
+		frame.add(gm);
+	}
+
+	public void createLoseWindow() {
+		centralpanel.setSize(WIDTH, HEIGHT);
+		buttonpanel.setSize(0, 0);
+		centralpanel.remove(herohpbar);
+		centralpanel.remove(herobackbar);
+		centralpanel.remove(godhpbar);
+		centralpanel.remove(godbackbar);
+		centralpanel.remove(mainbutton);
+		centralpanel.remove(heroname);
+		centralpanel.remove(godname);
+		centralpanel.remove(heroHp);
+		centralpanel.remove(heroEnergy);
+		centralpanel.remove(godHp);
+		centralpanel.remove(messages);
+
+		buttonpanel.remove(swordbutton);
+		buttonpanel.remove(spearbutton);
+		buttonpanel.remove(meditatebutton);
+		buttonpanel.remove(shieldbutton);
+		buttonpanel.remove(nomovebutton);
+
+		loseMes = new Label();
+		loseMes.setBounds(WIDTH / 2 - 100, HEIGHT / 2 - 50, 200, 100);
+		loseMes.setForeground(Color.RED);
+		loseMes.setText("GAME OVER!");
+		loseMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		loseMes.setAlignment(Label.CENTER);
+
+		centralpanel.add(loseMes);
+	}
+
+	public void createWinWindow() {
+		centralpanel.setSize(WIDTH, HEIGHT);
+		buttonpanel.setSize(0, 0);
+		centralpanel.remove(herohpbar);
+		centralpanel.remove(herobackbar);
+		centralpanel.remove(godhpbar);
+		centralpanel.remove(godbackbar);
+		centralpanel.remove(mainbutton);
+		centralpanel.remove(heroname);
+		centralpanel.remove(godname);
+		centralpanel.remove(heroHp);
+		centralpanel.remove(heroEnergy);
+		centralpanel.remove(godHp);
+		centralpanel.remove(messages);
+
+		buttonpanel.remove(swordbutton);
+		buttonpanel.remove(spearbutton);
+		buttonpanel.remove(meditatebutton);
+		buttonpanel.remove(shieldbutton);
+		buttonpanel.remove(nomovebutton);
+		
+		winMes = new Label();
+		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
+		winMes.setForeground(Color.RED);
+		winMes.setText("YOU WON! YOU HAVE CONQUERED OLYMPOUS!");
+		winMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		winMes.setAlignment(Label.CENTER);
+
+		centralpanel.add(winMes);
 	}
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
@@ -470,6 +564,7 @@ public class Graph {// Creating the class Graph
 		centralpanel.remove(heroHp);
 		centralpanel.remove(heroEnergy);
 		centralpanel.remove(godHp);
+		centralpanel.remove(messages);
 
 		buttonpanel.remove(swordbutton);
 		buttonpanel.remove(spearbutton);
