@@ -85,10 +85,12 @@ public class Stages {
 			}
 			setApStatsToZero(); //Setting apStats to 0
 			// so they can be used correctly in every loop
-
+			if (attributePoints > 0 & i == ZEUS_BATTLE) { //The user has won the entire game
+				Game.graph.createWinWindow();
+			}
 			if (attributePoints > 0 & i != ZEUS_BATTLE) { //Give attribute points
 
-				GraphMain.graph.createStatisticsWindow();
+				Game.graph.createStatisticsWindow();
 
 				synchronized (Battle.getLock()) {
 					try {
@@ -103,7 +105,6 @@ public class Stages {
 					tempAttack = myHero.getAttack();
 					tempArmor = myHero.getArmour();
 				}
-
 			} else { //After the user's player is dead we check for the checkpoints
 				if (!death) {
 					findCheckpoint(myHero);
@@ -111,6 +112,7 @@ public class Stages {
 				} else {
 					System.out.println("You have already used your checkpoint.");
 					System.out.println("Game over!");
+					Game.graph.createLoseWindow();
 					i = END_OF_GAME;
 				}
 			}
@@ -122,6 +124,7 @@ public class Stages {
 	public static void findCheckpoint(Hero myHero) { //A method that finds the checkpoint of the player
 		if (i < 6) { //Before the battle with the sixth god
 			System.out.println("Game Over!");
+			Game.graph.createLoseWindow();
 			i = END_OF_GAME;
 		} else if (i > 6 && i < 12) { //Before the battle with the twelfth god
 			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
