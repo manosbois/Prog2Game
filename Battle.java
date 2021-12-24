@@ -59,6 +59,9 @@ public class Battle {
 			}
 		} while (!roundEnds); // End of do...while loop
 		clip.stop();
+		if (myHero.getTempHP() > 0) {
+			Game.graph.createBattleWinWindow(god.getName());
+		}
 		return myHero.getTempHP(); //Returns the
 		// temporary Hp of the user to be used in class Game
 	} //End of method BattleMethod
