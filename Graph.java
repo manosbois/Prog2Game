@@ -17,9 +17,9 @@ public class Graph {// Creating the class Graph
 																											// names(hero
 																											// and god
 																											// names)
-	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;// We define the move buttons
+	Button swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton, nextGod;// We define the move buttons
 	static Label heroEnergy, heroHp, godHp, messages;
-	Label winMes, loseMes;
+	Label battleWin, winMes, loseMes;
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
 			hpplus1, hpplus5, hpplus10, hpreset, donebutton;// statistics buttons
 	Label introlabel, mainlabel; // We define the basic labels that appear on the game
@@ -523,7 +523,7 @@ public class Graph {// Creating the class Graph
 		buttonpanel.remove(meditatebutton);
 		buttonpanel.remove(shieldbutton);
 		buttonpanel.remove(nomovebutton);
-		
+
 		winMes = new Label();
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
 		winMes.setForeground(Color.RED);
@@ -532,6 +532,52 @@ public class Graph {// Creating the class Graph
 		winMes.setAlignment(Label.CENTER);
 
 		centralpanel.add(winMes);
+	}
+
+	public void createBattleWinWindow(String godName) {
+		centralpanel.setSize(WIDTH, HEIGHT);
+		buttonpanel.setSize(0, 0);
+		centralpanel.remove(herohpbar);
+		centralpanel.remove(herobackbar);
+		centralpanel.remove(godhpbar);
+		centralpanel.remove(godbackbar);
+		centralpanel.remove(mainbutton);
+		centralpanel.remove(heroname);
+		centralpanel.remove(godname);
+		centralpanel.remove(heroHp);
+		centralpanel.remove(heroEnergy);
+		centralpanel.remove(godHp);
+		centralpanel.remove(messages);
+
+		buttonpanel.remove(swordbutton);
+		buttonpanel.remove(spearbutton);
+		buttonpanel.remove(meditatebutton);
+		buttonpanel.remove(shieldbutton);
+		buttonpanel.remove(nomovebutton);
+
+		battleWin = new Label();
+		battleWin.setBounds(0, HEIGHT / 2 - 150, WIDTH, 200);
+		battleWin.setForeground(Color.RED);
+		battleWin.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
+		battleWin.setAlignment(Label.CENTER);
+		battleWin.setText("YOU WON " + godName);
+		
+		nextGod = new Button("Upgrade Your Hero's Statistics!");
+		nextGod.setBounds((WIDTH - 600)/2, HEIGHT / 2 - 150 + 250, 600, 75);
+		nextGod.setForeground(Color.RED);
+		nextGod.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
+		
+		centralpanel.add(battleWin);
+		centralpanel.add(nextGod);
+		
+		nextGod.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				centralpanel.remove(battleWin);
+				centralpanel.remove(nextGod);
+				createStatisticsWindow();
+			}
+		});
+		
 	}
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
@@ -552,25 +598,6 @@ public class Graph {// Creating the class Graph
 
 		int maxAp = Stages.getAttributePoints() / 2;
 		FirstGod = false;
-		centralpanel.setSize(WIDTH, HEIGHT);
-		buttonpanel.setSize(0, 0);
-		centralpanel.remove(herohpbar);
-		centralpanel.remove(herobackbar);
-		centralpanel.remove(godhpbar);
-		centralpanel.remove(godbackbar);
-		centralpanel.remove(mainbutton);
-		centralpanel.remove(heroname);
-		centralpanel.remove(godname);
-		centralpanel.remove(heroHp);
-		centralpanel.remove(heroEnergy);
-		centralpanel.remove(godHp);
-		centralpanel.remove(messages);
-
-		buttonpanel.remove(swordbutton);
-		buttonpanel.remove(spearbutton);
-		buttonpanel.remove(meditatebutton);
-		buttonpanel.remove(shieldbutton);
-		buttonpanel.remove(nomovebutton);
 
 		attackbarlabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
 		// for attack
