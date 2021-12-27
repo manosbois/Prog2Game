@@ -9,6 +9,8 @@ public class Battle {
 
 	private static final Object lock = new Object();
 
+	public static God god;
+	
 	public static Object getLock() {
 		return lock;
 	}
@@ -24,8 +26,8 @@ public class Battle {
 		// Setting the tempStats before the battle to the values of the non tempStats
 		myHero.setTempStats(myHero.getHp(), myHero.getAttack(), myHero.getArmour(), myHero.getEnergy());
 
-		God god = new God(numOfBattle); // Creating the object for the rival god
-		Graph.godname.setText(god.getName());
+		god = new God(numOfBattle); // Creating the object for the rival god
+		
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
@@ -39,7 +41,7 @@ public class Battle {
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
-
+		Graph.godname.setText(god.getName());
 		do { // Start of do...while loop that implements the round system
 			Move myMove = chooseMyMove(myHero, god);
 			// Lets user choose which move to use
@@ -59,9 +61,6 @@ public class Battle {
 			}
 		} while (!roundEnds); // End of do...while loop
 		clip.stop();
-		if (myHero.getTempHP() > 0 && numOfBattle!=12) {
-			Game.graph.createBattleWinWindow(god.getName());
-		}
 		return myHero.getTempHP(); // Returns the
 		// temporary Hp of the user to be used in class Game
 	} // End of method BattleMethod
