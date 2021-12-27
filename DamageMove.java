@@ -20,12 +20,12 @@ public class DamageMove extends Move {
     public void effect(Character hero1, Character hero2, double modifier) {
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + " used " + this.getName());
-        try {
+        /*try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
         //Calculating damage
         double tempHP = modifier * (getDamage() * hero1.getTempAttack())
                 / (DENOMINATOR_MULTIPLIER * hero2.getTempArmour());
