@@ -24,6 +24,13 @@ public class Move {
 
     public void effect(Character hero1, Character hero2, double modifier) {
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
+        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + " used " + this.getName());
+        try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.out.printf("This move had no effect%n%n");
     }
 
