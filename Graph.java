@@ -717,6 +717,9 @@ public class Graph {// Creating the class Graph
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.remove(checkpointMes);
 				centralpanel.remove(checkpoint);
+				synchronized (Battle.getLock()) {
+					Battle.getLock().notify();
+				}
 				createStartWindow();
 			}
 		});
