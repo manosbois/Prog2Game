@@ -20,11 +20,11 @@ public class BuffMove extends Move {
 				+ "were raised by half%n%n", hero1.getName());
 		String message = hero1.getName() + " used " + this.getName() +". " + hero1.getName() +"'s Attack and Armour were raised by half.";
 		Game.graph.modifyMes(Game.graph.mes1, message);
-		try {
+		/*try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 		//Removing Energy from player using the move
 		hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
 	}
