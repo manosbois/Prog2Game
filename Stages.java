@@ -90,7 +90,7 @@ public class Stages {
 			}
 			if (attributePoints > 0 & i != ZEUS_BATTLE) { //Give attribute points
 
-				//Game.graph.createStatisticsWindow();
+				Game.graph.createBattleWinWindow(Battle.god.getName());
 
 				synchronized (Battle.getLock()) {
 					try {
@@ -130,10 +130,24 @@ public class Stages {
 			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 			i = FIRST_CHECKPOINT;
 			Game.graph.createCheckpointWindow();
+			synchronized (Battle.getLock()) {
+				try {
+					Battle.getLock().wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (i == 12) { //After the player has lost by the last god
 			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 			i = SECOND_CHECKPOINT;
 			Game.graph.createCheckpointWindow();
+			synchronized (Battle.getLock()) {
+				try {
+					Battle.getLock().wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
