@@ -1,7 +1,11 @@
 import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
+
 
 public class Stages {
+	private static final Scanner input = new Scanner(System.in);
 
 	private static final int MY_HERO_ENERGY = 10;
 	public static Hero myHero = new Hero(100 , 100 , 100 , MY_HERO_ENERGY);//Creating the object for the user;
@@ -63,7 +67,7 @@ public class Stages {
 	private static int i; //Declaring i var here
 	//public Stages() {
 
-	public static void stageControl()  {
+	public static void stageControl() throws InterruptedException  {
 
 		boolean death = false;
 		//Creating the object for the user
@@ -125,9 +129,11 @@ public class Stages {
 		} else if (i > 6 && i < 12) { //Before the battle with the twelfth god
 			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 			i = FIRST_CHECKPOINT;
+			Game.graph.createCheckpointWindow();
 		} else if (i == 12) { //After the player has lost by the last god
 			myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 			i = SECOND_CHECKPOINT;
+			Game.graph.createCheckpointWindow();
 		}
 
 	}
