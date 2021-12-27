@@ -14,12 +14,12 @@ public class ProtectiveMove extends Move {
         System.out.printf("%s will be partially protected by the shield%n%n",
                 hero1.getName());
         Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + " used " + this.getName() + ". " + hero1.getName() + " will be partially protected by the shield.");
-        try {
+        /*try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
         hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
     }
 }
