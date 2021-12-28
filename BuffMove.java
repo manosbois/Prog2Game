@@ -1,15 +1,23 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 //A class for Moves that raise the tempStats
 public class BuffMove extends Move {
 
 	private static final double MULTIPLICATION_FACTOR = 1.5;
 	//Variable that raises the stats by an amount
-	public BuffMove(int energy, String name) {
-		super(energy, name);
+	public BuffMove(int energy, String name, String messageFileName) {
+		super(energy, name, messageFileName);
 	}
 
 	@Override
 	public void effect(Character hero1, Character hero2, double modifier) {
+		Scanner myReader = null;
+		try {
+			myReader = new Scanner(this.getMessageFile());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		System.out.printf("%s used %s.%n",
 				hero1.getName(), this.getName());
 		double tempAttack = hero1.getTempAttack() * MULTIPLICATION_FACTOR; //Raising tempAttack by half
@@ -18,13 +26,13 @@ public class BuffMove extends Move {
 		hero1.setTempArmour((int) Math.round(tempArmour));
 		System.out.printf("%s's Attack and Armour "
 				+ "were raised by half%n%n", hero1.getName());
-		String message = hero1.getName() + " used " + this.getName() +". " + hero1.getName() +"'s Attack and Armour were raised by half.";
+		String message = hero1.getName() + myReader.nextLine() + this.getName() + myReader.nextLine() + hero1.getName() + myReader.nextLine();
 		Game.graph.modifyMes(Game.graph.mes1, message);
-		/*try {
-			Thread.sleep(1500);
+		try {
+			Thread.sleep(2500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}*/
+		}
 		//Removing Energy from player using the move
 		hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
 	}
