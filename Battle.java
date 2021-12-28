@@ -41,7 +41,7 @@ public class Battle {
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
-		Graph.godname.setText(god.getName());
+		Graph.godName.setText(god.getName());
 		do { // Start of do...while loop that implements the round system
 			Move myMove = chooseMyMove(myHero, god);
 			// Lets user choose which move to use
