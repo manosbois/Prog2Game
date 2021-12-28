@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 //A class for Moves that do damage
 public class DamageMove extends Move {
@@ -6,9 +8,9 @@ public class DamageMove extends Move {
     // that helps the calculation in effect method
     private final int damage; //This variable show how much damage this move does
 
-	//Constructor
-    public DamageMove(int energy, String name, int damage) {
-        super(energy, name);
+    //Constructor
+    public DamageMove(int energy, String name, int damage, String messageFileName) {
+        super(energy, name, messageFileName);
         this.damage = damage;
     }
 
@@ -18,14 +20,19 @@ public class DamageMove extends Move {
 
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
+        Scanner myReader = null;
+        try {
+            myReader = new Scanner(this.getMessageFile());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
-        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + " used " + this.getName());
-        /*try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + myReader.nextLine() + this.getName() + myReader.nextLine());
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //Calculating damage
         double tempHP = modifier * (getDamage() * hero1.getTempAttack())
                 / (DENOMINATOR_MULTIPLIER * hero2.getTempArmour());
@@ -34,7 +41,7 @@ public class DamageMove extends Move {
         //Removing Energy from player using the move
         hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
         System.out.printf("%s's HP is now %d. The damage was %d HP.%n%n",
-               hero2.getName(), hero2.getTempHP(), (int) Math.round(tempHP));
+                hero2.getName(), hero2.getTempHP(), (int) Math.round(tempHP));
         Graph.modifyHpLabels(hero2, hero2.getTempHP(),hero2.getHp(),(int) Math.round(tempHP));
     }
 
