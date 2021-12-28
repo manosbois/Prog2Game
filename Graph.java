@@ -1,8 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,7 +23,8 @@ public class Graph {// Creating the class Graph
 	JButton swordbutton, spearbutton, meditatebutton, shieldbutton, nomovebutton;
 	Button nextGod, checkpoint, gameOver;// We define the move buttons
 	static Label heroEnergy, heroHp, godHp;
-	static Label messages, mes1;
+	static Label mes1;
+	BufferedImage godIcon;
 	Label battleWin, winMes, loseMes, checkpointMes;
 	Button attackplus1, attackplus5, attackplus10, attackreset, armorplus1, armorplus5, armorplus10, armorreset,
 			hpplus1, hpplus5, hpplus10, hpreset, donebutton;// statistics buttons
@@ -149,41 +152,18 @@ public class Graph {// Creating the class Graph
 	public void createMenuWindow() {// That method creates the window that contains the menu
 		startbutton = new Button("START THE GAME");// We create the button with the name startbutton that leads the user
 		// to the game
-		startbutton.setLocation(WIDTH / 10, HEIGHT * 3 / 20);// We define the location of the button startbutton
-		startbutton.setSize(350, 100);// We define the size of the button startbutton
-		startbutton.setBackground(Color.white);// We define the color of the button startbutton
-		startbutton.setForeground(Color.black);// We define the font color of the button startbutton
-		startbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
-		// startbutton and that the text is going to be
-		// bold
+		modifyMenyButtons(startbutton, 0);
 
 		statsbutton = new Button("STATISTICS");// We create the button with the name statsbutton that leads the user to
 		// his statistics
-		statsbutton.setLocation(WIDTH / 10, HEIGHT * 7 / 20);// We define the location of the button statsbutton
-		statsbutton.setSize(350, 100);// We define the size of the button statsbutton
-		statsbutton.setBackground(Color.white);// We define the size of the button statsbutton
-		statsbutton.setForeground(Color.black);// We define the font color of the button statsbutton
-		statsbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
-		// statsbutton and that the text is going to be
-		// bold
+		modifyMenyButtons(statsbutton, 1);
 
 		settingsbutton = new Button("SETTINGS");// We create the button with the name settingsbutton that leads the user
 		// to the settings of the game
-		settingsbutton.setLocation(WIDTH / 10, HEIGHT * 11 / 20);// We define the location of the button settingsbutton
-		settingsbutton.setSize(350, 100);// We define the size of the button settingsbutton
-		settingsbutton.setBackground(Color.white);// We define the size of the button settingsbutton
-		settingsbutton.setForeground(Color.black);// We define the font color of the button settingsbutton
-		settingsbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
-		// settingsbutton and that the text is going
-		// to be bold
+		modifyMenyButtons(settingsbutton, 2);
 
 		quitbutton = new Button("QUIT");// We create the button with the name quitbutton that exits the game
-		quitbutton.setLocation(WIDTH / 10, HEIGHT * 15 / 20);// We define the location of the button quitbutton
-		quitbutton.setSize(350, 100);// We define the size of the button quitbutton
-		quitbutton.setBackground(Color.white);// We define the size of the button quitbutton
-		quitbutton.setForeground(Color.black);// We define the font color of the button quitbutton
-		quitbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the quitbutton
-		// and that the text is going to be bold
+		modifyMenyButtons(quitbutton, 3);
 
 		mainbutton = new Button("CODERUNNERS");// We create the main button that appears at the top of the screen if we
 		// choose any of the menu options, so we can go back to the menu window
@@ -192,13 +172,6 @@ public class Graph {// Creating the class Graph
 		mainbutton.setBackground(Color.BLACK);
 		mainbutton.setForeground(Color.WHITE);
 		mainbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-		/*
-		 * mainlabel = new Label("Welcome to our Game!");//I
-		 * mainlabel.setLocation((WIDTH - 350) / 2, 0); mainlabel.setSize(450, 100);
-		 * mainlabel.setForeground(Color.WHITE); mainlabel.setFont(new
-		 * Font(Font.SANS_SERIF, Font.BOLD, 30));
-		 */
 
 		centralpanel.add(startbutton);// We add to the frame the button startbutton
 		centralpanel.add(statsbutton);// We add to the frame the button statsbutton
@@ -235,7 +208,16 @@ public class Graph {// Creating the class Graph
 		});
 	}
 
-	public void removeMenuButtons() {
+	private void modifyMenyButtons(Button menuButton, int numOfButton) {
+		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);// We define the location of the button
+																				// startbutton
+		menuButton.setSize(350, 100);// We define the size of the button startbutton
+		menuButton.setBackground(Color.white);// We define the color of the button startbutton
+		menuButton.setForeground(Color.black);// We define the font color of the button startbutton
+		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
+	}
+
+	private void removeMenuButtons() {
 		centralpanel.remove(startbutton);// We remove the button startbutton from the window
 		centralpanel.remove(statsbutton);// We remove the button statsbutton from the window
 		centralpanel.remove(settingsbutton);// We remove the button settingsbutton from the window
@@ -247,14 +229,12 @@ public class Graph {// Creating the class Graph
 		heroname = new Label(Stages.myHero.getName());
 		heroname.setBounds(50, HEIGHT / 10, 200, 50);
 		heroname.setAlignment(Label.CENTER);
-		// heroname.setBackground(new Color(42,82,0));
 		heroname.setForeground(Color.BLACK);
 		heroname.setBackground(Color.ORANGE);
 		heroname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 
 		godname = new Label();
 		godname.setBounds(WIDTH - 250, HEIGHT / 10, 200, 50);
-		// godname.setBackground(new Color(42,82,0));
 		godname.setForeground(Color.BLACK);
 		godname.setBackground(Color.ORANGE);
 		godname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
@@ -324,73 +304,19 @@ public class Graph {// Creating the class Graph
 		// the panel buttonpanel
 
 		swordbutton = new JButton("1. Sword");
-		swordbutton.setBounds(40 * 1 + 200 * 0, 20, 200, 50);
-		swordbutton.setBackground(Color.WHITE);
-		swordbutton.setForeground(Color.BLACK);
-		swordbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		swordbutton.setToolTipText("Damage:90  & Energy:6");
+		modifyMoveButtons(swordbutton, 1, 90, 6);
 
 		spearbutton = new JButton("2. Spear");
-		spearbutton.setBounds(40 * 2 + 200 * 1, 20, 200, 50);
-		spearbutton.setBackground(Color.WHITE);
-		spearbutton.setForeground(Color.BLACK);
-		spearbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		spearbutton.setToolTipText("Damage:70  & Energy:4");
+		modifyMoveButtons(spearbutton, 2, 70, 4);
 
 		shieldbutton = new JButton("3. Shield");
-		shieldbutton.setBounds(40 * 3 + 200 * 2, 20, 200, 50);
-		shieldbutton.setBackground(Color.WHITE);
-		shieldbutton.setForeground(Color.BLACK);
-		shieldbutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		shieldbutton.setToolTipText("Damage:0 & Energy:5");
+		modifyMoveButtons(shieldbutton, 3, 0, 5);
 
 		meditatebutton = new JButton("4. Meditate");
-		meditatebutton.setBounds(40 * 4 + 200 * 3, 20, 200, 50);
-		meditatebutton.setBackground(Color.WHITE);
-		meditatebutton.setForeground(Color.BLACK);
-		meditatebutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		meditatebutton.setToolTipText("Damage:0 & Energy:10");
+		modifyMoveButtons(meditatebutton, 4, 0, 10);
 
 		nomovebutton = new JButton("5. No Move");
-		nomovebutton.setBounds(40 * 5 + 200 * 4, 20, 200, 50);
-		nomovebutton.setBackground(Color.WHITE);
-		nomovebutton.setForeground(Color.BLACK);
-		nomovebutton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		nomovebutton.setToolTipText("Damage:0  & Energy:0");
-
-		messages = new Label();
-		messages.setBounds(0, HEIGHT * 9 / 10 - 200, WIDTH, 200);
-		messages.setBackground(Color.white);
-
-		/*mes1 = new Label();
-		mes1.setBounds(0, HEIGHT * 9 / 10 - 280 + 0 * 40, WIDTH, 40);
-		mes1.setBackground(Color.white);
-		mes1.setForeground(Color.BLACK);
-		mes1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-		mes2 = new Label();
-		mes2.setBounds(0, HEIGHT * 9 / 10 - 280 + 1 * 40, WIDTH, 40);
-		mes2.setBackground(Color.white);
-		mes2.setForeground(Color.BLACK);
-		mes2.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-		mes3 = new Label();
-		mes3.setBounds(0, HEIGHT * 9 / 10 - 280 + 2 * 40, WIDTH, 40);
-		mes3.setBackground(Color.white);
-		mes3.setForeground(Color.BLACK);
-		mes3.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-		mes4 = new Label();
-		mes4.setBounds(0, HEIGHT * 9 / 10 - 280 + 3 * 40, WIDTH, 40);
-		mes4.setBackground(Color.white);
-		mes4.setForeground(Color.BLACK);
-		mes4.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-		mes5 = new Label();
-		mes5.setBounds(0, HEIGHT * 9 / 10 - 280 + 4 * 40, WIDTH, 40);
-		mes5.setBackground(Color.white);
-		mes5.setForeground(Color.BLACK);
-		mes5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));*/
+		modifyMoveButtons(nomovebutton, 5, 0, 0);
 
 		mes1 = new Label();
 		mes1.setBounds(0, HEIGHT * 9 / 10 - 280 + 5 * 40, WIDTH, 40);
@@ -398,58 +324,13 @@ public class Graph {// Creating the class Graph
 		mes1.setForeground(Color.BLACK);
 		mes1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
-		centralpanel.add(heroname);
-		centralpanel.add(godname);
-		centralpanel.add(herohpbar);
-		centralpanel.add(herobackbar);
-		centralpanel.add(godhpbar);
-		centralpanel.add(godbackbar);
-		centralpanel.add(heroHp);
-		centralpanel.add(heroEnergy);
-		centralpanel.add(godHp);
-		// centralpanel.add(messages);
-
-		/*centralpanel.add(mes1);
-		centralpanel.add(mes2);
-		centralpanel.add(mes3);
-		centralpanel.add(mes4);
-		centralpanel.add(mes5);*/
-		centralpanel.add(mes1);
-
-		buttonpanel.add(swordbutton);
-		buttonpanel.add(spearbutton);
-		buttonpanel.add(meditatebutton);
-		buttonpanel.add(shieldbutton);
-		buttonpanel.add(nomovebutton);
+		addStartWindow();
 
 		mainbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.setSize(WIDTH, HEIGHT);
 				buttonpanel.setSize(0, 0);
-				centralpanel.remove(mainbutton);
-				centralpanel.remove(heroname);
-				centralpanel.remove(godname);
-				centralpanel.remove(herohpbar);
-				centralpanel.remove(herobackbar);
-				centralpanel.remove(godhpbar);
-				centralpanel.remove(godbackbar);
-				centralpanel.remove(heroHp);
-				centralpanel.remove(heroEnergy);
-				centralpanel.remove(godHp);
-				// centralpanel.remove(messages);
-
-				/*centralpanel.remove(mes1);
-				centralpanel.remove(mes2);
-				centralpanel.remove(mes3);
-				centralpanel.remove(mes4);
-				centralpanel.remove(mes5);*/
-				centralpanel.remove(mes1);
-
-				buttonpanel.remove(swordbutton);
-				buttonpanel.remove(spearbutton);
-				buttonpanel.remove(meditatebutton);
-				buttonpanel.remove(shieldbutton);
-				buttonpanel.remove(nomovebutton);
+				removeStartWindow();
 
 				createMenuWindow();
 			}
@@ -498,6 +379,53 @@ public class Graph {// Creating the class Graph
 
 	}
 
+	private void modifyMoveButtons(JButton move, int numOfMove, int damage, int energy) {
+		move.setBounds(40 * numOfMove + 200 * (numOfMove - 1), 20, 200, 50);
+		move.setBackground(Color.WHITE);
+		move.setForeground(Color.BLACK);
+		move.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+		move.setToolTipText("Damage:" + damage + " & Energy:" + energy);
+	}
+
+	private void addStartWindow() {
+		centralpanel.add(heroname);
+		centralpanel.add(godname);
+		centralpanel.add(herohpbar);
+		centralpanel.add(herobackbar);
+		centralpanel.add(godhpbar);
+		centralpanel.add(godbackbar);
+		centralpanel.add(heroHp);
+		centralpanel.add(heroEnergy);
+		centralpanel.add(godHp);
+		centralpanel.add(mes1);
+
+		buttonpanel.add(swordbutton);
+		buttonpanel.add(spearbutton);
+		buttonpanel.add(meditatebutton);
+		buttonpanel.add(shieldbutton);
+		buttonpanel.add(nomovebutton);
+	}
+
+	private void removeStartWindow() {
+		centralpanel.remove(mainbutton);
+		centralpanel.remove(heroname);
+		centralpanel.remove(godname);
+		centralpanel.remove(herohpbar);
+		centralpanel.remove(herobackbar);
+		centralpanel.remove(godhpbar);
+		centralpanel.remove(godbackbar);
+		centralpanel.remove(heroHp);
+		centralpanel.remove(heroEnergy);
+		centralpanel.remove(godHp);
+		centralpanel.remove(mes1);
+
+		buttonpanel.remove(swordbutton);
+		buttonpanel.remove(spearbutton);
+		buttonpanel.remove(meditatebutton);
+		buttonpanel.remove(shieldbutton);
+		buttonpanel.remove(nomovebutton);
+	}
+
 	public static void modifyHpLabels(Character hero, int hp, int initialHp, int herodamage) {
 		if (hero.getName().equals(Stages.myHero.getName())) {
 			herohpbar.setSize(200 * hp / initialHp, 30);
@@ -517,41 +445,17 @@ public class Graph {// Creating the class Graph
 	}
 
 	public void clearMes() {
-		/*mes1.setText("");
-		mes2.setText("");
-		mes3.setText("");
-		mes4.setText("");
-		mes5.setText("");*/
+		/*
+		 * mes1.setText(""); mes2.setText(""); mes3.setText(""); mes4.setText("");
+		 * mes5.setText("");
+		 */
 		mes1.setText("");
 	}
 
 	public void createLoseWindow() {
 		centralpanel.setSize(WIDTH, HEIGHT);
 		buttonpanel.setSize(0, 0);
-		centralpanel.remove(herohpbar);
-		centralpanel.remove(herobackbar);
-		centralpanel.remove(godhpbar);
-		centralpanel.remove(godbackbar);
-		centralpanel.remove(mainbutton);
-		centralpanel.remove(heroname);
-		centralpanel.remove(godname);
-		centralpanel.remove(heroHp);
-		centralpanel.remove(heroEnergy);
-		centralpanel.remove(godHp);
-		// centralpanel.remove(messages);
-
-		/*centralpanel.remove(mes1);
-		centralpanel.remove(mes2);
-		centralpanel.remove(mes3);
-		centralpanel.remove(mes4);
-		centralpanel.remove(mes5);*/
-		centralpanel.remove(mes1);
-
-		buttonpanel.remove(swordbutton);
-		buttonpanel.remove(spearbutton);
-		buttonpanel.remove(meditatebutton);
-		buttonpanel.remove(shieldbutton);
-		buttonpanel.remove(nomovebutton);
+		removeStartWindow();
 
 		loseMes = new Label();
 		loseMes.setBounds(WIDTH / 2 - 100, HEIGHT / 2 - 50, 200, 100);
@@ -559,15 +463,15 @@ public class Graph {// Creating the class Graph
 		loseMes.setText("GAME OVER!");
 		loseMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		loseMes.setAlignment(Label.CENTER);
-		
+
 		gameOver = new Button("Return to the main menu");
 		gameOver.setBounds(WIDTH / 2 - 150, HEIGHT / 2 + 150, 300, 70);
 		gameOver.setForeground(Color.BLACK);
 		gameOver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
-		
+
 		centralpanel.add(loseMes);
 		centralpanel.add(gameOver);
-		
+
 		gameOver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.remove(loseMes);
@@ -575,41 +479,17 @@ public class Graph {// Creating the class Graph
 				createMenuWindow();
 			}
 		});
-		
-		
+
 	}
 
 	public void createWinWindow() {
 		centralpanel.setSize(WIDTH, HEIGHT);
 		buttonpanel.setSize(0, 0);
-		centralpanel.remove(herohpbar);
-		centralpanel.remove(herobackbar);
-		centralpanel.remove(godhpbar);
-		centralpanel.remove(godbackbar);
-		centralpanel.remove(mainbutton);
-		centralpanel.remove(heroname);
-		centralpanel.remove(godname);
-		centralpanel.remove(heroHp);
-		centralpanel.remove(heroEnergy);
-		centralpanel.remove(godHp);
-		// centralpanel.remove(messages);
-
-		/*centralpanel.remove(mes1);
-		centralpanel.remove(mes2);
-		centralpanel.remove(mes3);
-		centralpanel.remove(mes4);
-		centralpanel.remove(mes5);*/
-		centralpanel.remove(mes1);
-
-		buttonpanel.remove(swordbutton);
-		buttonpanel.remove(spearbutton);
-		buttonpanel.remove(meditatebutton);
-		buttonpanel.remove(shieldbutton);
-		buttonpanel.remove(nomovebutton);
+		removeStartWindow();
 
 		winMes = new Label();
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
-		winMes.setForeground(new Color(255,215,0));
+		winMes.setForeground(new Color(255, 215, 0));
 		winMes.setText("YOU WON! YOU HAVE CONQUERED OLYMPOUS!");
 		winMes.setFont(new Font(Font.SERIF, Font.BOLD, 32));
 		winMes.setAlignment(Label.CENTER);
@@ -620,30 +500,7 @@ public class Graph {// Creating the class Graph
 	public void createBattleWinWindow(String godName) {
 		centralpanel.setSize(WIDTH, HEIGHT);
 		buttonpanel.setSize(0, 0);
-		centralpanel.remove(herohpbar);
-		centralpanel.remove(herobackbar);
-		centralpanel.remove(godhpbar);
-		centralpanel.remove(godbackbar);
-		centralpanel.remove(mainbutton);
-		centralpanel.remove(heroname);
-		centralpanel.remove(godname);
-		centralpanel.remove(heroHp);
-		centralpanel.remove(heroEnergy);
-		centralpanel.remove(godHp);
-		// centralpanel.remove(messages);
-
-		/*centralpanel.remove(mes1);
-		centralpanel.remove(mes2);
-		centralpanel.remove(mes3);
-		centralpanel.remove(mes4);
-		centralpanel.remove(mes5);*/
-		centralpanel.remove(mes1);
-
-		buttonpanel.remove(swordbutton);
-		buttonpanel.remove(spearbutton);
-		buttonpanel.remove(meditatebutton);
-		buttonpanel.remove(shieldbutton);
-		buttonpanel.remove(nomovebutton);
+		removeStartWindow();
 
 		battleWin = new Label();
 		battleWin.setBounds(0, HEIGHT / 2 - 150, WIDTH, 200);
@@ -673,30 +530,7 @@ public class Graph {// Creating the class Graph
 	public void createCheckpointWindow() {
 		centralpanel.setSize(WIDTH, HEIGHT);
 		buttonpanel.setSize(0, 0);
-		centralpanel.remove(herohpbar);
-		centralpanel.remove(herobackbar);
-		centralpanel.remove(godhpbar);
-		centralpanel.remove(godbackbar);
-		centralpanel.remove(mainbutton);
-		centralpanel.remove(heroname);
-		centralpanel.remove(godname);
-		centralpanel.remove(heroHp);
-		centralpanel.remove(heroEnergy);
-		centralpanel.remove(godHp);
-		// centralpanel.remove(messages);
-
-		/*centralpanel.remove(mes1);
-		centralpanel.remove(mes2);
-		centralpanel.remove(mes3);
-		centralpanel.remove(mes4);
-		centralpanel.remove(mes5);*/
-		centralpanel.remove(mes1);
-
-		buttonpanel.remove(swordbutton);
-		buttonpanel.remove(spearbutton);
-		buttonpanel.remove(meditatebutton);
-		buttonpanel.remove(shieldbutton);
-		buttonpanel.remove(nomovebutton);
+		removeStartWindow();
 
 		checkpointMes = new Label("You Lost, but you can continuou from the checkpoint!");
 		checkpointMes.setBounds((WIDTH - 300) / 2, (HEIGHT - 100) / 2, 300, 100);
@@ -709,10 +543,10 @@ public class Graph {// Creating the class Graph
 		checkpoint.setBackground(Color.WHITE);
 		checkpoint.setForeground(Color.BLACK);
 		checkpoint.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-		
+
 		centralpanel.add(checkpointMes);
 		centralpanel.add(checkpoint);
-		
+
 		checkpoint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralpanel.remove(checkpointMes);
@@ -746,8 +580,8 @@ public class Graph {// Creating the class Graph
 
 		attackbarlabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
 		// for attack
-		attackbarlabel.setLocation(WIDTH / 10, 110);// We define the location of the label attackbarlabel
-		attackbarlabel.setSize(325, 75);// We define the size of the label attackbarlabel
+		attackbarlabel.setBounds(WIDTH / 10, 110, 325, 75);// We define the location and the size of the label
+															// attackbarlabel
 		attackbarlabel.setForeground(Color.WHITE);// We define the font color of the label attackbarlabel
 		attackbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
 		// attackbarlabel and that the text is going
@@ -764,51 +598,36 @@ public class Graph {// Creating the class Graph
 		attackbar.setBounds(WIDTH / 10, HEIGHT * 1 / 5, 325, 75);// We define the location and the size of the progress
 		// bar
 
-		apattacklabel = new Label("" + Stages.getApAttack());
-		apattacklabel.setLocation((WIDTH / 10) + 350, HEIGHT * 1 / 5 + 25 / 2);
-		apattacklabel.setSize(75, 50);
+		apattacklabel = new Label(String.valueOf(Stages.getApAttack()));
+		apattacklabel.setBounds((WIDTH / 10) + 350, HEIGHT * 1 / 5 + 25 / 2, 75, 50);
 		apattacklabel.setBackground(Color.WHITE);
 		apattacklabel.setForeground(Color.BLACK);
 		apattacklabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		attackplus1 = new Button("+1");
-		attackplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 1 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai
-		// symmetrika me to bar
-		attackplus1.setBackground(Color.WHITE);
-		attackplus1.setForeground(Color.BLACK);
-		attackplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(attackplus1, 0, 1, 1);
 
 		attackplus5 = new Button("+5");
-		attackplus5.setBounds((WIDTH / 10) + 525, HEIGHT * 1 / 5 + 25 / 2, 50, 50);
-		attackplus5.setBackground(Color.WHITE);
-		attackplus5.setForeground(Color.BLACK);
-		attackplus5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(attackplus5, 1, 1, 1);
 
 		attackplus10 = new Button("+10");
-		attackplus10.setBounds((WIDTH / 10) + 600, HEIGHT * 1 / 5 + 25 / 2, 50, 50);
-		attackplus10.setBackground(Color.WHITE);
-		attackplus10.setForeground(Color.BLACK);
-		attackplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(attackplus10, 2, 1, 1);
 
 		attackremain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
-		attackremain.setBounds((WIDTH / 10) + 800, HEIGHT * 1 / 5 + 25 / 2, 160, 50);
-		// attackremain.setBackground(Color.WHITE);
+		attackremain.setBounds((WIDTH / 10) + 800, HEIGHT * 1 / 5 + 25 / 2, 180, 50);
 		attackremain.setForeground(Color.RED);
 		attackremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		armorbarlabel = new Label("ARMOR: " + Stages.myHero.getArmour());// We create the label for the statistic bar
 		// for armor
-		armorbarlabel.setLocation(WIDTH / 10, 270);// We define the location of the label armorbarlabel
-		armorbarlabel.setSize(325, 75);// We define the size of the label armorbarlabel
+		armorbarlabel.setBounds(WIDTH / 10, 270, 325, 75);// We define the location and the size of the label
+															// armorbarlabel
 		armorbarlabel.setForeground(Color.WHITE);// We define the font color of the label armorbarlabel
 		armorbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
 		// armorbarlabel and that the text is going to
 		// be bold
 		attackreset = new Button("Reset");
-		attackreset.setBounds((WIDTH / 10) + 675, HEIGHT * 1 / 5 + 25 / 2, 100, 50);
-		attackreset.setBackground(Color.WHITE);
-		attackreset.setForeground(Color.BLACK);
-		attackreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(attackreset, 3, 1, 2);
 
 		armorbar = new JProgressBar();// We create the progress bar for the statistic bar for armor
 		armorbar.setValue((int) (double) Stages.myHero.getArmour() * 100
@@ -821,48 +640,33 @@ public class Graph {// Creating the class Graph
 		armorbar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 325, 75);// We define the location and the size of the progress
 		// bar
 
-		aparmorlabel = new Label("" + Stages.getApAttack());
-		aparmorlabel.setLocation((WIDTH / 10) + 350, HEIGHT * 2 / 5 + 25 / 2);
-		aparmorlabel.setSize(75, 50);
+		aparmorlabel = new Label(String.valueOf(Stages.getApArmour()));
+		aparmorlabel.setBounds((WIDTH / 10) + 350, HEIGHT * 2 / 5 + 25 / 2, 75, 50);
 		aparmorlabel.setBackground(Color.WHITE);
 		aparmorlabel.setForeground(Color.BLACK);
 		aparmorlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		armorplus1 = new Button("+1");
-		armorplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 2 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai
-		// symmetrika me to bar
-		armorplus1.setBackground(Color.WHITE);
-		armorplus1.setForeground(Color.BLACK);
-		armorplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(armorplus1, 0, 2, 1);
 
 		armorplus5 = new Button("+5");
-		armorplus5.setBounds((WIDTH / 10) + 525, HEIGHT * 2 / 5 + 25 / 2, 50, 50);
-		armorplus5.setBackground(Color.WHITE);
-		armorplus5.setForeground(Color.BLACK);
-		armorplus5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(armorplus5, 1, 2, 1);
 
 		armorplus10 = new Button("+10");
-		armorplus10.setBounds((WIDTH / 10) + 600, HEIGHT * 2 / 5 + 25 / 2, 50, 50);
-		armorplus10.setBackground(Color.WHITE);
-		armorplus10.setForeground(Color.BLACK);
-		armorplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(armorplus10, 2, 2, 1);
 
 		armorremain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
-		armorremain.setBounds((WIDTH / 10) + 800, HEIGHT * 2 / 5 + 25 / 2, 160, 50);
-		// armorremain.setBackground(Color.WHITE);
+		armorremain.setBounds((WIDTH / 10) + 800, HEIGHT * 2 / 5 + 25 / 2, 180, 50);
+
 		armorremain.setForeground(Color.RED);
 		armorremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		armorreset = new Button("Reset");
-		armorreset.setBounds((WIDTH / 10) + 675, HEIGHT * 2 / 5 + 25 / 2, 100, 50);
-		armorreset.setBackground(Color.WHITE);
-		armorreset.setForeground(Color.BLACK);
-		armorreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(armorreset, 3, 2, 2);
 
 		hpbarlabel = new Label("HEALTH POWER: " + Stages.myHero.getHp());// We create the label for the statistic bar
 		// for health power
-		hpbarlabel.setLocation(WIDTH / 10, 430);// We define the location of the label hpbarlabel
-		hpbarlabel.setSize(325, 75);// We define the size of the label hpbarlabel
+		hpbarlabel.setBounds(WIDTH / 10, 430, 325, 75);// We define the location and the size of the label hpbarlabel
 		hpbarlabel.setForeground(Color.WHITE);// We define the font color of the label hpbarlabel
 		hpbarlabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
 		// hpbarlabel and that the text is going to be
@@ -878,43 +682,28 @@ public class Graph {// Creating the class Graph
 		hpbar.setBackground(Color.red);// We define the color of the progress bar
 		hpbar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);// We define the location and the size of the progress bar
 
-		aphplabel = new Label("" + Stages.getApHp());
-		aphplabel.setLocation((WIDTH / 10) + 350, HEIGHT * 3 / 5 + 25 / 2);
-		aphplabel.setSize(75, 50);
+		aphplabel = new Label(String.valueOf(Stages.getApHp()));
+		aphplabel.setBounds((WIDTH / 10) + 350, HEIGHT * 3 / 5 + 25 / 2, 75, 50);
 		aphplabel.setBackground(Color.WHITE);
 		aphplabel.setForeground(Color.BLACK);
 		aphplabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		hpplus1 = new Button("+1");
-		hpplus1.setBounds((WIDTH / 10) + 450, HEIGHT * 3 / 5 + 25 / 2, 50, 50);// To 25/2 einai wste na einai symmetrika
-		// me to bar
-		hpplus1.setBackground(Color.WHITE);
-		hpplus1.setForeground(Color.BLACK);
-		hpplus1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(hpplus1, 0, 3, 1);
 
 		hpplus5 = new Button("+5");
-		hpplus5.setBounds((WIDTH / 10) + 525, HEIGHT * 3 / 5 + 25 / 2, 50, 50);
-		hpplus5.setBackground(Color.WHITE);
-		hpplus5.setForeground(Color.BLACK);
-		hpplus5.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(hpplus5, 1, 3, 1);
 
 		hpplus10 = new Button("+10");
-		hpplus10.setBounds((WIDTH / 10) + 600, HEIGHT * 3 / 5 + 25 / 2, 50, 50);
-		hpplus10.setBackground(Color.WHITE);
-		hpplus10.setForeground(Color.BLACK);
-		hpplus10.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(hpplus10, 2, 3, 1);
 
 		hpremain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
-		hpremain.setBounds((WIDTH / 10) + 800, HEIGHT * 3 / 5 + 25 / 2, 160, 50);
-		// hpremain.setBackground(Color.WHITE);
+		hpremain.setBounds((WIDTH / 10) + 800, HEIGHT * 3 / 5 + 25 / 2, 180, 50);
 		hpremain.setForeground(Color.RED);
 		hpremain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		hpreset = new Button("Reset");
-		hpreset.setBounds((WIDTH / 10) + 675, HEIGHT * 3 / 5 + 25 / 2, 100, 50);
-		hpreset.setBackground(Color.WHITE);
-		hpreset.setForeground(Color.BLACK);
-		hpreset.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		modigyPlusButtons(hpreset, 3, 3, 2);
 
 		attributepoints = new Label("Remaining Attribute Points: " + Stages.getAttributePoints());
 		attributepoints.setBounds(WIDTH / 10, HEIGHT * 4 / 5, 375, 75);
@@ -965,46 +754,6 @@ public class Graph {// Creating the class Graph
 		centralpanel.add(hpremain);
 		centralpanel.add(hpreset);
 
-		mainbutton.addActionListener(new ActionListener() {// If the user clicks the button mainbutton the game returns
-			// to the menu window
-			public void actionPerformed(ActionEvent e) {
-				centralpanel.remove(attackbar);// We remove the progress bar attackbar from the panel
-				centralpanel.remove(armorbar);// We remove the progress bar armorbar from the panel
-				centralpanel.remove(hpbar);// We remove the progress bar hpbar from the panel
-
-				centralpanel.remove(attackbarlabel);// We remove the progress bar attackbarlabel from the panel
-				centralpanel.remove(armorbarlabel);// We remove the progress bar armorbarlabel from the panel
-				centralpanel.remove(hpbarlabel);// We remove the progress bar hpbarlabel from the panel
-				centralpanel.remove(attributepoints);
-				centralpanel.remove(donebutton);
-				centralpanel.remove(donelabel);
-
-				centralpanel.remove(apattacklabel);
-				centralpanel.remove(attackplus1);
-				centralpanel.remove(attackplus5);
-				centralpanel.remove(attackplus10);
-				centralpanel.remove(attackremain);
-				centralpanel.remove(attackreset);
-
-				centralpanel.remove(aparmorlabel);
-				centralpanel.remove(armorplus1);
-				centralpanel.remove(armorplus5);
-				centralpanel.remove(armorplus10);
-				centralpanel.remove(armorremain);
-				centralpanel.remove(armorreset);
-
-				centralpanel.remove(aphplabel);
-				centralpanel.remove(hpplus1);
-				centralpanel.remove(hpplus5);
-				centralpanel.remove(hpplus10);
-				centralpanel.remove(hpremain);
-				centralpanel.remove(hpreset);
-
-				centralpanel.remove(mainbutton);// We remove the progress bar mainbutton from the panel
-				createMenuWindow();
-			}
-		});
-
 		donebutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (Stages.getAttributePoints() == 0) {
@@ -1045,15 +794,8 @@ public class Graph {// Creating the class Graph
 					centralpanel.remove(hpremain);
 					centralpanel.remove(hpreset);
 
-					attackbar.setValue(Stages.myHero.getAttack());
-					armorbar.setValue(Stages.myHero.getArmour());
-					hpbar.setValue(Stages.myHero.getHp());
-
 					centralpanel.remove(mainbutton);// We remove the progress bar mainbutton from the panel
 					Stages.setApStatsToZero();
-					apattacklabel.setText("0");
-					aparmorlabel.setText("0");
-					aphplabel.setText("0");
 
 					createStartWindow();
 				} else {
@@ -1064,49 +806,44 @@ public class Graph {// Creating the class Graph
 
 		attackplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApAttack() + 1 <= maxAp && Stages.getAttributePoints() - 1 >= 0) {
+				if ((Stages.getApAttack() + 1 <= maxAp) && (Stages.getAttributePoints() - 1 >= 0)) {
 					Stages.setApAttack(1);
-					apattacklabel.setText("" + Stages.getApAttack());
+					apattacklabel.setText(String.valueOf(Stages.getApAttack()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// attackremain.setText(" Remaining: " + apattackrem);
 				}
 			}
 		});
 		attackplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApAttack() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
+				if ((Stages.getApAttack() + 5 <= maxAp) && (Stages.getAttributePoints() - 5 >= 0)) {
 					Stages.setApAttack(5);
-					apattacklabel.setText("" + Stages.getApAttack());
+					apattacklabel.setText(String.valueOf(Stages.getApAttack()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// attackremain.setText(" Remaining: " + apattackrem);
 				}
 			}
 		});
 		attackplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApAttack() + 10 <= maxAp && Stages.getAttributePoints() - 10 >= 0) {
+				if ((Stages.getApAttack() + 10 <= maxAp) && (Stages.getAttributePoints() - 10 >= 0)) {
 					Stages.setApAttack(10);
-					apattacklabel.setText("" + Stages.getApAttack());
+					apattacklabel.setText(String.valueOf(Stages.getApAttack()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// attackremain.setText(" Remaining: " + apattackrem);
 				}
 			}
 		});
 		attackreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Stages.setAttackZero();
-				apattacklabel.setText("" + Stages.getApAttack());
+				apattacklabel.setText(String.valueOf(Stages.getApAttack()));
 				attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-				// attackremain.setText(" Remaining: " + apattackrem);
 			}
 		});
 		armorplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApArmour() + 1 <= maxAp && Stages.getAttributePoints() - 1 >= 0) {
+				if ((Stages.getApArmour() + 1 <= maxAp) && (Stages.getAttributePoints() - 1 >= 0)) {
 					Stages.setApArmour(1);
-					aparmorlabel.setText("" + Stages.getApArmour());
+					aparmorlabel.setText(String.valueOf(Stages.getApArmour()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
 			}
 		});
@@ -1114,68 +851,68 @@ public class Graph {// Creating the class Graph
 			public void actionPerformed(ActionEvent e) {
 				if (Stages.getApArmour() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
 					Stages.setApArmour(5);
-					aparmorlabel.setText("" + Stages.getApArmour());
+					aparmorlabel.setText(String.valueOf(Stages.getApArmour()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
 			}
 		});
 		armorplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApArmour() + 10 <= maxAp && Stages.getAttributePoints() - 10 >= 0) {
+				if ((Stages.getApArmour() + 10 <= maxAp) && (Stages.getAttributePoints() - 10 >= 0)) {
 					Stages.setApArmour(10);
-					aparmorlabel.setText("" + Stages.getApArmour());
+					aparmorlabel.setText(String.valueOf(Stages.getApArmour()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// armorremain.setText(" Remaining: " + aparmorrem);
 				}
 			}
 		});
 		armorreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Stages.setArmorZero();
-				aparmorlabel.setText("" + Stages.getApArmour());
+				aparmorlabel.setText(String.valueOf(Stages.getApArmour()));
 				attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-				// armorremain.setText(" Remaining: " + aparmorrem);
 			}
 		});
 		hpplus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApHp() + 1 <= maxAp && Stages.getAttributePoints() - 1 >= 0) {
+				if ((Stages.getApHp() + 1 <= maxAp) && (Stages.getAttributePoints() - 1 >= 0)) {
 					Stages.setApHp(1);
-					aphplabel.setText("" + Stages.getApHp());
+					aphplabel.setText(String.valueOf(Stages.getApHp()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// hpremain.setText(" Remaining: " + aphprem);
 				}
 			}
 		});
 		hpplus5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApHp() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
+				if ((Stages.getApHp() + 5 <= maxAp) && (Stages.getAttributePoints() - 5 >= 0)) {
 					Stages.setApHp(5);
-					aphplabel.setText("" + Stages.getApHp());
+					aphplabel.setText(String.valueOf(Stages.getApHp()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// hpremain.setText(" Remaining: " + aphprem);
 				}
 			}
 		});
 		hpplus10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Stages.getApHp() + 10 <= maxAp && Stages.getAttributePoints() - 10 >= 0) {
+				if ((Stages.getApHp() + 10 <= maxAp) && (Stages.getAttributePoints() - 10 >= 0)) {
 					Stages.setApHp(10);
-					aphplabel.setText("" + Stages.getApHp());
+					aphplabel.setText(String.valueOf(Stages.getApHp()));
 					attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-					// hpremain.setText(" Remaining: " + aphprem);
 				}
 			}
 		});
 		hpreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Stages.setHpZero();
-				aphplabel.setText("" + Stages.getApHp());
+				aphplabel.setText(String.valueOf(Stages.getApHp()));
 				attributepoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
-				// hpremain.setText(" Remaining: " + aphprem);
 			}
 		});
+	}
+
+	private void modigyPlusButtons(Button plus, int numOfPlus, int typeOfAttribute, int reset) {
+		plus.setBounds((WIDTH / 10) + 450 + numOfPlus * 75, HEIGHT * typeOfAttribute / 5 + 25 / 2, reset * 50, 50);
+		plus.setBackground(Color.WHITE);
+		plus.setForeground(Color.BLACK);
+		plus.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 	}
 
 	public void createSettingsWindow() {
@@ -1210,7 +947,7 @@ public class Graph {// Creating the class Graph
 
 		lightmode.addActionListener(new ActionListener() {// The user has press the button quitbutton
 			public void actionPerformed(ActionEvent e) {
-				centralpanel.setBackground(Color.lightGray);
+				centralpanel.setBackground(Color.GRAY);
 			}
 		});
 		darkmode.addActionListener(new ActionListener() {// The user has press the button quitbutton
