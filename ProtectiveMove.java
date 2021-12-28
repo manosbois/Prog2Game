@@ -1,8 +1,10 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class ProtectiveMove extends Move {
 
-    public ProtectiveMove(int energy, String name) {
-        super(energy, name);
+    public ProtectiveMove(int energy, String name, String messageFileName) {
+        super(energy, name, messageFileName);
     }
     private static final double MODIFIER = 0.5;
 
@@ -10,16 +12,21 @@ public class ProtectiveMove extends Move {
 
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
+        Scanner myReader = null;
+        try {
+            myReader = new Scanner(this.getMessageFile());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         System.out.printf("%s will be partially protected by the shield%n%n",
                 hero1.getName());
-        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + " used " + this.getName() + ". " + hero1.getName() + " will be partially protected by the shield.");
-        /*try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + myReader.nextLine() + this.getName() + ". " + hero1.getName() + myReader.nextLine());
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
     }
 }
