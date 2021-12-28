@@ -1,11 +1,10 @@
 
 public abstract class Character {
 
-    public Character() { }
 
     public Character(int tempHP, int tempAttack,
                      int tempArmour, int tempEnergy) {
-    	this.hp = tempHP;
+        this.hp = tempHP;
         this.tempHP = tempHP;
         this.tempAttack = tempAttack;
         this.tempArmour = tempArmour;
@@ -17,24 +16,25 @@ public abstract class Character {
     private int tempArmour;
     private int tempEnergy;
     private String name;
+
     // Moves
-    private final DamageMove damagingMove1 = new DamageMove(6, "Sword", 90);
-    private final DamageMove damagingMove2 = new DamageMove(4, "Spear", 70);
-    private final BuffMove buffMove = new BuffMove(10, "Meditate");
-    private final ProtectiveMove protectiveMove = new ProtectiveMove(5, "Shield");
-    private final Move noMove = new Move(0, "No Move");
+    private final DamageMove damagingMove1 = new DamageMove(6, "Sword", 90, "En-DamageMove.txt");
+    private final DamageMove damagingMove2 = new DamageMove(4, "Spear", 70,"En-DamageMove.txt");
+    private final BuffMove buffMove = new BuffMove(10, "Meditate", "En-BuffMove.txt");
+    private final ProtectiveMove protectiveMove = new ProtectiveMove(5, "Shield", "En-ProtectiveMove.txt");
+    private final Move noMove = new Move(0, "No Move", "En-Move.txt");
 
-    
-    
+
+
     public int getHp() {
-		return hp;
-	}
+        return hp;
+    }
 
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 
-	public int getTempHP() {
+    public int getTempHP() {
         return tempHP;
     }
 
