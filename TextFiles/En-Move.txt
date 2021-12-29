@@ -1,2 +1,3 @@
+
  used 
-. This move had no effect
+. This move had no effect!
