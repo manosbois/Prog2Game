@@ -1,7 +1,9 @@
 import javax.sound.sampled.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 //A class that implements the battle mechanic of our game
 public class Battle {
@@ -10,7 +12,7 @@ public class Battle {
 	private static final Object lock = new Object();
 
 	public static God god;
-	
+
 	public static Object getLock() {
 		return lock;
 	}
@@ -27,12 +29,12 @@ public class Battle {
 		myHero.setTempStats(myHero.getHp(), myHero.getAttack(), myHero.getArmour(), myHero.getEnergy());
 
 		god = new God(numOfBattle); // Creating the object for the rival god
-		
+
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		File file = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Song.wav");
-		File zeusMusic = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\ZeusMusic.wav");
+		File file = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song1.wav");
+		File zeusMusic = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		if (numOfBattle == 12) {
 			audioStream = AudioSystem.getAudioInputStream(zeusMusic);
@@ -82,7 +84,14 @@ public class Battle {
 			System.out.println(myHero.getProtectiveMove().toString());
 			System.out.println(myHero.getNoMove().toString());
 
-			Game.graph.modifyMes(Game.graph.mes1, "Choose your move!");
+			Scanner myReader = null;
+			try {
+				myReader = new Scanner(new File("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + Graph.getLanguage() + "-Battle.txt"));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			Game.graph.modifyMes(Graph.mes1, myReader.nextLine()); //Message: choose your move
 
 			synchronized (lock) {
 				try {
@@ -100,7 +109,8 @@ public class Battle {
 				Game.graph.clearMes();
 				System.out.printf("You need %d more Energy to use the move %s%n",
 						move.getEnergy() - myHero.getTempEnergy(), move.getName());
-				Game.graph.modifyMes(Game.graph.mes1,"You need " + (move.getEnergy() - myHero.getTempEnergy()) + " more Energy to use the move " + move.getName());
+				Game.graph.modifyMes(Graph.mes1,myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy()) +
+						myReader.nextLine() + move.getName() + "."); //Message: Yoy need $ more energy to use the move %.
 				Thread.sleep(1500);
 			}
 		} while (!sufficientEnergy);
@@ -133,31 +143,31 @@ public class Battle {
 
 	private static Move getMove(Character hero, int chosenMove) {
 
-		File swordSound = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Swordsound.wav");
-		File spearSound = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Spearsound.wav");
-		File meditate = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\meditate.wav");
-		File noMove = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Nomove.wav");
-		File shieldSound = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Shield.wav");
+		File swordSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Swordsound.wav");
+		File spearSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Spearsound.wav");
+		File meditate = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\meditate.wav");
+		File noMove = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Nomove.wav");
+		File shieldSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Shield.wav");
 		Clip clip3;
 		try {
 			clip3 = AudioSystem.getClip();
 
 			switch (chosenMove) {
-			case 1:
-				makeSound(swordSound, clip3);
-				return hero.getDamagingMove1();
-			case 2:
-				makeSound(spearSound, clip3);
-				return hero.getDamagingMove2();
-			case 3:
-				makeSound(shieldSound, clip3);
-				return hero.getProtectiveMove();
-			case 4:
-				makeSound(meditate, clip3);
-				return hero.getBuffMove();
-			default:
-				makeSound(noMove, clip3);
-				return hero.getNoMove();
+				case 1:
+					makeSound(swordSound, clip3);
+					return hero.getDamagingMove1();
+				case 2:
+					makeSound(spearSound, clip3);
+					return hero.getDamagingMove2();
+				case 3:
+					makeSound(shieldSound, clip3);
+					return hero.getProtectiveMove();
+				case 4:
+					makeSound(meditate, clip3);
+					return hero.getBuffMove();
+				default:
+					makeSound(noMove, clip3);
+					return hero.getNoMove();
 			}
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
