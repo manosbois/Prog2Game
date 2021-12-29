@@ -26,10 +26,11 @@ public class BuffMove extends Move {
 		hero1.setTempArmour((int) Math.round(tempArmour));
 		System.out.printf("%s's Attack and Armour "
 				+ "were raised by half%n%n", hero1.getName());
-		String message = hero1.getName() + myReader.nextLine() + this.getName() + myReader.nextLine() + hero1.getName() + myReader.nextLine();
+		String message = myReader.nextLine() + hero1.getName() + myReader.nextLine()
+				+ this.getName() +". " + myReader.nextLine() + hero1.getName() + myReader.nextLine();
 		Game.graph.modifyMes(Game.graph.mes1, message);
 		try {
-			Thread.sleep(2500);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
