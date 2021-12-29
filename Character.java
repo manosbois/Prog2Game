@@ -1,6 +1,7 @@
 
 public abstract class Character {
 
+    public Character() { }
 
     public Character(int tempHP, int tempAttack,
                      int tempArmour, int tempEnergy) {
@@ -18,13 +19,16 @@ public abstract class Character {
     private String name;
 
     // Moves
-    private final DamageMove damagingMove1 = new DamageMove(6, "Sword", 90, "En-DamageMove.txt");
-    private final DamageMove damagingMove2 = new DamageMove(4, "Spear", 70,"En-DamageMove.txt");
-    private final BuffMove buffMove = new BuffMove(10, "Meditate", "En-BuffMove.txt");
-    private final ProtectiveMove protectiveMove = new ProtectiveMove(5, "Shield", "En-ProtectiveMove.txt");
-    private final Move noMove = new Move(0, "No Move", "En-Move.txt");
-
-
+    private final DamageMove damagingMove1 = new DamageMove
+            (6, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt");
+    private final DamageMove damagingMove2 = new DamageMove
+            (4, "Spear", 70,Graph.getLanguage() + "-DamageMove.txt");
+    private final BuffMove buffMove = new BuffMove
+            (10, "Meditate", Graph.getLanguage() + "-BuffMove.txt");
+    private final ProtectiveMove protectiveMove = new ProtectiveMove
+            (5, "Shield", Graph.getLanguage() + "-ProtectiveMove.txt");
+    private final Move noMove = new Move
+            (0, "No Move", Graph.getLanguage() + "-Move.txt");
 
     public int getHp() {
         return hp;
