@@ -21,9 +21,10 @@ public class ProtectiveMove extends Move {
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         System.out.printf("%s will be partially protected by the shield%n%n",
                 hero1.getName());
-        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + myReader.nextLine() + this.getName() + ". " + hero1.getName() + myReader.nextLine());
+        Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName()
+                + myReader.nextLine() + this.getName() + ". " + myReader.nextLine() + hero1.getName() + myReader.nextLine());
         try {
-            Thread.sleep(2500);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
