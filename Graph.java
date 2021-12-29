@@ -1,4 +1,3 @@
-import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +6,15 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Graph {// Creating the class Graph
+	private static final Object graphLock = new Object();
+	public static Object getGraphLock() {
+		return graphLock;
+	}
+
 	private static final long serialVersionUID = 7572156739102733039L;
 	private String title;
 	static JFrame frame; // We define the frame of the project.
@@ -17,10 +23,10 @@ public class Graph {// Creating the class Graph
 	Button introButton, mainButton, startButton, statsButton, settingsButton, quitButton;// We define the basic buttons
 	// of the game
 	static Label heroName, godName, heroHpBar, godHBar, heroBackBar, godBackBar, heroEnergy; // Label
-																											// names(hero
-																											// and god
-																											// names)
-	JButton sworButton, spearButton, meditateButton, shieldButton, noMoveButton;
+	// names(hero
+	// and god
+	// names)
+	JButton swordButton, spearButton, meditateButton, shieldButton, noMoveButton;
 	Button nextGod, checkpoint, gameOver;// We define the move buttons
 	static Label heroHp, godHp;
 	static Label mes1;
@@ -36,19 +42,22 @@ public class Graph {// Creating the class Graph
 	Button lightMode, darkMode, greekButton, englishButton;// settings' buttons
 	static final int WIDTH = 1280, HEIGHT = 800;// We define the width and the height of the window
 
+	private String tempHeroName; //Variable that's to temporarily save
+							// the username to set it when stageControl is called
 	private Clip clip2; // For music.
 	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
-										// it.
+	// it.
 	private static int chosenMove;
 
-	public static int getChosenMove() {
-		return chosenMove;
-	}
+	private static String language = "En";
 
-	public static void setChosenMove(int move) {
-		chosenMove = move;
-		System.out.println(move);
-	}
+	public String getTempHeroName() { return tempHeroName; }
+
+	public static int getChosenMove() {	return chosenMove; }
+
+	public static void setChosenMove(int move) { chosenMove = move; }
+
+	public static String getLanguage() { return language; }
 
 	private Thread battleThread;
 	private Runnable battleTasks = () -> {
@@ -112,7 +121,8 @@ public class Graph {// Creating the class Graph
 		username.setBackground(Color.WHITE);
 		username.setForeground(Color.BLUE);
 		username.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-		Stages.myHero.setName(username.getText());
+		//TODO Να το πω στον Νίκο
+		//Stages.myHero.setName(username.getText());
 
 		introButton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);// We define the location of the button introbutton
 		// based on the width and the height of the
@@ -122,7 +132,7 @@ public class Graph {// Creating the class Graph
 		introButton.setBackground(Color.white);// We define the color of the introbutton
 		introButton.setForeground(Color.black);// We define the font color of the introbutton
 		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));// We define the size of the text of the
-		// introbutton and that the text is going to be
+		// introButton and that the text is going to be
 		// bold
 
 		introLabel = new Label("Welcome to our Game!");// We define the label that appears on the first window
@@ -137,10 +147,11 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(username);
 
 		introButton.addActionListener(new ActionListener() {// We define that if the user clicks the button that says
-			// "LET'S BEGIN OUR ADVENTURE", he's goin to be returned
+			// "LET'S BEGIN OUR ADVENTURE", he's going to be returned
 			// to the menu window
-			public void actionPerformed(ActionEvent e) {
-				Stages.myHero.setName(username.getText());
+			public void actionPerformed(ActionEvent e) {//TODO
+				tempHeroName = username.getText();
+				//Stages.myHero.setName(username.getText());
 				centralPanel.remove(introButton);// We remove button introbutton from the panel centralpanel
 				centralPanel.remove(introLabel);// We remove label introlabel from the panel centralpanel
 				centralPanel.remove(username);
@@ -210,7 +221,7 @@ public class Graph {// Creating the class Graph
 
 	private void modifyMenyButtons(Button menuButton, int numOfButton) {
 		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);// We define the location of the button
-																				// startbutton
+		// startbutton
 		menuButton.setSize(350, 100);// We define the size of the button startbutton
 		menuButton.setBackground(Color.white);// We define the color of the button startbutton
 		menuButton.setForeground(Color.black);// We define the font color of the button startbutton
@@ -226,6 +237,22 @@ public class Graph {// Creating the class Graph
 
 	public void createStartWindow() {// We create the window that the player is going to play to
 
+		battleThread = new Thread(battleTasks);
+		if (FirstGod) {
+			battleThread.start();
+			synchronized (graphLock) {
+				try {
+					graphLock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			synchronized (Battle.getLock()) {
+				Battle.getLock().notify();
+			}
+		}
+
 		heroName = new Label(Stages.myHero.getName());
 		heroName.setBounds(50, HEIGHT / 10, 200, 50);
 		heroName.setAlignment(Label.CENTER);
@@ -240,14 +267,7 @@ public class Graph {// Creating the class Graph
 		godName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godName.setAlignment(Label.CENTER);
 
-		battleThread = new Thread(battleTasks);
-		if (FirstGod) {
-			battleThread.start();
-		} else {
-			synchronized (Battle.getLock()) {
-				Battle.getLock().notify();
-			}
-		}
+		
 
 		heroBackBar = new Label();
 		heroBackBar.setBounds(50, HEIGHT / 10 + 50, 200, 30);
@@ -303,8 +323,8 @@ public class Graph {// Creating the class Graph
 		// centralpanel.setSize(0,0);
 		// the panel buttonpanel
 
-		sworButton = new JButton("1. Sword");
-		modifyMoveButtons(sworButton, 1, 90, 6);
+		swordButton = new JButton("1. Sword");
+		modifyMoveButtons(swordButton, 1, 90, 6);
 
 		spearButton = new JButton("2. Spear");
 		modifyMoveButtons(spearButton, 2, 70, 4);
@@ -336,7 +356,7 @@ public class Graph {// Creating the class Graph
 			}
 		});
 
-		sworButton.addActionListener(new ActionListener() {
+		swordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				synchronized (Battle.getLock()) {
 					setChosenMove(1);
@@ -399,7 +419,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(godHp);
 		centralPanel.add(mes1);
 
-		buttonPanel.add(sworButton);
+		buttonPanel.add(swordButton);
 		buttonPanel.add(spearButton);
 		buttonPanel.add(meditateButton);
 		buttonPanel.add(shieldButton);
@@ -419,7 +439,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.remove(godHp);
 		centralPanel.remove(mes1);
 
-		buttonPanel.remove(sworButton);
+		buttonPanel.remove(swordButton);
 		buttonPanel.remove(spearButton);
 		buttonPanel.remove(meditateButton);
 		buttonPanel.remove(shieldButton);
@@ -490,7 +510,13 @@ public class Graph {// Creating the class Graph
 		winMes = new Label();
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
 		winMes.setForeground(new Color(255, 215, 0));
-		winMes.setText("YOU WON! YOU HAVE CONQUERED OLYMPOUS!");
+		try {
+			winMes.setText(Files.readAllLines
+					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
+							+ "-Graph.txt")).get(0)); //TODO Add Text YOU WON! YOU HAVE CONQUERED OLYMPOUS!
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		winMes.setFont(new Font(Font.SERIF, Font.BOLD, 32));
 		winMes.setAlignment(Label.CENTER);
 
@@ -507,9 +533,23 @@ public class Graph {// Creating the class Graph
 		battleWin.setForeground(Color.RED);
 		battleWin.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 		battleWin.setAlignment(Label.CENTER);
-		battleWin.setText("YOU WON " + godName);
+		try {
+			battleWin.setText(Files.readAllLines
+					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
+							+ "-Graph.txt")).get(1) + godName); //TODO add text YOU WON $
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		nextGod = new Button("Upgrade Your Hero's Statistics!");
+		try {
+			nextGod = new Button(Files.readAllLines
+					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
+							+ "-Graph.txt")).get(2)); //TODO add text Upgrade Your Hero's Statistics!
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//https://www.google.com/search?q=readalllines+java&oq=readall&aqs=chrome.2.69i57j0i512l5j0i10i512j0i512l2j0i10i512.4042j0j7&sourceid=chrome&ie=UTF-8
+		//https://www.educative.io/edpresso/reading-the-nth-line-from-a-file-in-java
 		nextGod.setBounds((WIDTH - 600) / 2, HEIGHT / 2 - 150 + 250, 600, 75);
 		nextGod.setForeground(Color.RED);
 		nextGod.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
@@ -532,9 +572,15 @@ public class Graph {// Creating the class Graph
 		buttonPanel.setSize(0, 0);
 		removeStartWindow();
 
-		checkpointMes = new Label("You Lost, but you can continuou from the checkpoint!");
+		try {
+			checkpointMes = new Label(Files.readAllLines
+					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
+							+ "-Graph.txt")).get(3)); //TODO You Lost, but you can continue from the checkpoint!
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		checkpointMes.setBounds((WIDTH - 300) / 2, (HEIGHT - 100) / 2, 300, 100);
-		checkpointMes.setForeground(Color.BLACK);
+		checkpointMes.setForeground(Color.RED);
 		checkpointMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		checkpointMes.setAlignment(Label.CENTER);
 
@@ -562,7 +608,7 @@ public class Graph {// Creating the class Graph
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
 
 		try {
-			File file2 = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Song2.wav");
+			File file2 = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song2.wav");
 			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(file2);
 			clip2 = AudioSystem.getClip();
 			clip2.open(audioStream2);
@@ -581,7 +627,7 @@ public class Graph {// Creating the class Graph
 		attackBarLabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
 		// for attack
 		attackBarLabel.setBounds(WIDTH / 10, 110, 325, 75);// We define the location and the size of the label
-															// attackbarlabel
+		// attackbarlabel
 		attackBarLabel.setForeground(Color.WHITE);// We define the font color of the label attackbarlabel
 		attackBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
 		// attackbarlabel and that the text is going
@@ -621,7 +667,7 @@ public class Graph {// Creating the class Graph
 		armourBarLabel = new Label("ARMOR: " + Stages.myHero.getArmour());// We create the label for the statistic bar
 		// for armor
 		armourBarLabel.setBounds(WIDTH / 10, 270, 325, 75);// We define the location and the size of the label
-															// armorbarlabel
+		// armorbarlabel
 		armourBarLabel.setForeground(Color.WHITE);// We define the font color of the label armorbarlabel
 		armourBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
 		// armorbarlabel and that the text is going to
@@ -677,7 +723,7 @@ public class Graph {// Creating the class Graph
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
 		// value of the
 		// progress bar
-		// armorbar
+		// armourBar
 		hpBar.setStringPainted(true);// The progress bar appear on the screen
 		hpBar.setBackground(Color.red);// We define the color of the progress bar
 		hpBar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);// We define the location and the size of the progress bar
@@ -705,7 +751,13 @@ public class Graph {// Creating the class Graph
 		hpReset = new Button("Reset");
 		modigyPlusButtons(hpReset, 3, 3, 2);
 
-		attributePoints = new Label("Remaining Attribute Points: " + Stages.getAttributePoints());
+		try {
+			attributePoints = new Label(Files.readAllLines
+					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
+							+ "-Graph.txt")).get(4) + Stages.getAttributePoints()); //TODO add text Remaining Attribute Points: 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		attributePoints.setBounds(WIDTH / 10, HEIGHT * 4 / 5, 375, 75);
 		attributePoints.setBackground(Color.WHITE);
 		attributePoints.setForeground(Color.BLACK);
@@ -799,7 +851,13 @@ public class Graph {// Creating the class Graph
 
 					createStartWindow();
 				} else {
-					JOptionPane.showMessageDialog(null, "You haven't distributed all the attribute points!");
+					try {
+						JOptionPane.showMessageDialog(null, Files.readAllLines
+								(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
+										+ "-Graph.txt")).get(5)); //TODO Message: You haven't distributed all the attribute points!
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		});
@@ -944,6 +1002,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(lightMode);
 		centralPanel.add(greekButton);
 		centralPanel.add(englishButton);
+		
 
 		lightMode.addActionListener(new ActionListener() {// The user has press the button quitbutton
 			public void actionPerformed(ActionEvent e) {
@@ -955,6 +1014,15 @@ public class Graph {// Creating the class Graph
 				centralPanel.setBackground(Color.black);
 			}
 		});
+
+		greekButton.addActionListener(new ActionListener() {// The user has set the language to Greek.
+			public void actionPerformed(ActionEvent e) { Graph.language = "Gr"; }
+		});
+		englishButton.addActionListener(new ActionListener() {// The user has set the language to English
+			public void actionPerformed(ActionEvent e) { Graph.language = "En"; }
+		});
+
+
 		mainButton.addActionListener(new ActionListener() {// If the user clicks the button mainbutton the game returns
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
@@ -967,4 +1035,5 @@ public class Graph {// Creating the class Graph
 			}
 		});
 	}
+
 }
