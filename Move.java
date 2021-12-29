@@ -42,13 +42,14 @@ public class Move {
             e.printStackTrace();
         }
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
-        Game.graph.modifyMes(Game.graph.mes1, hero1.getName() + myReader.nextLine() + this.getName() + myReader.nextLine());
+        Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName() + myReader.nextLine() + this.getName() + myReader.nextLine());
         try {
-            Thread.sleep(5000);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         System.out.printf("This move had no effect%n%n");
+        System.out.println(Graph.getLanguage());
     }
 
     @Override
