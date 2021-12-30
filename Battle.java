@@ -34,10 +34,15 @@ public class Battle {
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
 		File file = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song1.wav");
+		File fileSong2 = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song2.wav");
 		File zeusMusic = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
 		if (numOfBattle == 12) {
-			audioStream = AudioSystem.getAudioInputStream(zeusMusic);
+			AudioSystem.getAudioInputStream(zeusMusic);
+		} else if (numOfBattle % 2 == 0) {
+			AudioSystem.getAudioInputStream(fileSong2);
+		} else if (numOfBattle % 2 == 1){
+			AudioSystem.getAudioInputStream(file);
 		}
 
 		Clip clip = AudioSystem.getClip();
@@ -91,7 +96,7 @@ public class Battle {
 				e.printStackTrace();
 			}
 
-			Game.graph.modifyMes(Graph.mes1, myReader.nextLine()); //Message: choose your move
+			Game.graph.modifyMes(Graph.mes1, myReader.nextLine()); //Message: Choose your move!
 
 			synchronized (lock) {
 				try {
@@ -181,8 +186,8 @@ public class Battle {
 
 	private static void makeSound(File moveSound, Clip clip3)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		AudioInputStream audioStreammove = AudioSystem.getAudioInputStream(moveSound);
-		clip3.open(audioStreammove);
+		AudioInputStream audioStreamMove = AudioSystem.getAudioInputStream(moveSound);
+		clip3.open(audioStreamMove);
 		clip3.start();
 	}
 
