@@ -121,8 +121,7 @@ public class Graph {// Creating the class Graph
 		username.setBackground(Color.WHITE);
 		username.setForeground(Color.BLUE);
 		username.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-		//TODO Να το πω στον Νίκο
-		//Stages.myHero.setName(username.getText());
+
 
 		introButton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);// We define the location of the button introbutton
 		// based on the width and the height of the
@@ -149,7 +148,7 @@ public class Graph {// Creating the class Graph
 		introButton.addActionListener(new ActionListener() {// We define that if the user clicks the button that says
 			// "LET'S BEGIN OUR ADVENTURE", he's going to be returned
 			// to the menu window
-			public void actionPerformed(ActionEvent e) {//TODO
+			public void actionPerformed(ActionEvent e) {
 				tempHeroName = username.getText();
 				//Stages.myHero.setName(username.getText());
 				centralPanel.remove(introButton);// We remove button introbutton from the panel centralpanel
@@ -513,7 +512,7 @@ public class Graph {// Creating the class Graph
 		try {
 			winMes.setText(Files.readAllLines
 					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
-							+ "-Graph.txt")).get(0)); //TODO Add Text YOU WON! YOU HAVE CONQUERED OLYMPOUS!
+							+ "-Graph.txt")).get(0)); //Message: YOU WON! YOU HAVE CONQUERED OLYMPUS!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -536,7 +535,7 @@ public class Graph {// Creating the class Graph
 		try {
 			battleWin.setText(Files.readAllLines
 					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
-							+ "-Graph.txt")).get(1) + godName); //TODO add text YOU WON $
+							+ "-Graph.txt")).get(1) + godName); //Message YOU WON $
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -544,7 +543,7 @@ public class Graph {// Creating the class Graph
 		try {
 			nextGod = new Button(Files.readAllLines
 					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
-							+ "-Graph.txt")).get(2)); //TODO add text Upgrade Your Hero's Statistics!
+							+ "-Graph.txt")).get(2)); //Message Upgrade Your Hero's Statistics!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -575,7 +574,7 @@ public class Graph {// Creating the class Graph
 		try {
 			checkpointMes = new Label(Files.readAllLines
 					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
-							+ "-Graph.txt")).get(3)); //TODO You Lost, but you can continue from the checkpoint!
+							+ "-Graph.txt")).get(3)); //Message: You Lost, but you can continue from the checkpoint!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -751,13 +750,17 @@ public class Graph {// Creating the class Graph
 		hpReset = new Button("Reset");
 		modigyPlusButtons(hpReset, 3, 3, 2);
 
+		String string = null; //Variable to be used on attributePoints Label
 		try {
-			attributePoints = new Label(Files.readAllLines
+			string = Files.readAllLines
 					(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
-							+ "-Graph.txt")).get(4) + Stages.getAttributePoints()); //TODO add text Remaining Attribute Points: 
+							+ "-Graph.txt")).get(4); //Message: Remaining Attribute points: 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		final String remAp = string;
+		
+		attributePoints = new Label(remAp + Stages.getAttributePoints());
 		attributePoints.setBounds(WIDTH / 10, HEIGHT * 4 / 5, 375, 75);
 		attributePoints.setBackground(Color.WHITE);
 		attributePoints.setForeground(Color.BLACK);
@@ -854,7 +857,7 @@ public class Graph {// Creating the class Graph
 					try {
 						JOptionPane.showMessageDialog(null, Files.readAllLines
 								(Paths.get("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + getLanguage()
-										+ "-Graph.txt")).get(5)); //TODO Message: You haven't distributed all the attribute points!
+										+ "-Graph.txt")).get(5)); //Message: You haven't distributed all the attribute points!
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -867,7 +870,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApAttack() + 1 <= maxAp) && (Stages.getAttributePoints() - 1 >= 0)) {
 					Stages.setApAttack(1);
 					apAttackLabel.setText(String.valueOf(Stages.getApAttack()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -876,7 +879,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApAttack() + 5 <= maxAp) && (Stages.getAttributePoints() - 5 >= 0)) {
 					Stages.setApAttack(5);
 					apAttackLabel.setText(String.valueOf(Stages.getApAttack()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -885,7 +888,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApAttack() + 10 <= maxAp) && (Stages.getAttributePoints() - 10 >= 0)) {
 					Stages.setApAttack(10);
 					apAttackLabel.setText(String.valueOf(Stages.getApAttack()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -893,7 +896,7 @@ public class Graph {// Creating the class Graph
 			public void actionPerformed(ActionEvent e) {
 				Stages.setAttackZero();
 				apAttackLabel.setText(String.valueOf(Stages.getApAttack()));
-				attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+				attributePoints.setText(remAp + Stages.getAttributePoints());
 			}
 		});
 		armourPlus1.addActionListener(new ActionListener() {
@@ -901,7 +904,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApArmour() + 1 <= maxAp) && (Stages.getAttributePoints() - 1 >= 0)) {
 					Stages.setApArmour(1);
 					apArmourLabel.setText(String.valueOf(Stages.getApArmour()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -910,7 +913,7 @@ public class Graph {// Creating the class Graph
 				if (Stages.getApArmour() + 5 <= maxAp && Stages.getAttributePoints() - 5 >= 0) {
 					Stages.setApArmour(5);
 					apArmourLabel.setText(String.valueOf(Stages.getApArmour()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -919,7 +922,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApArmour() + 10 <= maxAp) && (Stages.getAttributePoints() - 10 >= 0)) {
 					Stages.setApArmour(10);
 					apArmourLabel.setText(String.valueOf(Stages.getApArmour()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -927,7 +930,7 @@ public class Graph {// Creating the class Graph
 			public void actionPerformed(ActionEvent e) {
 				Stages.setArmorZero();
 				apArmourLabel.setText(String.valueOf(Stages.getApArmour()));
-				attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+				attributePoints.setText(remAp + Stages.getAttributePoints());
 			}
 		});
 		hpPlus1.addActionListener(new ActionListener() {
@@ -935,7 +938,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApHp() + 1 <= maxAp) && (Stages.getAttributePoints() - 1 >= 0)) {
 					Stages.setApHp(1);
 					apHpLabel.setText(String.valueOf(Stages.getApHp()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -944,7 +947,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApHp() + 5 <= maxAp) && (Stages.getAttributePoints() - 5 >= 0)) {
 					Stages.setApHp(5);
 					apHpLabel.setText(String.valueOf(Stages.getApHp()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -953,7 +956,7 @@ public class Graph {// Creating the class Graph
 				if ((Stages.getApHp() + 10 <= maxAp) && (Stages.getAttributePoints() - 10 >= 0)) {
 					Stages.setApHp(10);
 					apHpLabel.setText(String.valueOf(Stages.getApHp()));
-					attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+					attributePoints.setText(remAp + Stages.getAttributePoints());
 				}
 			}
 		});
@@ -961,7 +964,7 @@ public class Graph {// Creating the class Graph
 			public void actionPerformed(ActionEvent e) {
 				Stages.setHpZero();
 				apHpLabel.setText(String.valueOf(Stages.getApHp()));
-				attributePoints.setText("Remaining Attribute Points: " + Stages.getAttributePoints());
+				attributePoints.setText(remAp + Stages.getAttributePoints());
 			}
 		});
 	}
