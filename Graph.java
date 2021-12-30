@@ -431,8 +431,8 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(heroEnergy);
 		centralPanel.add(godHp);
 		centralPanel.add(mes1);
-		centralPanel.add(godImage);
-		centralPanel.add(heroImage);
+		//centralPanel.add(godImage);
+		//centralPanel.add(heroImage);
 
 		buttonPanel.add(swordButton);
 		buttonPanel.add(spearButton);
@@ -453,8 +453,8 @@ public class Graph {// Creating the class Graph
 		centralPanel.remove(heroEnergy);
 		centralPanel.remove(godHp);
 		centralPanel.remove(mes1);
-		centralPanel.remove(godImage);
-		centralPanel.remove(heroImage);
+		//centralPanel.remove(godImage);
+		//centralPanel.remove(heroImage);
 
 		buttonPanel.remove(swordButton);
 		buttonPanel.remove(spearButton);
