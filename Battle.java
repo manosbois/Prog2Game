@@ -29,11 +29,17 @@ public class Battle {
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
 		File file = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Song.wav");
+		File filesong2 = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\Song2.wav");
 		File zeusMusic = new File("C:\\java\\Graphics\\GraphicDisplay\\src\\ZeusMusic.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-		if (numOfBattle == 12) {
-		 audioStream = AudioSystem.getAudioInputStream(zeusMusic);
-		}
+		if (numOfBattle <=11 && numOfBattle%2 == 1  ) {
+  AudioSystem.getAudioInputStream(file);
+} else if (numOfBattle <=11 && numOfBattle%2 == 0) {
+  AudioSystem.getAudioInputStream(filesong2);
+} else {
+  AudioSystem.getAudioInputStream(zeusMusic);
+}
+
 
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioStream);
