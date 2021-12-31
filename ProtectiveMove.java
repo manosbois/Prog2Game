@@ -1,4 +1,5 @@
-import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.util.Scanner;
 
 public class ProtectiveMove extends Move {
@@ -12,19 +13,17 @@ public class ProtectiveMove extends Move {
 
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
-        Scanner myReader = null;
-        try {
-            myReader = new Scanner(this.getMessageFile());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        Scanner myReader = new Scanner(new LineNumberReader(
+                new InputStreamReader(this.getClass().getResourceAsStream(this.getMessageFileName()))));        
+
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         System.out.printf("%s will be partially protected by the shield%n%n",
                 hero1.getName());
         Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName()
                 + myReader.nextLine() + this.getName() + ". " + myReader.nextLine() + hero1.getName() + myReader.nextLine());
         try {
-            Thread.sleep(0);
+            Thread.sleep(WAIT_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
