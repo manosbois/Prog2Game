@@ -1,5 +1,6 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.LineNumberReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 //The class that creates the Move objects that the Heroes use
@@ -8,16 +9,16 @@ public class Move {
     private final int energy; //How much energy the Move consumes
     private final String name; //The name of the Move
 
-    private File messageFile;
+    String messageFileName;
 
     private static final double MODIFIER = 1;
-
+    protected static final int WAIT_TIME = 2500;
 
     //Constructor
     public Move(int energy, String name, String messageFileName) {
         this.energy = energy;
         this.name = name;
-        this.messageFile = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + messageFileName);
+        this.messageFileName = messageFileName;
     }
 
     public int getEnergy() {
@@ -27,24 +28,23 @@ public class Move {
     public String getName() {
         return name;
     }
- 
-    public File getMessageFile() {
-        return messageFile;
+
+    public String getMessageFileName() {
+        return messageFileName;
     }
 
     public double getModifier() {return MODIFIER;}
 
     public void effect(Character hero1, Character hero2, double modifier) {
-        Scanner myReader = null;
-        try {
-            myReader = new Scanner(this.getMessageFile());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        Scanner myReader = new Scanner(new BufferedReader(
+                new InputStreamReader(this.getClass().getResourceAsStream(messageFileName))));
+        
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
-        Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName() + myReader.nextLine() + this.getName() + myReader.nextLine());
+        Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName()
+                + myReader.nextLine() + this.getName() + ". " + myReader.nextLine());
         try {
-            Thread.sleep(0);
+            Thread.sleep(WAIT_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
