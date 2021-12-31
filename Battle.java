@@ -1,7 +1,6 @@
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -33,16 +32,19 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		File file = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song1.wav");
-		File fileSong2 = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Song2.wav");
-		File zeusMusic = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\ZeusMusic.wav");
-		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+		InputStream file = Battle.class.getResourceAsStream("Song1.wav");
+		InputStream fileSong2 = Battle.class.getResourceAsStream("Song2.wav");
+		InputStream zeusMusic = Battle.class.getResourceAsStream("ZeusMusic.wav");
+		AudioInputStream audioStream;
 		if (numOfBattle == 12) {
-			AudioSystem.getAudioInputStream(zeusMusic);
+			audioStream = AudioSystem.getAudioInputStream
+					(new BufferedInputStream(Objects.requireNonNull(zeusMusic)));
 		} else if (numOfBattle % 2 == 0) {
-			AudioSystem.getAudioInputStream(fileSong2);
-		} else if (numOfBattle % 2 == 1){
-			AudioSystem.getAudioInputStream(file);
+			audioStream = AudioSystem.getAudioInputStream
+					(new BufferedInputStream(Objects.requireNonNull(fileSong2)));
+		} else {
+			audioStream = AudioSystem.getAudioInputStream
+					(new BufferedInputStream(Objects.requireNonNull(file)));
 		}
 
 		Clip clip = AudioSystem.getClip();
@@ -89,12 +91,9 @@ public class Battle {
 			System.out.println(myHero.getProtectiveMove().toString());
 			System.out.println(myHero.getNoMove().toString());
 
-			Scanner myReader = null;
-			try {
-				myReader = new Scanner(new File("C:\\Users\\manoz\\IdeaProjects\\Game\\src\\" + Graph.getLanguage() + "-Battle.txt"));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			Scanner	myReader = new Scanner(new BufferedReader(new InputStreamReader(Objects.requireNonNull
+					(Battle.class.getResourceAsStream(Graph.getLanguage() + "-Battle.txt")))));
+			
 
 			Game.graph.modifyMes(Graph.mes1, myReader.nextLine()); //Message: Choose your move!
 
@@ -148,11 +147,11 @@ public class Battle {
 
 	private static Move getMove(Character hero, int chosenMove) {
 
-		File swordSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Swordsound.wav");
-		File spearSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Spearsound.wav");
-		File meditate = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\meditate.wav");
-		File noMove = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Nomove.wav");
-		File shieldSound = new File("C:\\Users\\manoz\\IdeaProjects\\Game\\Shield.wav");
+		InputStream swordSound = Battle.class.getResourceAsStream("Swordsound.wav");
+		InputStream spearSound = Battle.class.getResourceAsStream("Spearsound.wav");
+		InputStream meditate = Battle.class.getResourceAsStream("Meditate.wav");
+		InputStream noMove = Battle.class.getResourceAsStream("Nomove.wav");
+		InputStream shieldSound = Battle.class.getResourceAsStream("Shield.wav");
 		Clip clip3;
 		try {
 			clip3 = AudioSystem.getClip();
@@ -184,9 +183,10 @@ public class Battle {
 		return hero.getNoMove(); // In case try fails
 	}
 
-	private static void makeSound(File moveSound, Clip clip3)
+	private static void makeSound(InputStream moveSound, Clip clip3)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		AudioInputStream audioStreamMove = AudioSystem.getAudioInputStream(moveSound);
+		AudioInputStream audioStreamMove = AudioSystem.getAudioInputStream
+				(new BufferedInputStream(moveSound));
 		clip3.open(audioStreamMove);
 		clip3.start();
 	}
@@ -214,7 +214,7 @@ public class Battle {
 	// It modifies the TempStats of the objects myHero and god according to used
 	// moves
 	private static void roundResult(Move myMove, Move opponentsMove, Hero myHero, God god, boolean iPlayFirst) {
-		// Checks who plays first
+		// Method that checks who plays first
 		if (iPlayFirst) { // If the user plays first
 			myMove.effect(myHero, god, opponentsMove.getModifier()); // The user makes his move
 			if (god.getTempHP() <= 0) { // Checks if the opponent has lost
