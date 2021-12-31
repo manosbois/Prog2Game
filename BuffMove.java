@@ -1,4 +1,5 @@
-import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.util.Scanner;
 
 //A class for Moves that raise the tempStats
@@ -12,12 +13,10 @@ public class BuffMove extends Move {
 
 	@Override
 	public void effect(Character hero1, Character hero2, double modifier) {
-		Scanner myReader = null;
-		try {
-			myReader = new Scanner(this.getMessageFile());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+
+		Scanner myReader = new Scanner(new LineNumberReader(
+				new InputStreamReader(this.getClass().getResourceAsStream(this.getMessageFileName()))));
+		
 		System.out.printf("%s used %s.%n",
 				hero1.getName(), this.getName());
 		double tempAttack = hero1.getTempAttack() * MULTIPLICATION_FACTOR; //Raising tempAttack by half
@@ -30,7 +29,7 @@ public class BuffMove extends Move {
 				+ this.getName() +". " + myReader.nextLine() + hero1.getName() + myReader.nextLine();
 		Game.graph.modifyMes(Game.graph.mes1, message);
 		try {
-			Thread.sleep(0);
+			Thread.sleep(WAIT_TIME);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
