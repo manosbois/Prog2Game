@@ -27,10 +27,11 @@ public class Graph {// Creating the class Graph
 	// names(hero
 	// and god
 	// names)
+	Color buttonColor = Color.white;
 	JButton swordButton, spearButton, meditateButton, shieldButton, noMoveButton;
 	Button nextGod, checkpoint, returnMain, winButton;// We define the move buttons
 	static Label heroHp, godHp;
-	JLabel godImage, heroImage;
+	JLabel godImage, heroImage, zeusBackground;
 	static Label mes1;
 	Label battleWin, winMes, loseMes, checkpointMes;
 	Button attackPlus1, attackPlus5, attackPlus10, attackReset, armourPlus1, armourPlus5, armourPlus10, armourReset,
@@ -125,7 +126,7 @@ public class Graph {// Creating the class Graph
 		introButton = new Button("LET'S BEGIN OUR ADVENTURE");// We define the button on the first window that leads to
 		// main menu
 
-		username = new JTextField("Hercules");
+		username = new JTextField("Enter your name here");
 		username.setBounds((WIDTH - 350) / 2, HEIGHT * 3 / 5, 350, 50);
 		username.setBackground(Color.WHITE);
 		username.setForeground(Color.BLUE);
@@ -230,7 +231,7 @@ public class Graph {// Creating the class Graph
 		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);// We define the location of the button
 		// startbutton
 		menuButton.setSize(350, 100);// We define the size of the button startbutton
-		menuButton.setBackground(Color.white);// We define the color of the button startbutton
+		menuButton.setBackground(buttonColor);// We define the color of the button startbutton
 		menuButton.setForeground(Color.black);// We define the font color of the button startbutton
 		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
 	}
@@ -318,13 +319,13 @@ public class Graph {// Creating the class Graph
 		godHp.setAlignment(Label.LEFT);
 		godHp.setText("HP: " + 100 + "%");
 
-		/*godImage = new JLabel();
-		godImage.setBounds(WIDTH / 2 + 200, HEIGHT * 9 / 10 - 550, 350, 500);
+		godImage = new JLabel();
+		godImage.setBounds(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 450, 240, 403);
 		godImage.setIcon(new ImageIcon("C:\\java\\Graphics\\GraphicsDisplay\\src\\" + Battle.god.getName() + ".jpg"));
 
 		heroImage = new JLabel();
-		heroImage.setBounds(WIDTH / 2 - 550, HEIGHT * 9 / 10 - 550, 300, 500);
-		heroImage.setIcon(new ImageIcon("C:\\java\\Graphics\\GraphicsDisplay\\src\\Hero.jpg"));*/
+		heroImage.setBounds(WIDTH / 2 - 550, HEIGHT * 9 / 10 - 423, 212, 343);
+		heroImage.setIcon(new ImageIcon("C:\\java\\Graphics\\GraphicsDisplay\\src\\Hero.jpg"));
 
 		buttonPanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
 		// based on rgb color
@@ -335,6 +336,12 @@ public class Graph {// Creating the class Graph
 
 		// centralpanel.setSize(0,0);
 		// the panel buttonpanel
+		if (Battle.god.getName().equals("Zeus")) {
+			godImage.setLocation(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 483);
+			zeusBackground = new JLabel();
+			zeusBackground.setBounds(0, 0, WIDTH, HEIGHT-130);
+			zeusBackground.setIcon(new ImageIcon("C:\\java\\Graphics\\GraphicsDisplay\\src\\zeusback1.jpg"));
+		}
 
 		swordButton = new JButton("1. Sword");
 		modifyMoveButtons(swordButton, 1, 90, 6);
@@ -421,18 +428,34 @@ public class Graph {// Creating the class Graph
 	}
 
 	private void addStartWindow() {
-		centralPanel.add(heroName);
-		centralPanel.add(godName);
-		centralPanel.add(heroHpBar);
-		centralPanel.add(heroBackBar);
-		centralPanel.add(godHBar);
-		centralPanel.add(godBackBar);
-		centralPanel.add(heroHp);
-		centralPanel.add(heroEnergy);
-		centralPanel.add(godHp);
-		centralPanel.add(mes1);
-		//centralPanel.add(godImage);
-		//centralPanel.add(heroImage);
+		if (Battle.god.getName().equals("Zeus")) {
+			centralPanel.add(zeusBackground);
+			zeusBackground.add(heroName);
+			zeusBackground.add(godName);
+			zeusBackground.add(heroHpBar);
+			zeusBackground.add(heroBackBar);
+			zeusBackground.add(godHBar);
+			zeusBackground.add(godBackBar);
+			zeusBackground.add(heroHp);
+			zeusBackground.add(heroEnergy);
+			zeusBackground.add(godHp);
+			zeusBackground.add(mes1);
+			zeusBackground.add(godImage);
+			zeusBackground.add(heroImage);
+		} else {
+			centralPanel.add(heroName);
+			centralPanel.add(godName);
+			centralPanel.add(heroHpBar);
+			centralPanel.add(heroBackBar);
+			centralPanel.add(godHBar);
+			centralPanel.add(godBackBar);
+			centralPanel.add(heroHp);
+			centralPanel.add(heroEnergy);
+			centralPanel.add(godHp);
+			centralPanel.add(mes1);
+			centralPanel.add(godImage);
+			centralPanel.add(heroImage);
+		}
 
 		buttonPanel.add(swordButton);
 		buttonPanel.add(spearButton);
@@ -442,19 +465,35 @@ public class Graph {// Creating the class Graph
 	}
 
 	private void removeStartWindow() {
-		centralPanel.remove(mainButton);
-		centralPanel.remove(heroName);
-		centralPanel.remove(godName);
-		centralPanel.remove(heroHpBar);
-		centralPanel.remove(heroBackBar);
-		centralPanel.remove(godHBar);
-		centralPanel.remove(godBackBar);
-		centralPanel.remove(heroHp);
-		centralPanel.remove(heroEnergy);
-		centralPanel.remove(godHp);
-		centralPanel.remove(mes1);
-		//centralPanel.remove(godImage);
-		//centralPanel.remove(heroImage);
+		if (Battle.god.getName().equals("Zeus")) {
+			centralPanel.remove(zeusBackground);
+			zeusBackground.remove(heroName);
+			zeusBackground.remove(godName);
+			zeusBackground.remove(heroHpBar);
+			zeusBackground.remove(heroBackBar);
+			zeusBackground.remove(godHBar);
+			zeusBackground.remove(godBackBar);
+			zeusBackground.remove(heroHp);
+			zeusBackground.remove(heroEnergy);
+			zeusBackground.remove(godHp);
+			zeusBackground.remove(mes1);
+			zeusBackground.remove(godImage);
+			zeusBackground.remove(heroImage);
+		} else {
+			centralPanel.remove(mainButton);
+			centralPanel.remove(heroName);
+			centralPanel.remove(godName);
+			centralPanel.remove(heroHpBar);
+			centralPanel.remove(heroBackBar);
+			centralPanel.remove(godHBar);
+			centralPanel.remove(godBackBar);
+			centralPanel.remove(heroHp);
+			centralPanel.remove(heroEnergy);
+			centralPanel.remove(godHp);
+			centralPanel.remove(mes1);
+			centralPanel.remove(godImage);
+			centralPanel.remove(heroImage);
+		}
 
 		buttonPanel.remove(swordButton);
 		buttonPanel.remove(spearButton);
@@ -482,10 +521,6 @@ public class Graph {// Creating the class Graph
 	}
 
 	public void clearMes() {
-		/*
-		 * mes1.setText(""); mes2.setText(""); mes3.setText(""); mes4.setText("");
-		 * mes5.setText("");
-		 */
 		mes1.setText("");
 	}
 
@@ -1047,6 +1082,7 @@ public class Graph {// Creating the class Graph
 		lightMode.addActionListener(new ActionListener() {// The user has press the button quitbutton
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.setBackground(Color.GRAY);
+				buttonColor = Color.DARK_GRAY;
 			}
 		});
 		darkMode.addActionListener(new ActionListener() {// The user has press the button quitbutton
