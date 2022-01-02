@@ -7,7 +7,7 @@ public class God extends Character {
         switch (numOfBattle) {
             // Hestia
             case 1:
-                this.setName("Hestia");
+                this.setName("Dionysus");
                 setTempStats(100, 100, 100, 10);
                 break;
             // Hephaestus
