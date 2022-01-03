@@ -41,7 +41,7 @@ public class Move {
                 new InputStreamReader(this.getClass().getResourceAsStream(messageFileName))));
         
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
-        Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName()
+        Game.graph.modifyMes(myReader.nextLine() + hero1.getName()
                 + myReader.nextLine() + this.getName() + ". " + myReader.nextLine());
         try {
             Thread.sleep(WAIT_TIME);
