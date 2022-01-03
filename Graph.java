@@ -113,7 +113,7 @@ public class Graph {// Creating the class Graph
 	public void createMainWindow() {// This method creates the first window that the user will see when he opens the
 		// game
 		centralPanel = new JPanel();// We define the main panel of the window
-		centralPanel.setBackground(Color.BLACK);// We define the color of the panel centralpanel
+		centralPanel.setBackground(new Color(0, 51, 51));// We define the color of the panel centralpanel
 		// based on rgb color
 		centralPanel.setLayout(null);
 		centralPanel.setLocation(0, 0);// We define the location of this panel
@@ -137,9 +137,9 @@ public class Graph {// Creating the class Graph
 
 		username = new JTextField("Enter Your Name Here");
 		username.setBounds((WIDTH - 350) / 2, HEIGHT * 3 / 5, 350, 50);
-		username.setBackground(Color.WHITE);
-		username.setForeground(Color.BLUE);
-		username.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
+		username.setBackground(new Color(0, 74, 74));
+		username.setForeground(new Color(255,204, 51));
+		username.setFont(new Font(Font.MONOSPACED, Font.BOLD, 22));
 
 
 		introButton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);// We define the location of the button introbutton
@@ -147,8 +147,8 @@ public class Graph {// Creating the class Graph
 		// window(so it could change if we change the size
 		// of the window
 		introButton.setSize(450, 100);// We define the size of the introbutton
-		introButton.setBackground(Color.white);// We define the color of the introbutton
-		introButton.setForeground(Color.black);// We define the font color of the introbutton
+		introButton.setBackground(new Color(223, 255, 255));// We define the color of the introbutton
+		introButton.setForeground(new Color(14,114,110));// We define the font color of the introbutton
 		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));// We define the size of the text of the
 		// introButton and that the text is going to be
 		// bold
@@ -156,7 +156,7 @@ public class Graph {// Creating the class Graph
 		introLabel = new Label("Welcome to our Game!");// We define the label that appears on the first window
 		introLabel.setLocation((WIDTH - 450) / 2, HEIGHT * 2 / 10);// We define the location of the introlabel
 		introLabel.setSize(450, 200);// We define the size of the introlabel
-		introLabel.setForeground(Color.WHITE);// We define the font color of the introlabel
+		introLabel.setForeground(new Color(255, 204, 51));// We define the font color of the introlabel
 		introLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));// We define the size of the text of the introlabel
 		// and that the text is going to be bold
 
@@ -215,7 +215,7 @@ public class Graph {// Creating the class Graph
 		mainButton.setLocation((WIDTH - 350) / 2, 0);
 		mainButton.setSize(350, 50);
 		mainButton.setBackground(Color.BLACK);
-		mainButton.setForeground(Color.WHITE);
+		mainButton.setForeground(new Color(255,204, 51));
 		mainButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
 		centralPanel.add(startButton);// We add to the frame the button startbutton
@@ -257,7 +257,7 @@ public class Graph {// Creating the class Graph
 		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);// We define the location of the button
 		// startbutton
 		menuButton.setSize(350, 100);// We define the size of the button startbutton
-		menuButton.setBackground(Color.white);// We define the color of the button startbutton
+		menuButton.setBackground(new Color(53,1,70));// We define the color of the button startbutton
 		menuButton.setForeground(Color.black);// We define the font color of the button startbutton
 		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
 	}
@@ -290,14 +290,14 @@ public class Graph {// Creating the class Graph
 		heroName = new Label(Stages.myHero.getName());
 		heroName.setBounds(50, HEIGHT / 10, 200, 50);
 		heroName.setAlignment(Label.CENTER);
-		heroName.setForeground(Color.BLACK);
-		heroName.setBackground(Color.ORANGE);
+		heroName.setForeground(new Color(223, 255, 255));
+		heroName.setBackground(new Color(0, 0, 102));
 		heroName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 
 		godName = new Label();
 		godName.setBounds(WIDTH - 250, HEIGHT / 10, 200, 50);
-		godName.setForeground(Color.BLACK);
-		godName.setBackground(Color.ORANGE);
+		godName.setForeground(new Color(223, 255, 255));
+		godName.setBackground(new Color(0, 0, 102));
 		godName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godName.setAlignment(Label.CENTER);
 
@@ -310,21 +310,21 @@ public class Graph {// Creating the class Graph
 		heroHpBar = new Label();
 		heroHpBar.setBounds(50, HEIGHT / 10 + 50, 200, 30);
 		heroHpBar.setForeground(Color.BLACK);
-		heroHpBar.setBackground(Color.GREEN);
+		heroHpBar.setBackground(new Color(102, 204, 0));
 		heroHpBar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		heroHpBar.setAlignment(Label.CENTER);
 
 		heroHp = new Label("HP: " + String.valueOf(Stages.myHero.getHp()));
 		heroHp.setBounds(50, HEIGHT / 10 + 50 + 5 + 26, 200, 20);
-		heroHp.setForeground(Color.BLACK);
-		heroHp.setBackground(Color.RED);
+		heroHp.setForeground(new Color(223, 255, 255));
+		heroHp.setBackground(new Color(22, 49, 87));
 		heroHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		heroHp.setAlignment(Label.LEFT);
 
 		heroEnergy = new Label("Energy: " + String.valueOf(Stages.myHero.getEnergy()));
 		heroEnergy.setBounds(50, HEIGHT / 10 + 50 + 5 + 48, 200, 20);
-		heroEnergy.setForeground(Color.BLACK);
-		heroEnergy.setBackground(Color.CYAN);
+		heroEnergy.setForeground(new Color(223, 255, 255));
+		heroEnergy.setBackground(new Color(22, 49, 87));
 		heroEnergy.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		heroEnergy.setAlignment(Label.LEFT);
 
@@ -335,14 +335,14 @@ public class Graph {// Creating the class Graph
 		godHBar = new Label();
 		godHBar.setBounds(WIDTH - 250, HEIGHT / 10 + 50, 200, 30);
 		godHBar.setForeground(Color.BLACK);
-		godHBar.setBackground(Color.GREEN);
+		godHBar.setBackground(new Color(102, 204, 0));
 		godHBar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godHBar.setAlignment(Label.CENTER);
 
 		godHp = new Label();
 		godHp.setBounds(WIDTH - 250, HEIGHT / 10 + 50 + 31, 200, 20);
-		godHp.setForeground(Color.BLACK);
-		godHp.setBackground(Color.RED);
+		godHp.setForeground(new Color(223, 255, 255));
+		godHp.setBackground(new Color(22, 49, 87));
 		godHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		godHp.setAlignment(Label.LEFT);
 		godHp.setText("HP: " + 100 + "%");
@@ -624,7 +624,7 @@ public class Graph {// Creating the class Graph
 
 		winMes = new Label();
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
-		winMes.setForeground(new Color(255, 215, 0));
+		winMes.setForeground(new Color(255, 204, 51));
 		try {
 			winMes.setText(
 					getLine(1,getLanguage()
@@ -645,7 +645,7 @@ public class Graph {// Creating the class Graph
 
 		battleWin = new Label();
 		battleWin.setBounds(0, HEIGHT / 2 - 150, WIDTH, 200);
-		battleWin.setForeground(Color.RED);
+		battleWin.setForeground(new Color(255, 204, 51));
 		battleWin.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 		battleWin.setAlignment(Label.CENTER);
 		try {
@@ -694,14 +694,14 @@ public class Graph {// Creating the class Graph
 			e.printStackTrace();
 		}
 		checkpointMes.setBounds((WIDTH - 300) / 2, (HEIGHT - 100) / 2, 300, 100);
-		checkpointMes.setForeground(Color.RED);
+		checkpointMes.setForeground(new Color(255, 204, 51));
 		checkpointMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		checkpointMes.setAlignment(Label.CENTER);
 
 		checkpoint = new Button("CHECKPOINT");
 		checkpoint.setBounds((WIDTH - 150) / 2, (HEIGHT - 100) / 2 + 200, 150, 100);
-		checkpoint.setBackground(Color.WHITE);
-		checkpoint.setForeground(Color.BLACK);
+		checkpoint.setBackground(new Color(223, 255, 255));
+		checkpoint.setForeground(new Color(255, 204, 51));
 		checkpoint.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 
 		centralPanel.add(checkpointMes);
