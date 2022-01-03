@@ -27,7 +27,7 @@ public class BuffMove extends Move {
 				+ "were raised by half%n%n", hero1.getName());
 		String message = myReader.nextLine() + hero1.getName() + myReader.nextLine()
 				+ this.getName() +". " + myReader.nextLine() + hero1.getName() + myReader.nextLine();
-		Game.graph.modifyMes(Game.graph.mes1, message);
+		Game.graph.modifyMes(message);
 		try {
 			Thread.sleep(WAIT_TIME);
 		} catch (InterruptedException e) {
