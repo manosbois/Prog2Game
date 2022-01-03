@@ -1,6 +1,12 @@
-YOU WON! YOU HAVE CONQUERED OLYMPOUS!
+YOU WON! YOU HAVE CONQUERED OLYMPUS!
 YOU WON 
 Upgrade Your Hero's Statistics!
 You Lost, but you can continue from the checkpoint!
 Remaining Attribute Points: 
 You haven't distributed all the attribute points!
+START THE GAME
+RULES
+SETTINGS
+QUIT
+GAME OVER
+Return to the main menu
