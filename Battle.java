@@ -79,7 +79,6 @@ public class Battle {
 		boolean sufficientEnergy;
 		Move move; // Creating a variable of type Move to assist us in switch structure.
 		do {
-			Game.graph.clearMes();
 			sufficientEnergy = true;
 			System.out.printf("%s %14s%nHP: %d %14d%nEnergy: %d%n%n", myHero.getName(), god.getName(),
 					myHero.getTempHP(), god.getTempHP(), myHero.getTempEnergy());
@@ -95,7 +94,7 @@ public class Battle {
 					(Battle.class.getResourceAsStream(Graph.getLanguage() + "-Battle.txt")))));
 			
 
-			Game.graph.modifyMes(Graph.mes1, myReader.nextLine()); //Message: Choose your move!
+			Game.graph.modifyMes(myReader.nextLine()); //Message: Choose your move!
 
 			synchronized (lock) {
 				try {
@@ -113,7 +112,7 @@ public class Battle {
 				Game.graph.clearMes();
 				System.out.printf("You need %d more Energy to use the move %s%n",
 						move.getEnergy() - myHero.getTempEnergy(), move.getName());
-				Game.graph.modifyMes(Graph.mes1,myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy()) +
+				Game.graph.modifyMes(myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy()) +
 						myReader.nextLine() + move.getName() + "."); //Message: Yoy need $ more energy to use the move %.
 				Thread.sleep(1500);
 			}
