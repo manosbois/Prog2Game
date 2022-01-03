@@ -26,7 +26,7 @@ public class DamageMove extends Move {
                 new InputStreamReader(this.getClass().getResourceAsStream(this.getMessageFileName()))));        
 
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
-        Game.graph.modifyMes(Game.graph.mes1, myReader.nextLine() + hero1.getName() + myReader.nextLine() + this.getName() + ".");
+        Game.graph.modifyMes(myReader.nextLine() + hero1.getName() + myReader.nextLine() + this.getName() + ".");
         try {
             Thread.sleep(WAIT_TIME);
         } catch (InterruptedException e) {
