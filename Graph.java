@@ -44,7 +44,7 @@ public class Graph {// Creating the class Graph
 	static final int WIDTH = 1280, HEIGHT = 800;// We define the width and the height of the window
 
 	private String tempHeroName; //Variable that's to temporarily save
-							// the username to set it when stageControl is called
+	// the username to set it when stageControl is called
 	private Clip clip2; // For music.
 	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
 	// it.
@@ -59,7 +59,7 @@ public class Graph {// Creating the class Graph
 	public static void setChosenMove(int move) { chosenMove = move; }
 
 	public static String getLanguage() { return language; }
-	
+
 	//Returns the contents of the line of a file that is located the number specified.
 	public static String getLine(final int numberOfLine, final String fileName) throws IOException {
 
@@ -177,7 +177,7 @@ public class Graph {// Creating the class Graph
 			}
 		});
 	}
-//my path: "C:\\Users\\manoz\\IdeaProjects\\Game\\src\\"
+	//my path: "C:\\Users\\manoz\\IdeaProjects\\Game\\src\\"
 	public void createMenuWindow() {// That method creates the window that contains the menu
 		try {
 			startButton = new Button(
@@ -263,10 +263,10 @@ public class Graph {// Creating the class Graph
 	}
 
 	private void removeMenuButtons() {
-		centralPanel.remove(startButton);// We remove the button startbutton from the window
-		centralPanel.remove(rulesButton);// We remove the button statsbutton from the window
-		centralPanel.remove(settingsButton);// We remove the button settingsbutton from the window
-		centralPanel.remove(quitButton);// We remove the button quitbutton from the window
+		centralPanel.remove(startButton); // We remove the button startButton from the window
+		centralPanel.remove(rulesButton); // We remove the button rulesButton from the window
+		centralPanel.remove(settingsButton); // We remove the button settingsButton from the window
+		centralPanel.remove(quitButton); // We remove the button quitButton from the window
 	}
 
 	public void createStartWindow() {// We create the window that the player is going to play to
@@ -301,7 +301,7 @@ public class Graph {// Creating the class Graph
 		godName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godName.setAlignment(Label.CENTER);
 
-		
+
 
 		heroBackBar = new Label();
 		heroBackBar.setBounds(50, HEIGHT / 10 + 50, 200, 30);
@@ -346,24 +346,25 @@ public class Graph {// Creating the class Graph
 		godHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		godHp.setAlignment(Label.LEFT);
 		godHp.setText("HP: " + 100 + "%");
-		
+
 		mes1 = new Label();
 		mes1.setBounds(0, HEIGHT * 9 / 10 - 280 + 5 * 40, WIDTH, 40);
 		mes1.setBackground(Color.white);
 		mes1.setForeground(Color.BLACK);
 		mes1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		
+
 		godImage = new JLabel();
 		godImage.setBounds(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 450, 240, 403);
 		try {
 			InputStream resourceBf = Graph.class.getResourceAsStream(Battle.god.getName() + ".jpg");
+			System.out.println(Battle.god.getName() + ".jpg");
 			BufferedImage bf = ImageIO.read(resourceBf);
 			ImageIcon im = new ImageIcon(bf);
 			godImage.setIcon(im);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		heroImage = new JLabel();
 		heroImage.setBounds(WIDTH / 2 - 550, HEIGHT * 9 / 10 - 423, 212, 343);
 		try {
@@ -375,8 +376,8 @@ public class Graph {// Creating the class Graph
 			e1.printStackTrace();
 		}
 
-		
-		
+
+
 		buttonPanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
 		// based on rgb color
 		buttonPanel.setLayout(null);
@@ -735,8 +736,8 @@ public class Graph {// Creating the class Graph
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		int maxAp = Stages.getAttributePoints() / 2;
+		
+		final int maxAp = ((Stages.getAttributePoints() == 1) ? 1 : Stages.getAttributePoints() / 2);
 		FirstGod = false;
 
 		attackBarLabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
@@ -868,14 +869,14 @@ public class Graph {// Creating the class Graph
 
 		String string = null; //Variable to be used on attributePoints Label
 		try {
-			string = 
+			string =
 					getLine(5,getLanguage()
 							+ "-Graph.txt"); //Message: Remaining Attribute points: 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		final String remAp = string;
-		
+
 		attributePoints = new Label(remAp + Stages.getAttributePoints());
 		attributePoints.setBounds(WIDTH / 10, HEIGHT * 4 / 5, 375, 75);
 		attributePoints.setBackground(Color.WHITE);
@@ -971,7 +972,7 @@ public class Graph {// Creating the class Graph
 					createStartWindow();
 				} else {
 					try {
-						JOptionPane.showMessageDialog(null, 
+						JOptionPane.showMessageDialog(null,
 								getLine(6,getLanguage()
 										+ "-Graph.txt")); //Message: You haven't distributed all the attribute points!
 					} catch (IOException ex) {
@@ -1091,24 +1092,26 @@ public class Graph {// Creating the class Graph
 		plus.setForeground(Color.BLACK);
 		plus.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 	}
-	
+
 	public void createRulesWindow() {
+		final int RULES_TXT_SIZE = 23;
 		int i = 1;
 		String rulesDoc = "";
-		while (i <= 16) {
+		while (i <= RULES_TXT_SIZE) {
 			try {
 				rulesDoc = rulesDoc + "\n" + getLine(i, getLanguage() + "-Rules.txt");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			i = i + 1;
+			i++;
 		}
 
-		rules = new TextArea(rulesDoc, 22, 40);
+		rules = new TextArea(rulesDoc, 25, 40, TextArea.SCROLLBARS_NONE);
 		rules.setBounds(0, 100, WIDTH - 10, HEIGHT - 135);
 		rules.setForeground(Color.BLACK);
 		rules.setBackground(Color.WHITE);
-		rules.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 12));
+		rules.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 20));
+		rules.setEditable(false);
 
 		centralPanel.add(mainButton);
 		centralPanel.add(rules);
@@ -1117,6 +1120,7 @@ public class Graph {// Creating the class Graph
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.remove(rules);
+				centralPanel.remove(mainButton);
 				createMenuWindow();
 			}
 		});
@@ -1151,7 +1155,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(lightMode);
 		centralPanel.add(greekButton);
 		centralPanel.add(englishButton);
-		
+
 
 		lightMode.addActionListener(new ActionListener() {// The user has press the button quitbutton
 			public void actionPerformed(ActionEvent e) {
