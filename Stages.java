@@ -67,9 +67,7 @@ public class Stages {
 	public static void stageControl() throws InterruptedException  {
 		myHero= new Hero(100 , 100 , 100 , MY_HERO_ENERGY);
 		myHero.setName(Game.graph.getTempHeroName());
-		synchronized (Graph.getGraphLock()) {
-			Graph.getGraphLock().notify();
-		}
+		
 		boolean hasDied = false;
 		//Creating the object for the user
 
@@ -86,8 +84,7 @@ public class Stages {
 			}
 			if (attributePoints > 0 & i == ZEUS_BATTLE) { //The user has won the entire game
 				Game.graph.createWinWindow();
-			}
-			if (attributePoints > 0 & i != ZEUS_BATTLE) { //Give attribute points
+			} else if (attributePoints > 0 & i != ZEUS_BATTLE) { //Give attribute points
 
 				Game.graph.createBattleWinWindow(Battle.god.getName());
 
@@ -126,7 +123,7 @@ public class Stages {
 				System.out.println("Game Over!");
 				Game.graph.createLoseWindow();
 				i = END_OF_GAME;
-			} else if (i > FIRST_CHECKPOINT && i < ZEUS_BATTLE) { //Before the battle with the twelfth god
+			} else if (/* i > FIRST_CHECKPOINT && */ i < ZEUS_BATTLE) { //Before the battle with the twelfth god
 				myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 				i = FIRST_CHECKPOINT;
 				Game.graph.createCheckpointWindow();
