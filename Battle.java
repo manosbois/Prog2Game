@@ -139,7 +139,7 @@ public class Battle {
 		do {
 			sufficientEnergy = true;
 			int randomMove, randomNumber ;
-			randomNumber= rand.nextInt(4) + 1;
+			randomNumber= rand.nextInt(100) + 1;
 			if(randomNumber<=37) {
 				randomMove=1;
 			}else if(randomNumber<=62) {
