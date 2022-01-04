@@ -138,7 +138,17 @@ public class Battle {
 
 		do {
 			sufficientEnergy = true;
-			int randomMove = rand.nextInt(4) + 1;
+			int randomMove, randomNumber ;
+			randomNumber= rand.nextInt(4) + 1;
+			if(randomNumber<=37) {
+				randomMove=1;
+			}else if(randomNumber<=62) {
+				randomMove=2;
+			}else if(randomNumber<=77) {
+				randomMove=3;
+			}else {
+				randomMove=4;
+			}
 			move = getMove(god, randomMove);
 			if (god.getTempEnergy() < move.getEnergy()) {
 				// Checking if the opponent has enough energy
