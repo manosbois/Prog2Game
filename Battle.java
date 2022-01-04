@@ -28,6 +28,9 @@ public class Battle {
 		myHero.setTempStats(myHero.getHp(), myHero.getAttack(), myHero.getArmour(), myHero.getEnergy());
 
 		god = new God(numOfBattle); // Creating the object for the rival god
+		synchronized (Graph.getGraphLock()) {
+			Graph.getGraphLock().notify();
+		}
 
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
@@ -92,7 +95,7 @@ public class Battle {
 
 			Scanner	myReader = new Scanner(new BufferedReader(new InputStreamReader(Objects.requireNonNull
 					(Battle.class.getResourceAsStream(Graph.getLanguage() + "-Battle.txt")))));
-			
+
 
 			Game.graph.modifyMes(myReader.nextLine()); //Message: Choose your move!
 
@@ -117,6 +120,7 @@ public class Battle {
 				Thread.sleep(1500);
 			}
 		} while (!sufficientEnergy);
+		
 		return move;
 	} // End of method chooseMyMove
 
