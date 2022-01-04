@@ -615,7 +615,7 @@ public class Graph {// Creating the class Graph
 			gameOver = new Button(
 					getLine(12,getLanguage()
 							+ "-Graph.txt")); //Message: Return to the main menu
-			gameOver.setBounds(WIDTH / 2 - 150, HEIGHT / 2 + 150, 300, 70);
+			gameOver.setBounds(WIDTH / 2 - 200, HEIGHT / 2 + 150, 400, 70);
 			gameOver.setForeground(Color.BLACK);
 			gameOver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		} catch (IOException e) {
@@ -682,7 +682,7 @@ public class Graph {// Creating the class Graph
 			e.printStackTrace();
 		}
 
-		nextGod.setBounds((WIDTH - 600) / 2, HEIGHT / 2 - 150 + 250, 600, 75);
+		nextGod.setBounds((WIDTH - 750) / 2, HEIGHT / 2 - 150 + 250, 750, 75);
 		nextGod.setForeground(Color.RED);
 		nextGod.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 
@@ -711,13 +711,13 @@ public class Graph {// Creating the class Graph
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		checkpointMes.setBounds((WIDTH - 300) / 2, (HEIGHT - 100) / 2, 300, 100);
+		checkpointMes.setBounds((WIDTH - 800) / 2, (HEIGHT - 100) / 2, 800, 100);
 		checkpointMes.setForeground(new Color(255, 204, 51));
 		checkpointMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 		checkpointMes.setAlignment(Label.CENTER);
 
 		checkpoint = new Button("CHECKPOINT");
-		checkpoint.setBounds((WIDTH - 150) / 2, (HEIGHT - 100) / 2 + 200, 150, 100);
+		checkpoint.setBounds((WIDTH - 150) / 2, (HEIGHT - 100) / 2 + 200, 150, 50);
 		checkpoint.setBackground(new Color(223, 255, 255));
 		checkpoint.setForeground(new Color(255, 204, 51));
 		checkpoint.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
