@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class Graph {// Creating the class Graph
 	private static final Object graphLock = new Object();
+
 	public static Object getGraphLock() {
 		return graphLock;
 	}
@@ -20,7 +21,9 @@ public class Graph {// Creating the class Graph
 	static JFrame frame; // We define the frame of the project.
 	JPanel centralPanel, buttonPanel; // We define three panels that appear on the screen
 	JTextField username;
-	Button introButton, mainButton, startButton, rulesButton, settingsButton, quitButton, continueButton;// We define the basic buttons
+	Button introButton, mainButton, startButton, rulesButton, settingsButton, quitButton, continueButton;// We define
+																											// the basic
+																											// buttons
 	// of the game
 	static Label heroName, godName, heroHpBar, godHBar, heroBackBar, godBackBar, heroEnergy; // Label
 	// names(hero
@@ -37,14 +40,14 @@ public class Graph {// Creating the class Graph
 	Button attackPlus1, attackPlus5, attackPlus10, attackReset, armourPlus1, armourPlus5, armourPlus10, armourReset,
 			hpPlus1, hpPlus5, hpPlus10, hpReset, doneButton;// statistics buttons
 	Label introLabel, mainLabel; // We define the basic labels that appear on the game
-	Label attackBarLabel, armourBarLabel, hpBarLabel, attackRemain, armourRemain, hpRemain, apAttackLabel, apArmourLabel,
-			apHpLabel, attributePoints, doneLabel;// We define the basic
+	Label attackBarLabel, armourBarLabel, hpBarLabel, attackRemain, armourRemain, hpRemain, apAttackLabel,
+			apArmourLabel, apHpLabel, attributePoints, doneLabel;// We define the basic
 	// statistics labels
 	JProgressBar attackBar, armourBar, hpBar;// We define the progress bars that appear on the statistics screen
 	Button lightMode, darkMode, greekButton, englishButton;// settings' buttons
 	static final int WIDTH = 1280, HEIGHT = 800;// We define the width and the height of the window
 
-	private String tempHeroName; //Variable that's to temporarily save
+	private String tempHeroName; // Variable that's to temporarily save
 	// the username to set it when stageControl is called
 	private Clip clip2; // For music.
 	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
@@ -53,25 +56,33 @@ public class Graph {// Creating the class Graph
 
 	private static String language = "En";
 
-	public String getTempHeroName() { return tempHeroName; }
+	public String getTempHeroName() {
+		return tempHeroName;
+	}
 
-	public static int getChosenMove() {	return chosenMove; }
+	public static int getChosenMove() {
+		return chosenMove;
+	}
 
-	public static void setChosenMove(int move) { chosenMove = move; }
+	public static void setChosenMove(int move) {
+		chosenMove = move;
+	}
 
-	public static String getLanguage() { return language; }
+	public static String getLanguage() {
+		return language;
+	}
 
-	//Returns the contents of the line of a file that is located the number specified.
+	// Returns the contents of the line of a file that is located the number
+	// specified.
 	public static String getLine(final int numberOfLine, final String fileName) throws IOException {
 
-		if (numberOfLine <= 0) return "Non positive number of line?";
-		try (BufferedReader bf = new BufferedReader(
-				new InputStreamReader(Objects.requireNonNull(
-						Graph.class.getResourceAsStream(
-								fileName)), StandardCharsets.UTF_8))) {
+		if (numberOfLine <= 0)
+			return "Non positive number of line?";
+		try (BufferedReader bf = new BufferedReader(new InputStreamReader(
+				Objects.requireNonNull(Graph.class.getResourceAsStream(fileName)), StandardCharsets.UTF_8))) {
 			for (int i = 1; i <= numberOfLine; i++) {
 				if (i == numberOfLine) {
-					return bf.readLine(); //Found the line.
+					return bf.readLine(); // Found the line.
 				} else {
 					bf.readLine();
 				}
@@ -90,9 +101,10 @@ public class Graph {// Creating the class Graph
 		}
 	};
 
-	//Returns a String containing all lines of a file
-	public static String getAllText(final int numOfLines,final String fileName) {
-		if (numOfLines <= 0) return "Non positive number of lines?";
+	// Returns a String containing all lines of a file
+	public static String getAllText(final int numOfLines, final String fileName) {
+		if (numOfLines <= 0)
+			return "Non positive number of lines?";
 		int i = 1;
 		StringBuffer sb = new StringBuffer();
 		while (i <= numOfLines) {
@@ -156,9 +168,8 @@ public class Graph {// Creating the class Graph
 		username = new JTextField("Enter Your Name Here");
 		username.setBounds((WIDTH - 350) / 2, HEIGHT * 3 / 5, 350, 50);
 		username.setBackground(new Color(0, 74, 74));
-		username.setForeground(new Color(255,204, 51));
+		username.setForeground(new Color(255, 204, 51));
 		username.setFont(new Font(Font.MONOSPACED, Font.BOLD, 22));
-
 
 		introButton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);// We define the location of the button introbutton
 		// based on the width and the height of the
@@ -166,12 +177,12 @@ public class Graph {// Creating the class Graph
 		// of the window
 		introButton.setSize(450, 100);// We define the size of the introbutton
 		introButton.setBackground(new Color(223, 255, 255));// We define the color of the introbutton
-		introButton.setForeground(new Color(14,114,110));// We define the font color of the introbutton
+		introButton.setForeground(new Color(14, 114, 110));// We define the font color of the introbutton
 		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));// We define the size of the text of the
 		// introButton and that the text is going to be
 		// bold
 
-		introLabel = new Label("Welcome to our Game!");// We define the label that appears on the first window
+		introLabel = new Label("WELCOME TO OUR GAME");// We define the label that appears on the first window
 		introLabel.setLocation((WIDTH - 450) / 2, HEIGHT * 2 / 10);// We define the location of the introlabel
 		introLabel.setSize(450, 200);// We define the size of the introlabel
 		introLabel.setForeground(new Color(255, 204, 51));// We define the font color of the introlabel
@@ -187,7 +198,7 @@ public class Graph {// Creating the class Graph
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				tempHeroName = username.getText();
-				//Stages.myHero.setName(username.getText());
+				// Stages.myHero.setName(username.getText());
 				centralPanel.remove(introButton);// We remove button introbutton from the panel centralpanel
 				centralPanel.remove(introLabel);// We remove label introlabel from the panel centralpanel
 				centralPanel.remove(username);
@@ -195,33 +206,26 @@ public class Graph {// Creating the class Graph
 			}
 		});
 	}
-	//my path: "C:\\Users\\manoz\\IdeaProjects\\Game\\src\\"
+
+	// my path: "C:\\Users\\manoz\\IdeaProjects\\Game\\src\\"
 	public void createMenuWindow() {// That method creates the window that contains the menu
 		try {
-			startButton = new Button(
-					getLine(7,getLanguage()
-							+ "-Graph.txt")); //Message: START THE GAME
+			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt")); // Message: START THE GAME
 			// We create the button with the name startbutton that leads the user
 			// to the game
 			modifyMenyButtons(startButton, 0);
 
-			rulesButton = new Button(
-					getLine(8,getLanguage()
-							+ "-Graph.txt")); //Message: RULES
+			rulesButton = new Button(getLine(8, getLanguage() + "-Graph.txt")); // Message: RULES
 			// We create the button with the name statsbutton that leads the user to
 			// his statistics
 			modifyMenyButtons(rulesButton, 1);
 
-			settingsButton = new Button(
-					getLine(9,getLanguage()
-							+ "-Graph.txt")); //Message: SETTINGS
+			settingsButton = new Button(getLine(9, getLanguage() + "-Graph.txt")); // Message: SETTINGS
 			// We create the button with the name settingsbutton that leads the user
 			// to the settings of the game
 			modifyMenyButtons(settingsButton, 2);
 
-			quitButton = new Button(
-					getLine(10,getLanguage()
-							+ "-Graph.txt")); //Message: QUIT
+			quitButton = new Button(getLine(10, getLanguage() + "-Graph.txt")); // Message: QUIT
 			// We create the button with the name quitbutton that exits the game
 			modifyMenyButtons(quitButton, 3);
 		} catch (IOException e) {
@@ -233,7 +237,7 @@ public class Graph {// Creating the class Graph
 		mainButton.setLocation((WIDTH - 350) / 2, 0);
 		mainButton.setSize(350, 50);
 		mainButton.setBackground(Color.BLACK);
-		mainButton.setForeground(new Color(255,204, 51));
+		mainButton.setForeground(new Color(255, 204, 51));
 		mainButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
 		centralPanel.add(startButton);// We add to the frame the button startbutton
@@ -275,8 +279,8 @@ public class Graph {// Creating the class Graph
 		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);// We define the location of the button
 		// startbutton
 		menuButton.setSize(350, 100);// We define the size of the button startbutton
-		menuButton.setBackground(new Color(53,1,70));// We define the color of the button startbutton
-		menuButton.setForeground(Color.black);// We define the font color of the button startbutton
+		menuButton.setBackground(new Color(53, 1, 70));// We define the color of the button startbutton
+		menuButton.setForeground(Color.WHITE);// We define the font color of the button startbutton
 		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
 	}
 
@@ -286,35 +290,35 @@ public class Graph {// Creating the class Graph
 		centralPanel.remove(settingsButton); // We remove the button settingsButton from the window
 		centralPanel.remove(quitButton); // We remove the button quitButton from the window
 	}
-	
+
 	public void createStoryWindow() {
-		String storyText = getAllText(9, getLanguage() + "-Story.txt");
-		
-		story = new TextArea(storyText, 20 , 10, TextArea.SCROLLBARS_NONE);
-		story.setBounds(0, 100, WIDTH, 550);
+		String storyText = getAllText(2, getLanguage() + "-Story.txt");
+
+		story = new TextArea(storyText, 20, 10, TextArea.SCROLLBARS_NONE);
+		story.setBounds(0, 100, WIDTH - 10, 550);
 		story.setForeground(Color.WHITE);
 		story.setBackground(new Color(0, 51, 51));
 		story.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 20));
 		story.setEditable(false);
-		
+
 		try {
-			continueButton = new Button(getLine(13,getLanguage() + "-Graph.txt"));
+			continueButton = new Button(getLine(13, getLanguage() + "-Graph.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		continueButton.setBounds((WIDTH-150)/2, 675, 150, 50);
+		continueButton.setBounds((WIDTH - 150) / 2, 675, 150, 50);
 		continueButton.setForeground(Color.BLACK);
 		continueButton.setBackground(Color.WHITE);
 		continueButton.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 18));
-		
+
 		centralPanel.add(story);
 		centralPanel.add(continueButton);
-		
+
 		continueButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.remove(story);
 				centralPanel.remove(continueButton);
-				
+
 				createStartWindow();
 			}
 		});
@@ -351,8 +355,6 @@ public class Graph {// Creating the class Graph
 		godName.setBackground(new Color(0, 0, 102));
 		godName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		godName.setAlignment(Label.CENTER);
-
-
 
 		heroBackBar = new Label();
 		heroBackBar.setBounds(50, HEIGHT / 10 + 50, 200, 30);
@@ -427,9 +429,7 @@ public class Graph {// Creating the class Graph
 			e1.printStackTrace();
 		}
 
-
-
-		buttonPanel.setBackground(Color.DARK_GRAY);// We define the color of the panel centralpanel
+		buttonPanel.setBackground(new Color(0, 51, 51));// We define the color of the panel centralpanel
 		// based on rgb color
 		buttonPanel.setLayout(null);
 		buttonPanel.setLocation(0, HEIGHT - 130);// We define the location of this panel
@@ -534,8 +534,8 @@ public class Graph {// Creating the class Graph
 
 	private void modifyMoveButtons(JButton move, int numOfMove, int damage, int energy) {
 		move.setBounds(40 * numOfMove + 200 * (numOfMove - 1), 20, 200, 50);
-		move.setBackground(Color.WHITE);
-		move.setForeground(Color.BLACK);
+		move.setBackground(new Color(153, 153, 255));
+		move.setForeground(new Color(0, 0, 0));
 		move.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		move.setToolTipText("Damage:" + damage + " & Energy:" + energy);
 	}
@@ -619,15 +619,11 @@ public class Graph {// Creating the class Graph
 			loseMes = new Label();
 			loseMes.setBounds(WIDTH / 2 - 100, HEIGHT / 2 - 50, 200, 100);
 			loseMes.setForeground(Color.RED);
-			loseMes.setText(
-					getLine(11,getLanguage()
-							+ "-Graph.txt")); //Message: GAME OVER!
+			loseMes.setText(getLine(11, getLanguage() + "-Graph.txt")); // Message: GAME OVER!
 			loseMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 			loseMes.setAlignment(Label.CENTER);
 
-			gameOver = new Button(
-					getLine(12,getLanguage()
-							+ "-Graph.txt")); //Message: Return to the main menu
+			gameOver = new Button(getLine(12, getLanguage() + "-Graph.txt")); // Message: Return to the main menu
 			gameOver.setBounds(WIDTH / 2 - 200, HEIGHT / 2 + 150, 400, 70);
 			gameOver.setForeground(Color.BLACK);
 			gameOver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -657,9 +653,7 @@ public class Graph {// Creating the class Graph
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
 		winMes.setForeground(new Color(255, 204, 51));
 		try {
-			winMes.setText(
-					getLine(1,getLanguage()
-							+ "-Graph.txt")); //Message: YOU WON! YOU HAVE CONQUERED OLYMPUS!
+			winMes.setText(getLine(1, getLanguage() + "-Graph.txt")); // Message: YOU WON! YOU HAVE CONQUERED OLYMPUS!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -680,17 +674,13 @@ public class Graph {// Creating the class Graph
 		battleWin.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 		battleWin.setAlignment(Label.CENTER);
 		try {
-			battleWin.setText(
-					getLine(2,getLanguage()
-							+ "-Graph.txt") + godName); //Message YOU WON $
+			battleWin.setText(getLine(2, getLanguage() + "-Graph.txt") + godName); // Message YOU WON $
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			nextGod = new Button(
-					getLine(3,getLanguage()
-							+ "-Graph.txt")); //Message Upgrade Your Hero's Statistics!
+			nextGod = new Button(getLine(3, getLanguage() + "-Graph.txt")); // Message Upgrade Your Hero's Statistics!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -718,9 +708,8 @@ public class Graph {// Creating the class Graph
 		removeStartWindow();
 
 		try {
-			checkpointMes = new Label(
-					getLine(4,getLanguage()
-							+ "-Graph.txt")); //Message: You Lost, but you can continue from the checkpoint!
+			checkpointMes = new Label(getLine(4, getLanguage() + "-Graph.txt")); // Message: You Lost, but you can
+																					// continue from the checkpoint!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -754,8 +743,8 @@ public class Graph {// Creating the class Graph
 
 		try (InputStream file2 = Graph.class.getResourceAsStream("Song3.wav")) {
 
-			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(
-					new BufferedInputStream(Objects.requireNonNull(file2)));
+			AudioInputStream audioStream2 = AudioSystem
+					.getAudioInputStream(new BufferedInputStream(Objects.requireNonNull(file2)));
 			clip2 = AudioSystem.getClip();
 			clip2.open(audioStream2);
 			clip2.loop(Clip.LOOP_CONTINUOUSLY);
@@ -766,7 +755,7 @@ public class Graph {// Creating the class Graph
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		final int maxAp = ((Stages.getAttributePoints() == 1) ? 1 : Stages.getAttributePoints() / 2);
 		FirstGod = false;
 
@@ -897,11 +886,9 @@ public class Graph {// Creating the class Graph
 		hpReset = new Button("Reset");
 		modigyPlusButtons(hpReset, 3, 3, 2);
 
-		String string = null; //Variable to be used on attributePoints Label
+		String string = null; // Variable to be used on attributePoints Label
 		try {
-			string =
-					getLine(5,getLanguage()
-							+ "-Graph.txt"); //Message: Remaining Attribute points: 
+			string = getLine(5, getLanguage() + "-Graph.txt"); // Message: Remaining Attribute points:
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -1002,9 +989,12 @@ public class Graph {// Creating the class Graph
 					createStartWindow();
 				} else {
 					try {
-						JOptionPane.showMessageDialog(null,
-								getLine(6,getLanguage()
-										+ "-Graph.txt")); //Message: You haven't distributed all the attribute points!
+						JOptionPane.showMessageDialog(null, getLine(6, getLanguage() + "-Graph.txt")); // Message: You
+																										// haven't
+																										// distributed
+																										// all the
+																										// attribute
+																										// points!
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -1123,7 +1113,7 @@ public class Graph {// Creating the class Graph
 		plus.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 	}
 
-	public void createRulesWindow() {		
+	public void createRulesWindow() {
 		String rulesDoc = getAllText(23, getLanguage() + "-Rules.txt");
 
 		rules = new TextArea(rulesDoc, 25, 40, TextArea.SCROLLBARS_NONE);
@@ -1176,7 +1166,6 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(greekButton);
 		centralPanel.add(englishButton);
 
-
 		lightMode.addActionListener(new ActionListener() {// The user has press the button quitbutton
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.setBackground(Color.GRAY);
@@ -1189,12 +1178,15 @@ public class Graph {// Creating the class Graph
 		});
 
 		greekButton.addActionListener(new ActionListener() {// The user has set the language to Greek.
-			public void actionPerformed(ActionEvent e) { Graph.language = "Gr"; }
+			public void actionPerformed(ActionEvent e) {
+				Graph.language = "Gr";
+			}
 		});
 		englishButton.addActionListener(new ActionListener() {// The user has set the language to English
-			public void actionPerformed(ActionEvent e) { Graph.language = "En"; }
+			public void actionPerformed(ActionEvent e) {
+				Graph.language = "En";
+			}
 		});
-
 
 		mainButton.addActionListener(new ActionListener() {// If the user clicks the button mainbutton the game returns
 			// to the menu window
