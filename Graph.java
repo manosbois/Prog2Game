@@ -88,6 +88,22 @@ public class Graph {// Creating the class Graph
 		}
 	};
 
+	//Returns a String containing all lines of a file
+	public static String getAllText(final int numOfLines,final String fileName) {
+		if (numOfLines <= 0) return "Non positive number of lines?";
+		int i = 1;
+		StringBuffer sb = new StringBuffer();
+		while (i <= numOfLines) {
+			try {
+				sb.append("\n" + getLine(i, fileName));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			i++;
+		}
+		return String.valueOf(sb);
+	}
+
 	public Graph(String title) {// We create the constructor of the class Graph
 
 		Runnable graphTasks = this::createFrame;
@@ -270,16 +286,7 @@ public class Graph {// Creating the class Graph
 	}
 	
 	public void createStoryWindow() {
-		final int NUM_OF_LINES = 9;
-		
-		String storyText = "";
-		for (int i=1;i<=NUM_OF_LINES;i++) {
-			try {
-				storyText = storyText + "\n" + getLine(i, getLanguage() + "-Story.txt");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		String storyText = getAllText(9, getLanguage() + "-Story.txt");
 		
 		story = new TextArea(storyText, 20 , 10, TextArea.SCROLLBARS_NONE);
 		story.setBounds(0, 100, WIDTH, 550);
@@ -288,7 +295,11 @@ public class Graph {// Creating the class Graph
 		story.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 20));
 		story.setEditable(false);
 		
-		continueButton = new Button("CONTINUE");
+		try {
+			continueButton = new Button(getLine(13,getLanguage() + "-Graph.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		continueButton.setBounds((WIDTH-150)/2, 675, 150, 50);
 		continueButton.setForeground(Color.BLACK);
 		continueButton.setBackground(Color.WHITE);
@@ -1110,18 +1121,8 @@ public class Graph {// Creating the class Graph
 		plus.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 	}
 
-	public void createRulesWindow() {
-		final int RULES_TXT_SIZE = 23;
-		int i = 1;
-		String rulesDoc = "";
-		while (i <= RULES_TXT_SIZE) {
-			try {
-				rulesDoc = rulesDoc + "\n" + getLine(i, getLanguage() + "-Rules.txt");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			i++;
-		}
+	public void createRulesWindow() {		
+		String rulesDoc = getAllText(23, getLanguage() + "-Rules.txt");
 
 		rules = new TextArea(rulesDoc, 25, 40, TextArea.SCROLLBARS_NONE);
 		rules.setBounds(0, 100, WIDTH - 10, HEIGHT - 135);
