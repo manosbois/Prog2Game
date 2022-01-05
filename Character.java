@@ -20,9 +20,9 @@ public abstract class Character {
 
     // Moves
     private final DamageMove damagingMove1 = new DamageMove
-            (6, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt");
+            (8, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt");
     private final DamageMove damagingMove2 = new DamageMove
-            (4, "Spear", 70,Graph.getLanguage() + "-DamageMove.txt");
+            (6, "Spear", 70,Graph.getLanguage() + "-DamageMove.txt");
     private final BuffMove buffMove = new BuffMove
             (10, "Meditate", Graph.getLanguage() + "-BuffMove.txt");
     private final ProtectiveMove protectiveMove = new ProtectiveMove
