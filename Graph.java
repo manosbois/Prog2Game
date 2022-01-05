@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class Graph {// Creating the class Graph
@@ -65,8 +66,9 @@ public class Graph {// Creating the class Graph
 
 		if (numberOfLine <= 0) return "Non positive number of line?";
 		try (BufferedReader bf = new BufferedReader(
-				new InputStreamReader(Objects.requireNonNull
-						(Graph.class.getResourceAsStream(fileName))))) {
+				new InputStreamReader(Objects.requireNonNull(
+						Graph.class.getResourceAsStream(
+								fileName)), StandardCharsets.UTF_8))) {
 			for (int i = 1; i <= numberOfLine; i++) {
 				if (i == numberOfLine) {
 					return bf.readLine(); //Found the line.
