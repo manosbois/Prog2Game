@@ -1,5 +1,6 @@
 import javax.sound.sampled.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
@@ -93,8 +94,10 @@ public class Battle {
 			System.out.println(myHero.getProtectiveMove().toString());
 			System.out.println(myHero.getNoMove().toString());
 
-			Scanner	myReader = new Scanner(new BufferedReader(new InputStreamReader(Objects.requireNonNull
-					(Battle.class.getResourceAsStream(Graph.getLanguage() + "-Battle.txt")))));
+			Scanner	myReader = new Scanner(new BufferedReader(
+					new InputStreamReader(Objects.requireNonNull
+					(Battle.class.getResourceAsStream(
+							Graph.getLanguage() + "-Battle.txt")), StandardCharsets.UTF_8)));
 
 
 			Game.graph.modifyMes(myReader.nextLine()); //Message: Choose your move!
