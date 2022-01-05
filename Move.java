@@ -1,7 +1,8 @@
-import java.io.BufferedReader;
 import java.io.LineNumberReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 
 //The class that creates the Move objects that the Heroes use
 public class Move {
@@ -37,8 +38,9 @@ public class Move {
 
     public void effect(Character hero1, Character hero2, double modifier) {
 
-        Scanner myReader = new Scanner(new BufferedReader(
-                new InputStreamReader(this.getClass().getResourceAsStream(messageFileName))));
+        Scanner myReader = new Scanner(new LineNumberReader(
+                new InputStreamReader(Objects.requireNonNull
+                        (this.getClass().getResourceAsStream(messageFileName)), StandardCharsets.UTF_8)));
         
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         Game.graph.modifyMes(myReader.nextLine() + hero1.getName()
