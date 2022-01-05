@@ -10,3 +10,4 @@ SETTINGS
 QUIT
 GAME OVER
 Return to the main menu
+CONTINUE
