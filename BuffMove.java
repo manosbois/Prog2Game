@@ -1,5 +1,7 @@
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Scanner;
 
 //A class for Moves that raise the tempStats
@@ -15,7 +17,9 @@ public class BuffMove extends Move {
 	public void effect(Character hero1, Character hero2, double modifier) {
 
 		Scanner myReader = new Scanner(new LineNumberReader(
-				new InputStreamReader(this.getClass().getResourceAsStream(this.getMessageFileName()))));
+				new InputStreamReader(Objects.requireNonNull
+						(this.getClass().getResourceAsStream(
+							this.getMessageFileName())), StandardCharsets.UTF_8)));
 		
 		System.out.printf("%s used %s.%n",
 				hero1.getName(), this.getName());
