@@ -1,1 +1,1 @@
-This directory contains all music .wav files.
+This directory contains all music .mp3 files.
