@@ -1,1 +1,1 @@
-This directory contains all .wav files that make the sound effects.
+This directory contains all .mp3 files that make the sound effects.
