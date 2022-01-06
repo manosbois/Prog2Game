@@ -4,6 +4,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
+import javax.sound.sampled.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.*;
+
 
 //A class that implements the battle mechanic of our game
 public class Battle {
@@ -36,24 +41,23 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		InputStream file = Battle.class.getResourceAsStream("Song1.wav");
-		InputStream fileSong2 = Battle.class.getResourceAsStream("Song2.wav");
-		InputStream zeusMusic = Battle.class.getResourceAsStream("ZeusMusic.wav");
-		AudioInputStream audioStream;
+		com.sun.javafx.application.PlatformImpl.startup(()->{});
+		URL file = Battle.class.getResource("Song1.mp3");
+		URL fileSong2 = Battle.class.getResource("Song2.mp3");
+		URL zeusMusic = Battle.class.getResource("ZeusMusic.mp3");
+		Media hit;
 		if (numOfBattle == 12) {
-			audioStream = AudioSystem.getAudioInputStream
-					(new BufferedInputStream(Objects.requireNonNull(zeusMusic)));
+			hit = new Media (Objects.requireNonNull(zeusMusic).toString());
 		} else if (numOfBattle % 2 == 0) {
-			audioStream = AudioSystem.getAudioInputStream
-					(new BufferedInputStream(Objects.requireNonNull(fileSong2)));
+			hit = new Media (Objects.requireNonNull(fileSong2).toString());
 		} else {
-			audioStream = AudioSystem.getAudioInputStream
-					(new BufferedInputStream(Objects.requireNonNull(file)));
+			hit = new Media (Objects.requireNonNull(file).toString());
 		}
 
-		Clip clip = AudioSystem.getClip();
-		clip.open(audioStream);
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		MediaPlayer mediaPlayer = new MediaPlayer(hit);
+		mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+		mediaPlayer.play();
+
 		Graph.godName.setText(god.getName());
 		do { // Start of do...while loop that implements the round system
 			Move myMove = chooseMyMove(myHero, god);
@@ -73,7 +77,7 @@ public class Battle {
 				// energy of the hero and god
 			}
 		} while (!roundEnds); // End of do...while loop
-		clip.stop();
+		mediaPlayer.stop();
 		return myHero.getTempHP(); // Returns the
 		// temporary Hp of the user to be used in class Game
 	} // End of method BattleMethod
@@ -96,8 +100,8 @@ public class Battle {
 
 			Scanner	myReader = new Scanner(new BufferedReader(
 					new InputStreamReader(Objects.requireNonNull
-					(Battle.class.getResourceAsStream(
-							Graph.getLanguage() + "-Battle.txt")), StandardCharsets.UTF_8)));
+							(Battle.class.getResourceAsStream(
+									Graph.getLanguage() + "-Battle.txt")), StandardCharsets.UTF_8)));
 
 
 			Game.graph.modifyMes(myReader.nextLine()); //Message: Choose your move!
@@ -123,7 +127,7 @@ public class Battle {
 				Thread.sleep(1500);
 			}
 		} while (!sufficientEnergy);
-		
+
 		return move;
 	} // End of method chooseMyMove
 
@@ -163,30 +167,30 @@ public class Battle {
 
 	private static Move getMove(Character hero, int chosenMove) {
 
-		InputStream swordSound = Battle.class.getResourceAsStream("Swordsound.wav");
-		InputStream spearSound = Battle.class.getResourceAsStream("Spearsound.wav");
-		InputStream meditate = Battle.class.getResourceAsStream("Meditate.wav");
-		InputStream noMove = Battle.class.getResourceAsStream("Nomove.wav");
-		InputStream shieldSound = Battle.class.getResourceAsStream("Shield.wav");
-		Clip clip3;
+		URL swordSound = Battle.class.getResource("Swordsound.mp3");
+		URL spearSound = Battle.class.getResource("Spearsound.mp3");
+		URL meditate = Battle.class.getResource("Meditate.mp3");
+		URL noMove = Battle.class.getResource("Nomove.mp3");
+		URL shieldSound = Battle.class.getResource("Shield.mp3");
+		Media hit2;
+		
 		try {
-			clip3 = AudioSystem.getClip();
 
 			switch (chosenMove) {
 				case 1:
-					makeSound(swordSound, clip3);
+					makeSound(swordSound);
 					return hero.getDamagingMove1();
 				case 2:
-					makeSound(spearSound, clip3);
+					makeSound(spearSound);
 					return hero.getDamagingMove2();
 				case 3:
-					makeSound(shieldSound, clip3);
+					makeSound(shieldSound);
 					return hero.getProtectiveMove();
 				case 4:
-					makeSound(meditate, clip3);
+					makeSound(meditate);
 					return hero.getBuffMove();
 				default:
-					makeSound(noMove, clip3);
+					makeSound(noMove);
 					return hero.getNoMove();
 			}
 		} catch (LineUnavailableException e) {
@@ -199,12 +203,13 @@ public class Battle {
 		return hero.getNoMove(); // In case try fails
 	}
 
-	private static void makeSound(InputStream moveSound, Clip clip3)
+	private static void makeSound(URL moveSound)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		AudioInputStream audioStreamMove = AudioSystem.getAudioInputStream
-				(new BufferedInputStream(moveSound));
-		clip3.open(audioStreamMove);
-		clip3.start();
+		Media hit2 =
+				new Media((moveSound).toString());
+		MediaPlayer mediaPlayer2 = new MediaPlayer(hit2);
+
+		mediaPlayer2.play();
 	}
 
 	// Decides if the users goes first
