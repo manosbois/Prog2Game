@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.net.*;
+import javafx.application.Platform;
 
 public class Graph {// Creating the class Graph
 	private static final Object graphLock = new Object();
@@ -49,7 +53,7 @@ public class Graph {// Creating the class Graph
 
 	private String tempHeroName; // Variable that's to temporarily save
 	// the username to set it when stageControl is called
-	private Clip clip2; // For music.
+	private MediaPlayer mediaPlayer3; // For music.
 	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
 	// it.
 	private static int chosenMove;
@@ -741,20 +745,14 @@ public class Graph {// Creating the class Graph
 
 	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
 
-		try (InputStream file2 = Graph.class.getResourceAsStream("Song3.wav")) {
 
-			AudioInputStream audioStream2 = AudioSystem
-					.getAudioInputStream(new BufferedInputStream(Objects.requireNonNull(file2)));
-			clip2 = AudioSystem.getClip();
-			clip2.open(audioStream2);
-			clip2.loop(Clip.LOOP_CONTINUOUSLY);
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		com.sun.javafx.application.PlatformImpl.startup(()->{});
+		URL file3 = Graph.class.getResource("Song3.mp3");
+		Media hit3 =  new Media (Objects.requireNonNull(file3).toString());
+		MediaPlayer mediaPlayer3 = new MediaPlayer(hit3);
+		mediaPlayer3.setCycleCount(MediaPlayer.INDEFINITE);
+		mediaPlayer3.play();
+		
 
 		final int maxAp = ((Stages.getAttributePoints() == 1) ? 1 : Stages.getAttributePoints() / 2);
 		FirstGod = false;
@@ -949,7 +947,6 @@ public class Graph {// Creating the class Graph
 
 					Stages.giveAttributesPoints();
 
-					clip2.stop();
 
 					centralPanel.remove(attackBar);// We remove the progress bar attackBar from the panel
 					centralPanel.remove(armourBar);// We remove the progress bar armorBar from the panel
@@ -999,6 +996,7 @@ public class Graph {// Creating the class Graph
 						ex.printStackTrace();
 					}
 				}
+				mediaPlayer3.stop();
 			}
 		});
 
