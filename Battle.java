@@ -167,10 +167,10 @@ public class Battle {
 
 	private static Move getMove(Character hero, int chosenMove) {
 
-		URL swordSound = Battle.class.getResource("Swordsound.mp3");
-		URL spearSound = Battle.class.getResource("Spearsound.mp3");
+		URL swordSound = Battle.class.getResource("SwordSound.mp3");
+		URL spearSound = Battle.class.getResource("SpearSound.mp3");
 		URL meditate = Battle.class.getResource("Meditate.mp3");
-		URL noMove = Battle.class.getResource("Nomove.mp3");
+		URL noMove = Battle.class.getResource("NoMove.mp3");
 		URL shieldSound = Battle.class.getResource("Shield.mp3");
 		Media hit2;
 		
