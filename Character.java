@@ -20,15 +20,20 @@ public abstract class Character {
 
     // Moves
     private final DamageMove damagingMove1 = new DamageMove
-            (8, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt");
+            (6, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt",
+                    this.getClass().getResource("SwordSound.mp3"));
     private final DamageMove damagingMove2 = new DamageMove
-            (6, "Spear", 70,Graph.getLanguage() + "-DamageMove.txt");
+            (4, "Spear", 70,Graph.getLanguage() + "-DamageMove.txt",
+                    this.getClass().getResource("SpearSound.mp3"));
     private final BuffMove buffMove = new BuffMove
-            (10, "Meditate", Graph.getLanguage() + "-BuffMove.txt");
+            (10, "Meditate", Graph.getLanguage() + "-BuffMove.txt",
+                    this.getClass().getResource("Meditate.mp3"));
     private final ProtectiveMove protectiveMove = new ProtectiveMove
-            (5, "Shield", Graph.getLanguage() + "-ProtectiveMove.txt");
+            (5, "Shield", Graph.getLanguage() + "-ProtectiveMove.txt",
+                    this.getClass().getResource("Shield.mp3"));
     private final Move noMove = new Move
-            (0, "No Move", Graph.getLanguage() + "-Move.txt");
+            (0, "No Move", Graph.getLanguage() + "-Move.txt",
+                    this.getClass().getResource("NoMove.mp3"));
 
     public int getHp() {
         return hp;
