@@ -622,6 +622,12 @@ public class Graph {// Creating the class Graph
 		centralPanel.setSize(WIDTH, HEIGHT);
 		buttonPanel.setSize(0, 0);
 		removeStartWindow();
+		com.sun.javafx.application.PlatformImpl.startup(()->{});
+		URL file4 = Graph.class.getResource("GameOver.mp3");
+		Media hit4 =  new Media (Objects.requireNonNull(file4).toString());
+		MediaPlayer mediaPlayer4 = new MediaPlayer(hit4);
+		mediaPlayer4.setCycleCount(MediaPlayer.INDEFINITE);
+		mediaPlayer4.play();
 
 		try {
 			loseMes = new Label();
@@ -648,6 +654,7 @@ public class Graph {// Creating the class Graph
 				centralPanel.remove(loseMes);
 				centralPanel.remove(gameOver);
 				createMenuWindow();
+				mediaPlayer4.stop();
 			}
 		});
 
