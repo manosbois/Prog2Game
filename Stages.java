@@ -1,6 +1,3 @@
-import javax.sound.sampled.*;
-import java.io.IOException;
-
 
 public class Stages {
 
@@ -68,29 +65,24 @@ public class Stages {
 		myHero= new Hero(100 , 100 , 100 , MY_HERO_ENERGY);
 		myHero.setName(Game.graph.getTempHeroName());
 		
+		
 		boolean hasDied = false;
 		//Creating the object for the user
 
 		i = 1;
 		while (i <= 12) { //We define the number of attribute points
-			try {
-				setAttributePoints(Battle.battleMethod(myHero, i));
-			} catch (UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			}
-			if (attributePoints > 0 & i == ZEUS_BATTLE) { //The user has won the entire game
+			
+			setAttributePoints(Battle.battleMethod(myHero, i));
+			
+			if (attributePoints > 0 & i == ZEUS_BATTLE) { // The user has won the entire game
 				Game.graph.createWinWindow();
-			} else if (attributePoints > 0 & i != ZEUS_BATTLE) { //Give attribute points
+			} else if (attributePoints > 0 & i != ZEUS_BATTLE) { // Give attribute points
 
 				Game.graph.createBattleWinWindow(Battle.god.getName());
 
 				synchronized (Battle.getLock()) {
 					try {
-						Battle.getLock().wait();
+						Battle.getLock().wait(); //Notified in Graph.734
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
