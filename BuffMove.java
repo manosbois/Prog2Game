@@ -1,5 +1,6 @@
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
@@ -9,8 +10,8 @@ public class BuffMove extends Move {
 
 	private static final double MULTIPLICATION_FACTOR = 1.5;
 	//Variable that raises the stats by an amount
-	public BuffMove(int energy, String name, String messageFileName) {
-		super(energy, name, messageFileName);
+	public BuffMove(int energy, String name, String messageFileName, URL sound) {
+		super(energy, name, messageFileName, sound);
 	}
 
 	@Override
@@ -19,8 +20,8 @@ public class BuffMove extends Move {
 		Scanner myReader = new Scanner(new LineNumberReader(
 				new InputStreamReader(Objects.requireNonNull
 						(this.getClass().getResourceAsStream(
-							this.getMessageFileName())), StandardCharsets.UTF_8)));
-		
+								this.getMessageFileName())), StandardCharsets.UTF_8)));
+
 		System.out.printf("%s used %s.%n",
 				hero1.getName(), this.getName());
 		double tempAttack = hero1.getTempAttack() * MULTIPLICATION_FACTOR; //Raising tempAttack by half
@@ -29,6 +30,7 @@ public class BuffMove extends Move {
 		hero1.setTempArmour((int) Math.round(tempArmour));
 		System.out.printf("%s's Attack and Armour "
 				+ "were raised by half%n%n", hero1.getName());
+		makeSound(getSound());
 		String message = myReader.nextLine() + hero1.getName() + myReader.nextLine()
 				+ this.getName() +". " + myReader.nextLine() + hero1.getName() + myReader.nextLine();
 		Game.graph.modifyMes(message);
