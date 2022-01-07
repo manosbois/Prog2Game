@@ -1,10 +1,8 @@
-import javax.sound.sampled.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
-import javax.sound.sampled.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.*;
@@ -28,13 +26,14 @@ public class Battle {
 	// The most essential method of class Battle
 	// It implements the battle mechanic
 	public static int battleMethod(Hero myHero, int numOfBattle)
-			throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
+			 {
 
 		// Setting the tempStats before the battle to the values of the non tempStats
 		myHero.setTempStats(myHero.getHp(), myHero.getAttack(), myHero.getArmour(), myHero.getEnergy());
 
 		god = new God(numOfBattle); // Creating the object for the rival god
 		synchronized (Graph.getGraphLock()) {
+			System.out.println("FIRST: " + Battle.god.getName());
 			Graph.getGraphLock().notify();
 		}
 
@@ -57,6 +56,7 @@ public class Battle {
 		MediaPlayer mediaPlayer = new MediaPlayer(hit);
 		mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 		mediaPlayer.play();
+		mediaPlayer.setVolume(0.3);
 
 		Graph.godName.setText(god.getName());
 		do { // Start of do...while loop that implements the round system
@@ -83,7 +83,7 @@ public class Battle {
 	} // End of method BattleMethod
 
 	// Lets user choose which move to use
-	public static Move chooseMyMove(Hero myHero, God god) throws InterruptedException {
+	public static Move chooseMyMove(Hero myHero, God god) {
 		boolean sufficientEnergy;
 		Move move; // Creating a variable of type Move to assist us in switch structure.
 		do {
@@ -124,7 +124,11 @@ public class Battle {
 						move.getEnergy() - myHero.getTempEnergy(), move.getName());
 				Game.graph.modifyMes(myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy()) +
 						myReader.nextLine() + move.getName() + "."); //Message: Yoy need $ more energy to use the move %.
-				Thread.sleep(1500);
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		} while (!sufficientEnergy);
 
@@ -147,14 +151,14 @@ public class Battle {
 			sufficientEnergy = true;
 			int randomMove, randomNumber ;
 			randomNumber= rand.nextInt(100) + 1;
-			if(randomNumber<=37) {
-				randomMove=1;
-			}else if(randomNumber<=62) {
-				randomMove=2;
-			}else if(randomNumber<=77) {
-				randomMove=3;
+			if(randomNumber <= 37) {
+				randomMove = 1;
+			}else if(randomNumber <= 62) {
+				randomMove = 2;
+			}else if(randomNumber <= 77) {
+				randomMove = 3;
 			}else {
-				randomMove=4;
+				randomMove = 4;
 			}
 			move = getMove(god, randomMove);
 			if (god.getTempEnergy() < move.getEnergy()) {
@@ -167,49 +171,19 @@ public class Battle {
 
 	private static Move getMove(Character hero, int chosenMove) {
 
-		URL swordSound = Battle.class.getResource("SwordSound.mp3");
-		URL spearSound = Battle.class.getResource("SpearSound.mp3");
-		URL meditate = Battle.class.getResource("Meditate.mp3");
-		URL noMove = Battle.class.getResource("NoMove.mp3");
-		URL shieldSound = Battle.class.getResource("Shield.mp3");
-		Media hit2;
-		
-		try {
-
 			switch (chosenMove) {
 				case 1:
-					makeSound(swordSound);
 					return hero.getDamagingMove1();
 				case 2:
-					makeSound(spearSound);
 					return hero.getDamagingMove2();
 				case 3:
-					makeSound(shieldSound);
 					return hero.getProtectiveMove();
 				case 4:
-					makeSound(meditate);
 					return hero.getBuffMove();
 				default:
-					makeSound(noMove);
 					return hero.getNoMove();
 			}
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return hero.getNoMove(); // In case try fails
-	}
-
-	private static void makeSound(URL moveSound)
-			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		Media hit2 =
-				new Media((moveSound).toString());
-		MediaPlayer mediaPlayer2 = new MediaPlayer(hit2);
-
-		mediaPlayer2.play();
+		
 	}
 
 	// Decides if the users goes first
