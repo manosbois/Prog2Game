@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +10,6 @@ import java.util.Objects;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.*;
-import javafx.application.Platform;
 
 public class Graph {// Creating the class Graph
 	private static final Object graphLock = new Object();
@@ -20,8 +18,7 @@ public class Graph {// Creating the class Graph
 		return graphLock;
 	}
 
-	private static final long serialVersionUID = 7572156739102733039L;
-	private String title;
+	private final String title;
 	static JFrame frame; // We define the frame of the project.
 	JPanel centralPanel, buttonPanel; // We define three panels that appear on the screen
 	JTextField username;
@@ -39,11 +36,10 @@ public class Graph {// Creating the class Graph
 	JLabel godImage, heroImage, background;
 	static Label mes1;
 	TextArea rules, story;
-	BufferedImage godIcon;
 	Label battleWin, winMes, loseMes, checkpointMes;
 	Button attackPlus1, attackPlus5, attackPlus10, attackReset, armourPlus1, armourPlus5, armourPlus10, armourReset,
 			hpPlus1, hpPlus5, hpPlus10, hpReset, doneButton;// statistics buttons
-	Label introLabel, mainLabel; // We define the basic labels that appear on the game
+	Label introLabel; // We define the basic labels that appear on the game
 	Label attackBarLabel, armourBarLabel, hpBarLabel, attackRemain, armourRemain, hpRemain, apAttackLabel,
 			apArmourLabel, apHpLabel, attributePoints, doneLabel;// We define the basic
 	// statistics labels
@@ -53,7 +49,6 @@ public class Graph {// Creating the class Graph
 
 	private String tempHeroName; // Variable that's to temporarily save
 	// the username to set it when stageControl is called
-	private MediaPlayer mediaPlayer3; // For music.
 	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
 	// it.
 	private static int chosenMove;
@@ -110,10 +105,10 @@ public class Graph {// Creating the class Graph
 		if (numOfLines <= 0)
 			return "Non positive number of lines?";
 		int i = 1;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		while (i <= numOfLines) {
 			try {
-				sb.append("\n" + getLine(i, fileName));
+				sb.append("\n").append(getLine(i, fileName));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -187,11 +182,12 @@ public class Graph {// Creating the class Graph
 		// bold
 
 		introLabel = new Label("WELCOME TO OUR GAME");// We define the label that appears on the first window
-		introLabel.setLocation((WIDTH - 450) / 2, HEIGHT * 2 / 10);// We define the location of the introLabel
-		introLabel.setSize(450, 200);// We define the size of the introLabel
+		introLabel.setLocation((WIDTH - 600) / 2, HEIGHT * 2 / 10);// We define the location of the introLabel
+		introLabel.setSize(600, 200);// We define the size of the introLabel
 		introLabel.setForeground(new Color(255, 204, 51));// We define the font color of the introLabel
 		introLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));// We define the size of the text of the introLabel
 		// and that the text is going to be bold
+		introLabel.setAlignment(Label.CENTER);
 
 		centralPanel.add(introLabel);// We add the label introLabel to the main panel(centralPanel)
 		centralPanel.add(introButton);// We add the button introButton to the main panel(centralPanel)
@@ -202,7 +198,6 @@ public class Graph {// Creating the class Graph
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				tempHeroName = username.getText();
-				// Stages.myHero.setName(username.getText());
 				centralPanel.remove(introButton);// We remove button introButton from the panel centralPanel
 				centralPanel.remove(introLabel);// We remove label introLabel from the panel centralPanel
 				centralPanel.remove(username);
@@ -211,7 +206,6 @@ public class Graph {// Creating the class Graph
 		});
 	}
 
-	// my path: "C:\\Users\\manoz\\IdeaProjects\\Game\\src\\"
 	public void createMenuWindow() {// That method creates the window that contains the menu
 		try {
 			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt")); // Message: START THE GAME
@@ -328,7 +322,7 @@ public class Graph {// Creating the class Graph
 		});
 	}
 
-	public void createStartWindow() {// We create the window that the player is going to play to
+	public void createStartWindow() { // We create the window that the user is going to play in
 
 		battleThread = new Thread(battleTasks);
 		if (FirstGod) {
@@ -342,7 +336,16 @@ public class Graph {// Creating the class Graph
 			}
 		} else {
 			synchronized (Battle.getLock()) {
-				Battle.getLock().notify();
+				Battle.getLock().notify(); // Notify Stages.StageControl.92.
+				// Notifies BattleThread when 
+			}
+			synchronized (graphLock) {
+				try {
+					System.out.println("WAITING");
+					graphLock.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -371,14 +374,14 @@ public class Graph {// Creating the class Graph
 		heroHpBar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		heroHpBar.setAlignment(Label.CENTER);
 
-		heroHp = new Label("HP: " + String.valueOf(Stages.myHero.getHp()));
+		heroHp = new Label("HP: " + Stages.myHero.getHp());
 		heroHp.setBounds(50, HEIGHT / 10 + 50 + 5 + 26, 200, 20);
 		heroHp.setForeground(new Color(223, 255, 255));
 		heroHp.setBackground(new Color(22, 49, 87));
 		heroHp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		heroHp.setAlignment(Label.LEFT);
 
-		heroEnergy = new Label("Energy: " + String.valueOf(Stages.myHero.getEnergy()));
+		heroEnergy = new Label("Energy: " + Stages.myHero.getEnergy());
 		heroEnergy.setBounds(50, HEIGHT / 10 + 50 + 5 + 48, 200, 20);
 		heroEnergy.setForeground(new Color(223, 255, 255));
 		heroEnergy.setBackground(new Color(22, 49, 87));
@@ -412,10 +415,11 @@ public class Graph {// Creating the class Graph
 
 		godImage = new JLabel();
 		godImage.setBounds(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 450, 240, 403);
+		
 		try {
 			InputStream resourceBf = Graph.class.getResourceAsStream(Battle.god.getName() + ".jpg");
 			System.out.println(Battle.god.getName() + ".jpg");
-			BufferedImage bf = ImageIO.read(resourceBf);
+			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
 			ImageIcon im = new ImageIcon(bf);
 			godImage.setIcon(im);
 		} catch (IOException e1) {
@@ -426,7 +430,7 @@ public class Graph {// Creating the class Graph
 		heroImage.setBounds(WIDTH / 2 - 550, HEIGHT * 9 / 10 - 423, 212, 343);
 		try {
 			InputStream resourceBf = Graph.class.getResourceAsStream("Hero.jpg");
-			BufferedImage bf = ImageIO.read(resourceBf);
+			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
 			ImageIcon im = new ImageIcon(bf);
 			heroImage.setIcon(im);
 		} catch (IOException e1) {
@@ -449,7 +453,7 @@ public class Graph {// Creating the class Graph
 			godImage.setLocation(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 480);
 			try {
 				InputStream resourceBf3 = Graph.class.getResourceAsStream("zeusback1.jpg");
-				BufferedImage bf = ImageIO.read(resourceBf3);
+				BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
 				ImageIcon im = new ImageIcon(bf);
 				background.setIcon(im);
 			} catch (IOException e1) {
@@ -458,7 +462,7 @@ public class Graph {// Creating the class Graph
 		} else {
 			try {
 				InputStream resourceBf3 = Graph.class.getResourceAsStream("background.jpg");
-				BufferedImage bf = ImageIO.read(resourceBf3);
+				BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
 				ImageIcon im = new ImageIcon(bf);
 				background.setIcon(im);
 			} catch (IOException e1) {
@@ -588,13 +592,13 @@ public class Graph {// Creating the class Graph
 		buttonPanel.remove(noMoveButton);
 	}
 
-	public static void modifyHpLabels(Character hero, int hp, int initialHp, int heroDamage) {
+	public static void modifyHpLabels(Character hero, int currentHp, int initialHp) {
 		if (hero.getName().equals(Stages.myHero.getName())) {
-			heroHpBar.setSize(200 * hp / initialHp, 30);
-			heroHp.setText("HP: " + hp);
+			heroHpBar.setSize(200 * currentHp / initialHp, 30);
+			heroHp.setText("HP: " + currentHp);
 		} else {
-			godHBar.setSize(200 * hp / initialHp, 30);
-			godHp.setText("HP: " + hp * 100 / initialHp + "%");
+			godHBar.setSize(200 * currentHp / initialHp, 30);
+			godHp.setText("HP: " + currentHp * 100 / initialHp + "%");
 		}
 	}
 
@@ -640,6 +644,7 @@ public class Graph {// Creating the class Graph
 
 		gameOver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FirstGod = true; // So the user can restart the game
 				centralPanel.remove(loseMes);
 				centralPanel.remove(gameOver);
 				createMenuWindow();
@@ -752,7 +757,7 @@ public class Graph {// Creating the class Graph
 		MediaPlayer mediaPlayer3 = new MediaPlayer(hit3);
 		mediaPlayer3.setCycleCount(MediaPlayer.INDEFINITE);
 		mediaPlayer3.play();
-		
+
 
 		final int maxAp = ((Stages.getAttributePoints() == 1) ? 1 : Stages.getAttributePoints() / 2);
 		FirstGod = false;
@@ -983,6 +988,8 @@ public class Graph {// Creating the class Graph
 					centralPanel.remove(mainButton);// We remove the progress bar mainButton from the panel
 					Stages.setApStatsToZero();
 
+					mediaPlayer3.stop();
+
 					createStartWindow();
 				} else {
 					try {
@@ -996,7 +1003,6 @@ public class Graph {// Creating the class Graph
 						ex.printStackTrace();
 					}
 				}
-				mediaPlayer3.stop();
 			}
 		});
 
@@ -1178,11 +1184,12 @@ public class Graph {// Creating the class Graph
 		greekButton.addActionListener(new ActionListener() {// The user has set the language to Greek.
 			public void actionPerformed(ActionEvent e) {
 				Graph.language = "Gr";
-			}
+				JOptionPane.showMessageDialog(null, "Language changed to Greek");			}
 		});
 		englishButton.addActionListener(new ActionListener() {// The user has set the language to English
 			public void actionPerformed(ActionEvent e) {
 				Graph.language = "En";
+				JOptionPane.showMessageDialog(null, "Language changed to English");
 			}
 		});
 
