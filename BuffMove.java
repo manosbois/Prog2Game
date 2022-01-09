@@ -30,6 +30,7 @@ public class BuffMove extends Move {
 		hero1.setTempArmour((int) Math.round(tempArmour));
 		System.out.printf("%s's Attack and Armour "
 				+ "were raised by half%n%n", hero1.getName());
+		Game.graph.moveImage(hero1);
 		makeSound(getSound());
 		String message = myReader.nextLine() + hero1.getName() + myReader.nextLine()
 				+ this.getName() +". " + myReader.nextLine() + hero1.getName() + myReader.nextLine();
