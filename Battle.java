@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -9,24 +10,33 @@ import java.net.*;
 
 
 //A class that implements the battle mechanic of our game
-public class Battle {
-	private static final Random rand = new Random(); // Creating Random object
+public final class Battle {
 
-	private static final Object lock = new Object();
+	private Battle() { }
 
-	public static God god;
+	private static final Random RAND = new Random(); // Creating Random object
+
+	private static final Object LOCK = new Object();
+
+	static God god;
 
 	public static Object getLock() {
-		return lock;
+		return LOCK;
 	}
 
-	private static final int ENERGY_REPLENISHMENT = 8; // The variable that
+	private static final int ENERGY_REPLENISHMENT = 8; // The constant that
 	// shows how much energy is replenished every round
+
+	private static final int SWORD_BORDER = 37, SPEAR_BORDER = 62, SHIELD_BORDER = 77,
+							MEDITATE_BORDER = 97; /* Constants that help with the 
+				 setting the probability of every move to be used by god.
+				 They show the upper border. */
+
+	private static final int SIXTH_BATTLE = 6, NINTH_BATTLE = 9, ZEUS_BATTLE = 12;
 
 	// The most essential method of class Battle
 	// It implements the battle mechanic
-	public static int battleMethod(Hero myHero, int numOfBattle)
-			 {
+	public static int battleMethod(Hero myHero, final int numOfBattle) {
 
 		// Setting the tempStats before the battle to the values of the non tempStats
 		myHero.setTempStats(myHero.getHp(), myHero.getAttack(), myHero.getArmour(), myHero.getEnergy());
@@ -40,17 +50,17 @@ public class Battle {
 		boolean roundEnds;
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
-		com.sun.javafx.application.PlatformImpl.startup(()->{});
+		com.sun.javafx.application.PlatformImpl.startup(() -> { });
 		URL file = Battle.class.getResource("Song1.mp3");
 		URL fileSong2 = Battle.class.getResource("Song2.mp3");
 		URL zeusMusic = Battle.class.getResource("ZeusMusic.mp3");
 		Media hit;
-		if (numOfBattle == 12) {
-			hit = new Media (Objects.requireNonNull(zeusMusic).toString());
+		if (numOfBattle == ZEUS_BATTLE) {
+			hit = new Media(Objects.requireNonNull(zeusMusic).toString());
 		} else if (numOfBattle % 2 == 0) {
-			hit = new Media (Objects.requireNonNull(fileSong2).toString());
+			hit = new Media(Objects.requireNonNull(fileSong2).toString());
 		} else {
-			hit = new Media (Objects.requireNonNull(file).toString());
+			hit = new Media(Objects.requireNonNull(file).toString());
 		}
 
 		MediaPlayer mediaPlayer = new MediaPlayer(hit);
@@ -99,31 +109,31 @@ public class Battle {
 			System.out.println(myHero.getNoMove().toString());
 
 			Scanner	myReader = new Scanner(new BufferedReader(
-					new InputStreamReader(Objects.requireNonNull
-							(Battle.class.getResourceAsStream(
+					new InputStreamReader(Objects.requireNonNull(
+							Battle.class.getResourceAsStream(
 									Graph.getLanguage() + "-Battle.txt")), StandardCharsets.UTF_8)));
 
 
 			Game.graph.modifyMes(myReader.nextLine()); //Message: Choose your move!
 
-			synchronized (lock) {
+			synchronized (LOCK) {
 				try {
-					lock.wait();
+					LOCK.wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 
 			int chosenMove = Graph.getChosenMove(); // Reading user's chosen move
-			move = getMove(myHero, chosenMove);
+			move = getHeroMove(myHero, chosenMove);
 			if (myHero.getTempEnergy() < move.getEnergy()) {
 				// Checking if the user has enough energy
 				sufficientEnergy = false;
 				Game.graph.clearMes();
 				System.out.printf("You need %d more Energy to use the move %s%n",
 						move.getEnergy() - myHero.getTempEnergy(), move.getName());
-				Game.graph.modifyMes(myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy()) +
-						myReader.nextLine() + move.getName() + "."); //Message: Yoy need $ more energy to use the move %.
+				Game.graph.modifyMes(myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy())
+						+ myReader.nextLine() + move.getName() + "."); //Message: Yoy need $ more energy to use the move %.
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
@@ -135,13 +145,26 @@ public class Battle {
 		return move;
 	} // End of method chooseMyMove
 
+
+	private static Move getHeroMove(Hero hero, int chosenMove) {
+
+		switch (chosenMove) {
+			case 1:
+				return hero.getDamagingMove1();
+			case 2:
+				return hero.getDamagingMove2();
+			case 3:
+				return hero.getProtectiveMove();
+			case 4:
+				return hero.getBuffMove();
+			default:
+				return hero.getNoMove();
+		}
+
+	}
+
 	// The PC decides which move the rival god uses
 	public static Move chooseOpponentsMove(God god) {
-
-		/*
-		 * try { Thread.sleep(1000); } catch (InterruptedException ie) {
-		 * Thread.currentThread().interrupt(); }
-		 */
 
 		boolean sufficientEnergy;
 		Move move; // Creating a
@@ -149,18 +172,7 @@ public class Battle {
 
 		do {
 			sufficientEnergy = true;
-			int randomMove, randomNumber ;
-			randomNumber= rand.nextInt(100) + 1;
-			if(randomNumber <= 37) {
-				randomMove = 1;
-			}else if(randomNumber <= 62) {
-				randomMove = 2;
-			}else if(randomNumber <= 77) {
-				randomMove = 3;
-			}else {
-				randomMove = 4;
-			}
-			move = getMove(god, randomMove);
+			move = getGodMove(god);
 			if (god.getTempEnergy() < move.getEnergy()) {
 				// Checking if the opponent has enough energy
 				sufficientEnergy = false;
@@ -169,46 +181,46 @@ public class Battle {
 		return move;
 	} // End of method chooseOpponentsMove
 
-	private static Move getMove(Character hero, int chosenMove) {
+	private static Move getGodMove(God god) {
+		int randomNumber = RAND.nextInt(100) + 1;
 
-			switch (chosenMove) {
-				case 1:
-					return hero.getDamagingMove1();
-				case 2:
-					return hero.getDamagingMove2();
-				case 3:
-					return hero.getProtectiveMove();
-				case 4:
-					return hero.getBuffMove();
-				default:
-					return hero.getNoMove();
-			}
-		
+		if (randomNumber <= SWORD_BORDER) { // 37% Chance for Sword to be chosen
+			return god.getDamagingMove1();
+		} else if (randomNumber <= SPEAR_BORDER) { // 25% Chance for Spear
+			return god.getDamagingMove2();
+		} else if (randomNumber <= SHIELD_BORDER) { // 15% Chance for Shield
+			return god.getProtectiveMove();
+		} else if (randomNumber <= MEDITATE_BORDER) { // 20% Chance for Meditate
+			return god.getBuffMove();
+		} else { //3% Chance for noMove
+			return god.getNoMove();
+		}
 	}
 
 	// Decides if the users goes first
-	private static boolean decideWhoGoesFirst(int numOfBattle, Move myMove, Move opponentsMove) {
+	private static boolean decideWhoGoesFirst(final int numOfBattle, Move myMove, Move opponentsMove) {
 		// Checking if anyone used a Protective move
 		if (myMove instanceof ProtectiveMove) {
 			return true;
 		} else if (opponentsMove instanceof ProtectiveMove) {
 			return false;
 		}
-		if (numOfBattle <= 6) { // For the first 6 Stages (Rival gods)
+		if (numOfBattle <= SIXTH_BATTLE) { // For the first 6 Stages (Rival gods)
 			return true;
-		} else if (numOfBattle <= 9) { // For the next 3
+		} else if (numOfBattle <= NINTH_BATTLE) { // For the next 3
 			// Stages the user and the rival have the
 			// same chance of going first
-			return rand.nextBoolean();
+			return RAND.nextBoolean();
 		} else { // For the last 3 Stages the user
 			// always goes last
 			return false;
 		} // End of if
-	}// End of method decideWhoGoesFirst
+	} // End of method decideWhoGoesFirst
 
 	// It modifies the TempStats of the objects myHero and god according to used
 	// moves
-	private static void roundResult(Move myMove, Move opponentsMove, Hero myHero, God god, boolean iPlayFirst) {
+	private static void roundResult(final Move myMove,final Move opponentsMove,
+									final Hero myHero, final God god, final boolean iPlayFirst) {
 		// Method that checks who plays first
 		if (iPlayFirst) { // If the user plays first
 			myMove.effect(myHero, god, opponentsMove.getModifier()); // The user makes his move
@@ -226,9 +238,10 @@ public class Battle {
 	}
 
 	// Replenishes the energy of the hero and god
-	private static void replenishEnergy(Hero myHero, God god) {
+	private static void replenishEnergy(final Hero myHero, final God god) {
 		myHero.setTempEnergy(myHero.getTempEnergy() + ENERGY_REPLENISHMENT);
 		god.setTempEnergy(god.getTempEnergy() + ENERGY_REPLENISHMENT);
 		Graph.modifyEnergyLabel(myHero.getTempEnergy());
 	}
+
 }
