@@ -1,17 +1,21 @@
 
-public class Stages {
+public final class Stages {
 
-	private static final int MY_HERO_ENERGY = 10;
-	public static Hero myHero;//Creating the object for the user;
+	private Stages() { }
+
+	static Hero myHero; // Creating the object for the user;
+
+	private static final int MY_HERO_ENERGY = 10, MY_HERO_HP = 100,
+			MY_HERO_ATTACK = 100, MY_HERO_ARMOUR = 100; //The Starting Stats of myHero variable
 
 
-	private static int tempHP = 0; //We temporarily save HP for checkpoints
-	private static int tempAttack = 0; //We temporarily save attack for checkpoints
-	private static int tempArmor = 0; //We temporarily save armor for checkpoints
+	private static int tempHP = 0; // We temporarily save HP for checkpoints
+	private static int tempAttack = 0; // We temporarily save attack for checkpoints
+	private static int tempArmor = 0; // We temporarily save armor for checkpoints
 
-	private static int apHp; //Attribute Points for HP
-	private static int apAttack; //Attribute Points for Attack
-	private static int apArmour; //Attribute Points for Armor
+	private static int apHp; // Attribute Points for HP
+	private static int apAttack; // Attribute Points for Attack
+	private static int apArmour; // Attribute Points for Armor
 	private static int attributePoints;
 
 	public static int getApHp() { return apHp;	}
@@ -62,18 +66,18 @@ public class Stages {
 	//public Stages() {
 
 	public static void stageControl() throws InterruptedException  {
-		myHero= new Hero(100 , 100 , 100 , MY_HERO_ENERGY);
+		myHero = new Hero(MY_HERO_HP, MY_HERO_ATTACK, MY_HERO_ARMOUR, MY_HERO_ENERGY);
 		myHero.setName(Game.graph.getTempHeroName());
-		
-		
+
+
 		boolean hasDied = false;
 		//Creating the object for the user
 
 		i = 1;
-		while (i <= 12) { //We define the number of attribute points
-			
+		while (i <= ZEUS_BATTLE) { //We define the number of attribute points
+
 			setAttributePoints(Battle.battleMethod(myHero, i));
-			
+
 			if (attributePoints > 0 & i == ZEUS_BATTLE) { // The user has won the entire game
 				Game.graph.createWinWindow();
 			} else if (attributePoints > 0 & i != ZEUS_BATTLE) { // Give attribute points
@@ -109,20 +113,20 @@ public class Stages {
 		}
 	}
 
-	public static void findCheckpoint(Hero myHero) { //A method that finds the checkpoint of the player
+	public static void findCheckpoint(Hero myHero) { // A method that finds the checkpoint of the player
 		try {
-			if (i <= FIRST_CHECKPOINT) { //Before the battle with the sixth god
+			if (i <= FIRST_CHECKPOINT) { // Before the battle with the sixth god
 				System.out.println("Game Over!");
 				Game.graph.createLoseWindow();
 				i = END_OF_GAME;
-			} else if (/* i > FIRST_CHECKPOINT && */ i < ZEUS_BATTLE) { //Before the battle with the twelfth god
+			} else if (/* i > FIRST_CHECKPOINT && */ i < ZEUS_BATTLE) { // Before the battle with the twelfth god
 				myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 				i = FIRST_CHECKPOINT;
 				Game.graph.createCheckpointWindow();
 				synchronized (Battle.getLock()) {
 					Battle.getLock().wait();
 				}
-			} else if (i == ZEUS_BATTLE) { //After the player has lost by the last god
+			} else if (i == ZEUS_BATTLE) { // After the player has lost by the last god
 				myHero.setStats(tempHP, tempAttack, tempArmor, MY_HERO_ENERGY);
 				i = ZEUS_BATTLE;
 				Game.graph.createCheckpointWindow();
