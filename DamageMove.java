@@ -31,6 +31,7 @@ public class DamageMove extends Move {
                                 this.getMessageFileName())), StandardCharsets.UTF_8)));
 
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
+        Game.graph.moveImage(hero1);
         makeSound(getSound());
         Game.graph.modifyMes(myReader.nextLine() + hero1.getName() + myReader.nextLine() + this.getName() + ".");
 
