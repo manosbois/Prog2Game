@@ -90,8 +90,7 @@ public class Graph {// Creating the class Graph
 		return null;
 	}
 
-	private Thread battleThread;
-	private Runnable battleTasks = () -> {
+	private final Runnable battleTasks = () -> {
 		try {
 			Stages.stageControl();
 		} catch (InterruptedException e) {
@@ -296,7 +295,7 @@ public class Graph {// Creating the class Graph
 		story.setBounds(0, 100, WIDTH - 10, 550);
 		story.setForeground(Color.WHITE);
 		story.setBackground(new Color(0, 51, 51));
-		story.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 20));
+		story.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
 		story.setEditable(false);
 
 		try {
@@ -307,7 +306,7 @@ public class Graph {// Creating the class Graph
 		continueButton.setBounds((WIDTH - 150) / 2, 675, 150, 50);
 		continueButton.setForeground(Color.BLACK);
 		continueButton.setBackground(Color.WHITE);
-		continueButton.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 18));
+		continueButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
 
 		centralPanel.add(story);
 		centralPanel.add(continueButton);
@@ -324,7 +323,7 @@ public class Graph {// Creating the class Graph
 
 	public void createStartWindow() { // We create the window that the user is going to play in
 
-		battleThread = new Thread(battleTasks);
+		Thread battleThread = new Thread(battleTasks);
 		if (FirstGod) {
 			battleThread.start();
 			synchronized (graphLock) {
@@ -622,6 +621,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.setSize(WIDTH, HEIGHT);
 		buttonPanel.setSize(0, 0);
 		removeStartWindow();
+
 		com.sun.javafx.application.PlatformImpl.startup(()->{});
 		URL file4 = Graph.class.getResource("GameOver.mp3");
 		Media hit4 =  new Media (Objects.requireNonNull(file4).toString());
@@ -786,11 +786,11 @@ public class Graph {// Creating the class Graph
 		// attackBar
 		attackBar.setStringPainted(true);// The progress bar appear on the screen
 		attackBar.setBackground(Color.red);// We define the color of the progress bar
-		attackBar.setBounds(WIDTH / 10, HEIGHT * 1 / 5, 325, 75);// We define the location and the size of the progress
+		attackBar.setBounds(WIDTH / 10, HEIGHT / 5, 325, 75);// We define the location and the size of the progress
 		// bar
 
 		apAttackLabel = new Label(String.valueOf(Stages.getApAttack()));
-		apAttackLabel.setBounds((WIDTH / 10) + 350, HEIGHT * 1 / 5 + 25 / 2, 75, 50);
+		apAttackLabel.setBounds((WIDTH / 10) + 350, HEIGHT / 5 + 25 / 2, 75, 50);
 		apAttackLabel.setBackground(Color.WHITE);
 		apAttackLabel.setForeground(Color.BLACK);
 		apAttackLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
@@ -805,7 +805,7 @@ public class Graph {// Creating the class Graph
 		modifyPlusButtons(attackPlus10, 2, 1, 1);
 
 		attackRemain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
-		attackRemain.setBounds((WIDTH / 10) + 800, HEIGHT * 1 / 5 + 25 / 2, 180, 50);
+		attackRemain.setBounds((WIDTH / 10) + 800, HEIGHT / 5 + 25 / 2, 180, 50);
 		attackRemain.setForeground(Color.RED);
 		attackRemain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
@@ -1191,19 +1191,19 @@ public class Graph {// Creating the class Graph
 		greekButton.addActionListener(new ActionListener() {// The user has set the language to Greek.
 			public void actionPerformed(ActionEvent e) {
 				Graph.language = "Gr";
-				JOptionPane.showMessageDialog(null, "Language changed to Greek");			}
+				JOptionPane.showMessageDialog(null, "Language set to Greek");			}
 		});
 		englishButton.addActionListener(new ActionListener() {// The user has set the language to English
 			public void actionPerformed(ActionEvent e) {
 				Graph.language = "En";
-				JOptionPane.showMessageDialog(null, "Language changed to English");
+				JOptionPane.showMessageDialog(null, "Language set to English");
 			}
 		});
 
-		mainButton.addActionListener(new ActionListener() {// If the user clicks the button mainButton the game returns
+		mainButton.addActionListener(new ActionListener() { // If the user clicks the button mainButton the game returns
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
-				centralPanel.remove(mainButton);// We remove the progress bar mainButton from the panel
+				centralPanel.remove(mainButton); // We remove the progress bar mainButton from the panel
 				centralPanel.remove(darkMode);
 				centralPanel.remove(lightMode);
 				centralPanel.remove(greekButton);
@@ -1213,4 +1213,31 @@ public class Graph {// Creating the class Graph
 		});
 	}
 
+	public void moveImage(Character character) {
+		final int WAIT_TIME = 1500;
+		final int TO_THE_RIGHT = 100;
+		final int TO_THE_LEFT = -100;
+
+		Runnable runnable = () -> {
+
+			if (character instanceof God) {
+				godImage.setBounds(WIDTH / 2 + 300 + TO_THE_LEFT, HEIGHT * 9 / 10 - 450, 240, 403);
+			} else {
+				heroImage.setBounds(WIDTH / 2 - 550 + TO_THE_RIGHT, HEIGHT * 9 / 10 - 423, 212, 343);
+			}
+			try {
+				Thread.sleep(WAIT_TIME);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (character instanceof God) {
+				godImage.setBounds(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 450, 240, 403);
+			} else {
+				heroImage.setBounds(WIDTH / 2 - 550, HEIGHT * 9 / 10 - 423, 212, 343);
+			}
+
+		};
+
+		new Thread(runnable).start();
+	}
 }
