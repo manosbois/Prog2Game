@@ -17,7 +17,7 @@ public class Move {
     private final int energy; //How much energy the Move consumes
     /** Every move has a name */
     private final String name; //The name of the Move
-    /** Every move has a massage that is displayed when used. The variable
+    /** Every move has a message that is displayed when used. The variable
      * messageFileName is the name of the file that includes those messages.
      * Every move must have two files: one in english and one in greek.
      * English files have the En prefix and greek files the Gr prefix.
@@ -46,39 +46,36 @@ public class Move {
         this.sound = sound;
     }
 
-    /**
-     * @return the energy the move consumes
-     */
+    /** @return the energy the move consumes */
     public int getEnergy() {
         return energy;
     }
-
-    /**
-     * @return the name of the move used
-     */
+    
+    /** @return the name of the move used */
     public String getName() {
         return name;
     }
 
-    /**
-     * @return the name of the file that contains the messages
-     */
+    /** @return the name of the file that contains the messages */
     public String getMessageFileName() {
         return messageFileName;
     }
 
-    /**
-     * @return the sound the URL that contains the sound the move makes
-     */
+    /** @return the sound the URL that contains the sound the move makes */
     public URL getSound() { return sound; }
 
-    /**
-     * @return the modifier of the move
-     */
+    
+     /** @return the modifier of the move */
     public double getModifier() { return MODIFIER; }
 
     /**
-     * D
+     * Method that implements the effect of every move.
+     * This includes moving the image of hero1 with moveImage method,
+     * making the sound of the move with makeSound method,
+     * altering the message shown on screen with modifyMes.
+     * 
+     * The effect method of Move Class has no other use.
+     * 
      * @param hero1 the character that is using the move
      * @param hero2 the other character (that is not using the move but might
      *              be affected by it
@@ -105,9 +102,13 @@ public class Move {
         System.out.println(Graph.getLanguage());
     }
 
+
     /**
+     * Method that makes the sound of the move.
+     * It creates a Media object using the parameter and then a Media player
+     * object, using the Media object. After that it just plays the music.
      * 
-     * @param moveSound 
+     * @param moveSound the sound the move makes. Essentially it is the sound instance variable.
      */
     protected static void makeSound(URL moveSound) {
         Media hit2 =
