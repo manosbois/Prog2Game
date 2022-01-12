@@ -5,15 +5,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
-//A class for Moves that raise the tempStats
+/** A class for Moves that raise the tempStats */
 public class BuffMove extends Move {
 
+	/** The constant Multiplication factor that is used in raising the tempStats */
 	private static final double MULTIPLICATION_FACTOR = 1.5;
-	//Variable that raises the stats by an amount
+	
 	public BuffMove(int energy, String name, String messageFileName, URL sound) {
 		super(energy, name, messageFileName, sound);
 	}
 
+	/** The effect method that is overriden from the Move class */
 	@Override
 	public void effect(Character hero1, Character hero2, double modifier) {
 
