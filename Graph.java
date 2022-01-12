@@ -12,70 +12,128 @@ import javafx.scene.media.MediaPlayer;
 import java.net.*;
 
 /**
- * 
+ * The class Graph creates a graphic display of the game and the all the
+ * functions of the other classes. This class is being used by Stages and Battle
  */
-public class Graph { // Creating the class Graph
+public class Graph {// Creating the class Graph
+	/** A lock for the thread graphThread */
 	private static final Object graphLock = new Object();
 
+	/** @return the value of the object graphLock */
 	public static Object getGraphLock() {
 		return graphLock;
 	}
 
+	/** The constant that defines the title of the frame. */
 	private final String title;
-	static JFrame frame; // We define the frame of the project.
-	JPanel centralPanel, buttonPanel; // We define three panels that appear on the screen
+	JFrame frame;
+	/**
+	 * We define the basic panels of the game the centralPanel contains all most
+	 * everything of the game and the buttonPanel contains the buttons that are the
+	 * moves of the hero
+	 */
+	JPanel centralPanel, buttonPanel;
+	/** We define the block where the user can write his/her username */
 	JTextField username;
-	Button introButton, mainButton, startButton, rulesButton, settingsButton, quitButton, continueButton;// We define
-	// the basic
-	// buttons
-	// of the game
-	static Label heroName, godName, heroHpBar, godHBar, heroBackBar, godBackBar, heroEnergy; // Label
-	// names(hero
-	// and god
-	// names)
+	/** We define the introductory label that welcomes the user */
+	Label introLabel;
+	/**
+	 * We define the buttons that are contained on the introductory and the menu
+	 * window
+	 */
+	Button introButton, mainButton, startButton, rulesButton, settingsButton, quitButton, continueButton;
+	/**
+	 * We define the labels that are referred to the hero's and the god's health
+	 * power's bar and name
+	 */
+	static Label heroName, godName, heroHpBar, godHBar, heroBackBar, godBackBar, heroEnergy;
+	/** We define the buttons that are the moves of the hero */
 	JButton swordButton, spearButton, meditateButton, shieldButton, noMoveButton;
-	Button nextGod, checkpoint, gameOver;// We define the move buttons
+	/**
+	 * We define the buttons that are beings used on the Checkpoint, the Lose and
+	 * the Battle Win window
+	 */
+	Button nextGod, checkpoint, gameOver;
+	/**
+	 * We define the labels that are referred to the hero's and the god's health
+	 * power
+	 */
 	static Label heroHp, godHp;
-	JLabel godImage, heroImage, background;
+	/**
+	 * We define the labels that we insert the images of the hero, of the gods and
+	 * of the background
+	 */
+	JLabel godImage, heroImage, background, logo;
+	/** We define the label that contains the messages during the battle */
 	static Label mes1;
+	/** We define the text areas that contains the story and the rules */
 	TextArea rules, story;
+	/**
+	 * We define the label that contains the win, the win of the battle, the lose
+	 * and the checkpoint message
+	 */
 	Label battleWin, winMes, loseMes, checkpointMes;
+	/** We define the buttons that sets the attribute points of the hero */
 	Button attackPlus1, attackPlus5, attackPlus10, attackReset, armourPlus1, armourPlus5, armourPlus10, armourReset,
-			hpPlus1, hpPlus5, hpPlus10, hpReset, doneButton;// statistics buttons
-	Label introLabel; // We define the basic labels that appear on the game
+			hpPlus1, hpPlus5, hpPlus10, hpReset, doneButton;
+	/** We define the labels of the statistics window */
 	Label attackBarLabel, armourBarLabel, hpBarLabel, attackRemain, armourRemain, hpRemain, apAttackLabel,
-			apArmourLabel, apHpLabel, attributePoints, doneLabel;// We define the basic
-	// statistics labels
-	JProgressBar attackBar, armourBar, hpBar;// We define the progress bars that appear on the statistics screen
-	Button lightMode, darkMode, greekButton, englishButton;// settings' buttons
-	static final int WIDTH = 1280, HEIGHT = 800;// We define the width and the height of the window
-
-	private String tempHeroName; // Variable that's to temporarily save
-	// the username to set it when stageControl is called
-	private boolean FirstGod = true; // Variable that's used to know whether to start the battleThread or to notify
-	// it.
+			apArmourLabel, apHpLabel, attributePoints, doneLabel;
+	/**
+	 * We define the progress bars that shows how the attributes of the hero are
+	 * distributed
+	 */
+	JProgressBar attackBar, armourBar, hpBar;
+	/**
+	 * We define the buttons of the settings window that sets the language and the
+	 * mode of the game
+	 */
+	Button lightMode, darkMode, greekButton, englishButton;
+	/** We define the dimension of the frame */
+	final int WIDTH = 1280, HEIGHT = 800;
+	/** We define the variable for the temporary name of the hero */
+	private String tempHeroName;
+	/**
+	 * We define the boolean variable that is being used on the method
+	 * createStartWindow
+	 */
+	private boolean firstGod = true;
+	/** We define the move that hero has chosen */
 	private static int chosenMove;
-
+	/**
+	 * We define the string variable that indicates the language that the user has
+	 * chosen and the default value En for english
+	 */
 	private static String language = "En";
 
+	/** @return the temporary name of the Hero */
 	public String getTempHeroName() {
 		return tempHeroName;
 	}
 
+	/** @return the move that the user has chosen */
 	public static int getChosenMove() {
 		return chosenMove;
 	}
 
+	/**
+	 * @param move with the move the player chose */
 	public static void setChosenMove(int move) {
 		chosenMove = move;
 	}
 
+	/** @return the language of the game  */
 	public static String getLanguage() {
 		return language;
 	}
 
-	// Returns the contents of the line of a file that is located the number
-	// specified.
+	
+	/**
+	 * @param numberOfLine indicates the number of the line of the file that we want to read
+	 * @param fileName shows the name of the file which we are reading
+	 * @return Returns the contents of the line of a file that is located the number specified
+	 * @throws IOException
+	 */
 	public static String getLine(final int numberOfLine, final String fileName) throws IOException {
 
 		if (numberOfLine <= 0)
@@ -84,7 +142,7 @@ public class Graph { // Creating the class Graph
 				Objects.requireNonNull(Graph.class.getResourceAsStream(fileName)), StandardCharsets.UTF_8))) {
 			for (int i = 1; i <= numberOfLine; i++) {
 				if (i == numberOfLine) {
-					return bf.readLine(); // Found the line.
+					return bf.readLine();
 				} else {
 					bf.readLine();
 				}
@@ -97,7 +155,11 @@ public class Graph { // Creating the class Graph
 		Stages.stageControl();
 	};
 
-	// Returns a String containing all lines of a file
+	/**
+	 * @param numberOfLine indicates the number of the line of the file that we want to read
+	 * @param fileName shows the name of the file which we are reading
+	 * @return Returns a String containing all lines of a file
+	 */
 	public static String getAllText(final int numOfLines, final String fileName) {
 		if (numOfLines <= 0)
 			return "Non positive number of lines?";
@@ -114,7 +176,11 @@ public class Graph { // Creating the class Graph
 		return String.valueOf(sb);
 	}
 
-	public Graph(String title) {// We create the constructor of the class Graph
+	/**
+	 * @param title that is the title of the frame
+	 * This is the constructor of the class Graph
+	 */
+	public Graph(String title) {
 
 		Runnable graphTasks = this::createFrame;
 		Thread graphThread = new Thread(graphTasks);
@@ -123,43 +189,38 @@ public class Graph { // Creating the class Graph
 		this.title = title;
 	}
 
+	/**
+	 * The method createFrame creates the frame of the game
+	 */
 	public void createFrame() {
-		frame = new JFrame(title);// We give the frame a title
-		frame.setBounds(0, 0, WIDTH, HEIGHT);// We define the bounds of the frame
-		frame.setResizable(false); // We do not allow to resize the window
+		frame = new JFrame(title);
+		frame.setBounds(0, 0, WIDTH, HEIGHT);
+		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);// We define that the window will appear
-		frame.setLayout(new BorderLayout());// We define the layout that I'm going to use for the labels and the buttons
-
-		createMainWindow();// We call the method createMainWindow that designs the first window that opens
-		// when we start the game
+		frame.setVisible(true);
+		frame.setLayout(new BorderLayout());
+		
+		createMainWindow();
 	}
 
-	public void createMainWindow() {// This method creates the first window that the user will see when he opens the
-		// game
-		centralPanel = new JPanel();// We define the main panel of the window
-		centralPanel.setBackground(new Color(0, 51, 51));// We define the color of the panel centralPanel
-		// based on rgb color
+	/**
+	 * The method createMainWindow creates the first window that the user will see when he opens the
+	 * game and designs the area where the user inserts his username
+	 */
+	public void createMainWindow() {
+		centralPanel = new JPanel();
+		centralPanel.setBackground(new Color(0, 51, 51));
 		centralPanel.setLayout(null);
-		centralPanel.setLocation(0, 0);// We define the location of this panel
-		centralPanel.setSize(WIDTH, HEIGHT);// We define the size of this panel
+		centralPanel.setLocation(0, 0);
+		centralPanel.setSize(WIDTH, HEIGHT);
 
-		/*
-		 * bottomPanel = new JPanel();// We define the secondary panel of the window
-		 * bottomPanel.setBackground(Color.DARK_GRAY);// We define the color of the
-		 * panel bottomPanel bottomPanel.setLayout(null);// We define that we are not
-		 * going to use a specific layout bottomPanel.setLocation(0, 500);// We define
-		 * the location of this panel bottomPanel.setSize(WIDTH, HEIGHT / 15);// We
-		 * define the size of this panel
-		 */
 		buttonPanel = new JPanel();
 		buttonPanel.setBounds(0, 0, 0, 0);
-		frame.add(centralPanel);// We add the panel centralPanel to the frame
-		frame.add(buttonPanel);// We add the panel bottomPanel to the frame
+		frame.add(centralPanel);
+		frame.add(buttonPanel);
 
-		introButton = new Button("LET'S BEGIN OUR ADVENTURE");// We define the button on the first window that leads to
-		// main menu
+		introButton = new Button("LET'S BEGIN OUR ADVENTURE");
 
 		username = new JTextField("Enter Your Name Here");
 		username.setBounds((WIDTH - 350) / 2, HEIGHT * 3 / 5, 350, 50);
@@ -167,125 +228,134 @@ public class Graph { // Creating the class Graph
 		username.setForeground(new Color(255, 204, 51));
 		username.setFont(new Font(Font.MONOSPACED, Font.BOLD, 22));
 
-		introButton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);// We define the location of the button introButton
-		// based on the width and the height of the
-		// window(so it could change if we change the size
-		// of the window
-		introButton.setSize(450, 100);// We define the size of the introButton
-		introButton.setBackground(new Color(223, 255, 255));// We define the color of the introButton
-		introButton.setForeground(new Color(14, 114, 110));// We define the font color of the introButton
-		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));// We define the size of the text of the
-		// introButton and that the text is going to be
-		// bold
-
-		introLabel = new Label("WELCOME TO OUR GAME");// We define the label that appears on the first window
-		introLabel.setLocation((WIDTH - 600) / 2, HEIGHT * 2 / 10);// We define the location of the introLabel
-		introLabel.setSize(600, 200);// We define the size of the introLabel
-		introLabel.setForeground(new Color(255, 204, 51));// We define the font color of the introLabel
-		introLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));// We define the size of the text of the introLabel
-		// and that the text is going to be bold
+		introButton.setLocation((WIDTH - 450) / 2, HEIGHT * 7 / 10);
+		introButton.setSize(450, 100);
+		introButton.setBackground(new Color(223, 255, 255));
+		introButton.setForeground(new Color(14, 114, 110));
+		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		
+		introLabel = new Label("WELCOME TO OUR GAME");
+		introLabel.setLocation((WIDTH - 600) / 2, HEIGHT * 2 / 10);
+		introLabel.setSize(600, 200);
+		introLabel.setForeground(new Color(255, 204, 51));
+		introLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 		introLabel.setAlignment(Label.CENTER);
 
-		centralPanel.add(introLabel);// We add the label introLabel to the main panel(centralPanel)
-		centralPanel.add(introButton);// We add the button introButton to the main panel(centralPanel)
+		centralPanel.add(introLabel);
+		centralPanel.add(introButton);
 		centralPanel.add(username);
 
-		introButton.addActionListener(new ActionListener() {// We define that if the user clicks the button that says
-			// "LET'S BEGIN OUR ADVENTURE", he's going to be returned
-			// to the menu window
+		introButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tempHeroName = username.getText();
-				centralPanel.remove(introButton);// We remove button introButton from the panel centralPanel
-				centralPanel.remove(introLabel);// We remove label introLabel from the panel centralPanel
+				centralPanel.remove(introButton);
+				centralPanel.remove(introLabel);
 				centralPanel.remove(username);
-				createMenuWindow();// We call the method createMenuWindow that creates the window with the menu
+				createMenuWindow();
 			}
 		});
 	}
 
-	public void createMenuWindow() {// That method creates the window that contains the menu
+	/**
+	 * The method createMenuWindow creates the window that contains the menu
+	 */
+	public void createMenuWindow() {
 		try {
-			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt")); // Message: START THE GAME
-			// We create the button with the name startButton that leads the user
-			// to the game
+			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt"));
 			modifyMenuButtons(startButton, 0);
 
-			rulesButton = new Button(getLine(8, getLanguage() + "-Graph.txt")); // Message: RULES
-			// We create the button with the name statsButton that leads the user to
-			// his statistics
+			rulesButton = new Button(getLine(8, getLanguage() + "-Graph.txt"));
 			modifyMenuButtons(rulesButton, 1);
 
-			settingsButton = new Button(getLine(9, getLanguage() + "-Graph.txt")); // Message: SETTINGS
-			// We create the button with the name settingsButton that leads the user
-			// to the settings of the game
+			settingsButton = new Button(getLine(9, getLanguage() + "-Graph.txt"));
 			modifyMenuButtons(settingsButton, 2);
 
-			quitButton = new Button(getLine(10, getLanguage() + "-Graph.txt")); // Message: QUIT
-			// We create the button with the name quitButton that exits the game
+			quitButton = new Button(getLine(10, getLanguage() + "-Graph.txt"));
 			modifyMenuButtons(quitButton, 3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		mainButton = new Button("CODERUNNERS");// We create the main button that appears at the top of the screen if we
-		// choose any of the menu options, so we can go back to the menu window
+		mainButton = new Button("CODERUNNERS");
 		mainButton.setLocation((WIDTH - 350) / 2, 0);
 		mainButton.setSize(350, 50);
 		mainButton.setBackground(Color.BLACK);
 		mainButton.setForeground(new Color(255, 204, 51));
 		mainButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
-		centralPanel.add(startButton);// We add to the frame the button startButton
-		centralPanel.add(rulesButton);// We add to the frame the button statsButton
-		centralPanel.add(settingsButton);// We add to the frame the button settingsButton
-		centralPanel.add(quitButton);// We add to the frame the button quitButton
-		// centralPanel.add(mainLabel);
-		centralPanel.add(mainButton);// We add to the frame the button startButton
+		logo = new JLabel();
+		logo.setBounds(WIDTH * 13 / 20, 150, 300, 500);
 
-		startButton.addActionListener(new ActionListener() {// The user has press the button startButton
+		try {
+			InputStream resourceBf = Graph.class.getResourceAsStream("logo.png");
+			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
+			ImageIcon im = new ImageIcon(bf);
+			logo.setIcon(im);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		centralPanel.add(startButton);
+		centralPanel.add(rulesButton);
+		centralPanel.add(settingsButton);
+		centralPanel.add(quitButton);
+		centralPanel.add(logo);
+
+		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeMenuButtons();
 				centralPanel.remove(mainButton);
-				createStoryWindow();// We call the method that starts the game
+				createStoryWindow();
 			}
 		});
-		rulesButton.addActionListener(new ActionListener() {// The user has press the button statsButton
+		rulesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeMenuButtons();
 
-				createRulesWindow();// We call the method that controls the statistics of the player(Hero)
+				createRulesWindow();
 			}
 		});
-		settingsButton.addActionListener(new ActionListener() { // The user has press the button settingsButton
+		settingsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeMenuButtons();
 
-				createSettingsWindow();// We call the method that controls the settings
+				createSettingsWindow();
 			}
 		});
-		quitButton.addActionListener(new ActionListener() { // The user has press the button quitButton
+		quitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);// We exit the game
+				System.exit(0);
 			}
 		});
 	}
 
+	/**
+	 * @param menuButton is the button we give from the menu
+	 * @param numOfButton is the number the button in the row
+	 */
 	private void modifyMenuButtons(Button menuButton, int numOfButton) {
-		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);// We define the location of the button
-		// startButton
-		menuButton.setSize(350, 100);// We define the size of the button startButton
-		menuButton.setBackground(new Color(53, 1, 70));// We define the color of the button startButton
-		menuButton.setForeground(Color.WHITE);// We define the font color of the button startButton
-		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));// We define the size of the text of the
+		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);
+		menuButton.setSize(350, 100);
+		menuButton.setBackground(new Color(53, 1, 70));
+		menuButton.setForeground(Color.WHITE);
+		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 	}
 
+	/**
+	 * The method removeMenuButtons removes all the elements of the Menu Window
+	 */
 	private void removeMenuButtons() {
-		centralPanel.remove(startButton); // We remove the button startButton from the window
-		centralPanel.remove(rulesButton); // We remove the button rulesButton from the window
-		centralPanel.remove(settingsButton); // We remove the button settingsButton from the window
-		centralPanel.remove(quitButton); // We remove the button quitButton from the window
+		centralPanel.remove(startButton);
+		centralPanel.remove(rulesButton);
+		centralPanel.remove(settingsButton);
+		centralPanel.remove(quitButton);
+		centralPanel.remove(logo);
+
 	}
 
+	/**
+	 * The method createStoryWindow displays the story of the game
+	 */
 	public void createStoryWindow() {
 		String storyText = getAllText(2, getLanguage() + "-Story.txt");
 
@@ -319,10 +389,13 @@ public class Graph { // Creating the class Graph
 		});
 	}
 
-	public void createStartWindow() { // We create the window that the user is going to play in
+	/**
+	 * The method createStartWindow creates the battle between the hero and the god
+	 */
+	public void createStartWindow() {
 
 		Thread battleThread = new Thread(battleTasks);
-		if (FirstGod) {
+		if (firstGod) {
 			battleThread.start();
 			synchronized (graphLock) {
 				try {
@@ -333,8 +406,7 @@ public class Graph { // Creating the class Graph
 			}
 		} else {
 			synchronized (Battle.getLock()) {
-				Battle.getLock().notify(); // Notify Stages.StageControl.92.
-				// Notifies BattleThread when 
+				Battle.getLock().notify(); 
 			}
 			synchronized (graphLock) {
 				try {
@@ -412,7 +484,7 @@ public class Graph { // Creating the class Graph
 
 		godImage = new JLabel();
 		godImage.setBounds(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 450, 240, 403);
-		
+
 		try {
 			InputStream resourceBf = Graph.class.getResourceAsStream(Battle.god.getName() + ".jpg");
 			System.out.println(Battle.god.getName() + ".jpg");
@@ -434,15 +506,12 @@ public class Graph { // Creating the class Graph
 			e1.printStackTrace();
 		}
 
-		buttonPanel.setBackground(new Color(0, 51, 51));// We define the color of the panel centralPanel
+		buttonPanel.setBackground(new Color(0, 51, 51));
 		// based on rgb color
 		buttonPanel.setLayout(null);
-		buttonPanel.setLocation(0, HEIGHT - 130);// We define the location of this panel
-		centralPanel.setSize(WIDTH, HEIGHT - 130);// We customize the size of the panel centralPanel, so we can insert
-		buttonPanel.setSize(WIDTH, 130);// We define the size of this panel
-
-		// centralPanel.setSize(0,0);
-		// the panel buttonPanel
+		buttonPanel.setLocation(0, HEIGHT - 130);
+		centralPanel.setSize(WIDTH, HEIGHT - 130);
+		buttonPanel.setSize(WIDTH, 130);
 		background = new JLabel();
 		background.setBounds(0, 0, WIDTH, HEIGHT - 130);
 		background.setBackground(Color.BLACK);
@@ -537,6 +606,12 @@ public class Graph { // Creating the class Graph
 
 	}
 
+	/**
+	 * @param move is the JButton for each move 
+	 * @param numOfMove is the number of each move
+	 * @param damage is the damage that of each move
+	 * @param energy is the energy that of each move
+	 */
 	private void modifyMoveButtons(JButton move, int numOfMove, int damage, int energy) {
 		move.setBounds(40 * numOfMove + 200 * (numOfMove - 1), 20, 200, 50);
 		move.setBackground(new Color(153, 153, 255));
@@ -545,6 +620,9 @@ public class Graph { // Creating the class Graph
 		move.setToolTipText("Damage:" + damage + " & Energy:" + energy);
 	}
 
+	/**
+	 * The method addStartWindow add all the elements on the Start the Game window
+	 */
 	private void addStartWindow() {
 		centralPanel.add(background);
 		background.add(heroName);
@@ -567,6 +645,9 @@ public class Graph { // Creating the class Graph
 		buttonPanel.add(noMoveButton);
 	}
 
+	/**
+	 * The method removeStartWindow remove all the elements on the Start the Game window
+	 */
 	private void removeStartWindow() {
 		centralPanel.remove(background);
 		background.remove(heroName);
@@ -589,6 +670,11 @@ public class Graph { // Creating the class Graph
 		buttonPanel.remove(noMoveButton);
 	}
 
+	/**
+	 * @param hero the object of the hero either is a hero object or a god object
+	 * @param currentHp is the value of the health power of the object hero after his opponent has made his move
+	 * @param initialHp is the value of the health power of the object hero with which the character starts the battle
+	 */
 	public static void modifyHpLabels(Character hero, int currentHp, int initialHp) {
 		if (hero.getName().equals(Stages.myHero.getName())) {
 			heroHpBar.setSize(200 * currentHp / initialHp, 30);
@@ -599,30 +685,39 @@ public class Graph { // Creating the class Graph
 		}
 	}
 
+	/**
+	 * @param energy is the energy of the character
+	 */
 	public static void modifyEnergyLabel(int energy) {
 		heroEnergy.setText("Energy: " + energy);
 	}
 
+	/**
+	 * @param text is the content of the label mes1
+	 */
 	public void modifyMes(String text) {
 		mes1.setText(text);
 	}
 
+	/**
+	 * The method clearMes delete the content of the label mes1
+	 */
 	public void clearMes() {
-		/*
-		 * mes1.setText(""); mes2.setText(""); mes3.setText(""); mes4.setText("");
-		 * mes5.setText("");
-		 */
 		mes1.setText("");
 	}
 
+	/**
+	 * The method createLoseWindow creates the window which appears when the player loses and has not checkpoint
+	 */
 	public void createLoseWindow() {
 		centralPanel.setSize(WIDTH, HEIGHT);
 		buttonPanel.setSize(0, 0);
 		removeStartWindow();
 
-		com.sun.javafx.application.PlatformImpl.startup(()->{});
+		com.sun.javafx.application.PlatformImpl.startup(() -> {
+		});
 		URL file4 = Graph.class.getResource("GameOver.mp3");
-		Media hit4 =  new Media (Objects.requireNonNull(file4).toString());
+		Media hit4 = new Media(Objects.requireNonNull(file4).toString());
 		MediaPlayer mediaPlayer4 = new MediaPlayer(hit4);
 		mediaPlayer4.setCycleCount(MediaPlayer.INDEFINITE);
 		mediaPlayer4.play();
@@ -631,11 +726,11 @@ public class Graph { // Creating the class Graph
 			loseMes = new Label();
 			loseMes.setBounds(WIDTH / 2 - 100, HEIGHT / 2 - 50, 200, 100);
 			loseMes.setForeground(Color.RED);
-			loseMes.setText(getLine(11, getLanguage() + "-Graph.txt")); // Message: GAME OVER!
+			loseMes.setText(getLine(11, getLanguage() + "-Graph.txt"));
 			loseMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 			loseMes.setAlignment(Label.CENTER);
 
-			gameOver = new Button(getLine(12, getLanguage() + "-Graph.txt")); // Message: Return to the main menu
+			gameOver = new Button(getLine(12, getLanguage() + "-Graph.txt"));
 			gameOver.setBounds(WIDTH / 2 - 200, HEIGHT / 2 + 150, 400, 70);
 			gameOver.setForeground(Color.BLACK);
 			gameOver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -648,7 +743,7 @@ public class Graph { // Creating the class Graph
 
 		gameOver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FirstGod = true; // So the user can restart the game
+				firstGod = true;
 				centralPanel.remove(loseMes);
 				centralPanel.remove(gameOver);
 				createMenuWindow();
@@ -658,6 +753,9 @@ public class Graph { // Creating the class Graph
 
 	}
 
+	/**
+	 * The method createWinWindow creates the window which appears when the player wins the game
+	 */
 	public void createWinWindow() {
 		centralPanel.setSize(WIDTH, HEIGHT);
 		buttonPanel.setSize(0, 0);
@@ -667,7 +765,7 @@ public class Graph { // Creating the class Graph
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
 		winMes.setForeground(new Color(255, 204, 51));
 		try {
-			winMes.setText(getLine(1, getLanguage() + "-Graph.txt")); // Message: YOU WON! YOU HAVE CONQUERED OLYMPUS!
+			winMes.setText(getLine(1, getLanguage() + "-Graph.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -677,6 +775,9 @@ public class Graph { // Creating the class Graph
 		centralPanel.add(winMes);
 	}
 
+	/**
+	 * The method createBattleWinWindow creates the window which appears when the player wins the current battle he fights
+	 */
 	public void createBattleWinWindow(String godName) {
 		centralPanel.setSize(WIDTH, HEIGHT);
 		buttonPanel.setSize(0, 0);
@@ -716,14 +817,16 @@ public class Graph { // Creating the class Graph
 
 	}
 
+	/**
+	 * The method createCheckpointWindow creates the window which appears when the player loses, but has checkpoint
+	 */
 	public void createCheckpointWindow() {
 		centralPanel.setSize(WIDTH, HEIGHT);
 		buttonPanel.setSize(0, 0);
 		removeStartWindow();
 
 		try {
-			checkpointMes = new Label(getLine(4, getLanguage() + "-Graph.txt")); // Message: You Lost, but you can
-			// continue from the checkpoint!
+			checkpointMes = new Label(getLine(4, getLanguage() + "-Graph.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -753,40 +856,32 @@ public class Graph { // Creating the class Graph
 		});
 	}
 
-	public void createStatisticsWindow() {// We create the window that the play can see and upgrade his statistics
-
-
-		com.sun.javafx.application.PlatformImpl.startup(()->{});
+	/**
+	 * The method createStatisticsWindow creates the window which appears when the player loses and has not checkpoint
+	 */
+	public void createStatisticsWindow() {
+		com.sun.javafx.application.PlatformImpl.startup(() -> {
+		});
 		URL file3 = Graph.class.getResource("Song3.mp3");
-		Media hit3 =  new Media (Objects.requireNonNull(file3).toString());
+		Media hit3 = new Media(Objects.requireNonNull(file3).toString());
 		MediaPlayer mediaPlayer3 = new MediaPlayer(hit3);
 		mediaPlayer3.setCycleCount(MediaPlayer.INDEFINITE);
 		mediaPlayer3.play();
 
-
 		final int maxAp = ((Stages.getAttributePoints() == 1) ? 1 : Stages.getAttributePoints() / 2);
-		FirstGod = false;
+		firstGod = false;
 
-		attackBarLabel = new Label("ATTACK: " + Stages.myHero.getAttack());// We create the label for the statistic bar
-		// for attack
-		attackBarLabel.setBounds(WIDTH / 10, 110, 325, 75);// We define the location and the size of the label
-		// attackBarLabel
-		attackBarLabel.setForeground(Color.WHITE);// We define the font color of the label attackBarLabel
-		attackBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
-		// attackBarLabel and that the text is going
-		// to be bold
-
-		attackBar = new JProgressBar();// We create the progress bar for the statistic bar for attack
+		attackBarLabel = new Label("ATTACK: " + Stages.myHero.getAttack());
+		attackBarLabel.setBounds(WIDTH / 10, 110, 325, 75);
+		attackBarLabel.setForeground(Color.WHITE);
+		attackBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+		attackBar = new JProgressBar();
 		attackBar.setValue((int) (double) Stages.myHero.getAttack() * 100
-				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
-		// value of the
-		// progress bar
-		// attackBar
-		attackBar.setStringPainted(true);// The progress bar appear on the screen
-		attackBar.setBackground(Color.red);// We define the color of the progress bar
-		attackBar.setBounds(WIDTH / 10, HEIGHT / 5, 325, 75);// We define the location and the size of the progress
-		// bar
-
+				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));
+		attackBar.setStringPainted(true);
+		attackBar.setBackground(Color.red);
+		attackBar.setBounds(WIDTH / 10, HEIGHT / 5, 325, 75);
+		
 		apAttackLabel = new Label(String.valueOf(Stages.getApAttack()));
 		apAttackLabel.setBounds((WIDTH / 10) + 350, HEIGHT / 5 + 25 / 2, 75, 50);
 		apAttackLabel.setBackground(Color.WHITE);
@@ -807,27 +902,20 @@ public class Graph { // Creating the class Graph
 		attackRemain.setForeground(Color.RED);
 		attackRemain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
-		armourBarLabel = new Label("ARMOUR: " + Stages.myHero.getArmour());// We create the label for the statistic bar
-		// for armor
-		armourBarLabel.setBounds(WIDTH / 10, 270, 325, 75);// We define the location and the size of the label
-		// armourBarLabel
-		armourBarLabel.setForeground(Color.WHITE);// We define the font color of the label armourBarLabel
-		armourBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
-		// armourBarLabel and that the text is going to
-		// be bold
+		armourBarLabel = new Label("ARMOUR: " + Stages.myHero.getArmour());
+		armourBarLabel.setBounds(WIDTH / 10, 270, 325, 75);
+		armourBarLabel.setForeground(Color.WHITE);
+		armourBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+		
 		attackReset = new Button("Reset");
 		modifyPlusButtons(attackReset, 3, 1, 2);
 
-		armourBar = new JProgressBar();// We create the progress bar for the statistic bar for armor
+		armourBar = new JProgressBar();
 		armourBar.setValue((int) (double) Stages.myHero.getArmour() * 100
-				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
-		// value of the
-		// progress bar
-		// armorBar
-		armourBar.setStringPainted(true);// The progress bar appear on the screen
-		armourBar.setBackground(Color.red);// We define the color of the progress bar
-		armourBar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 325, 75);// We define the location and the size of the progress
-		// bar
+				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));
+		armourBar.setStringPainted(true);
+		armourBar.setBackground(Color.red);
+		armourBar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 325, 75);
 
 		apArmourLabel = new Label(String.valueOf(Stages.getApArmour()));
 		apArmourLabel.setBounds((WIDTH / 10) + 350, HEIGHT * 2 / 5 + 25 / 2, 75, 50);
@@ -853,23 +941,16 @@ public class Graph { // Creating the class Graph
 		armourReset = new Button("Reset");
 		modifyPlusButtons(armourReset, 3, 2, 2);
 
-		hpBarLabel = new Label("HEALTH POWER: " + Stages.myHero.getHp());// We create the label for the statistic bar
-		// for health power
-		hpBarLabel.setBounds(WIDTH / 10, 430, 325, 75);// We define the location and the size of the label hpBarLabel
-		hpBarLabel.setForeground(Color.WHITE);// We define the font color of the label hpBarLabel
-		hpBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));// We define the size of the text of the label
-		// hpBarLabel and that the text is going to be
-		// bold
-
-		hpBar = new JProgressBar();// We create the progress bar for the statistic bar for health power
+		hpBarLabel = new Label("HEALTH POWER: " + Stages.myHero.getHp());
+		hpBarLabel.setBounds(WIDTH / 10, 430, 325, 75);
+		hpBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+		
+		hpBar = new JProgressBar();
 		hpBar.setValue((int) (double) Stages.myHero.getHp() * 100
-				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));// We set the first
-		// value of the
-		// progress bar
-		// armourBar
-		hpBar.setStringPainted(true);// The progress bar appear on the screen
-		hpBar.setBackground(Color.red);// We define the color of the progress bar
-		hpBar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);// We define the location and the size of the progress bar
+				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));
+		hpBar.setStringPainted(true);
+		hpBar.setBackground(Color.red);
+		hpBar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);
 
 		apHpLabel = new Label(String.valueOf(Stages.getApHp()));
 		apHpLabel.setBounds((WIDTH / 10) + 350, HEIGHT * 3 / 5 + 25 / 2, 75, 50);
@@ -894,9 +975,9 @@ public class Graph { // Creating the class Graph
 		hpReset = new Button("Reset");
 		modifyPlusButtons(hpReset, 3, 3, 2);
 
-		String string = null; // Variable to be used on attributePoints Label
+		String string = null;
 		try {
-			string = getLine(5, getLanguage() + "-Graph.txt"); // Message: Remaining Attribute points:
+			string = getLine(5, getLanguage() + "-Graph.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -919,13 +1000,13 @@ public class Graph { // Creating the class Graph
 		doneButton.setForeground(Color.BLACK);
 		doneButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		centralPanel.add(attackBar);// We add the progress bar attackBar at the panel
-		centralPanel.add(armourBar);// We add the progress bar armorBar at the panel
-		centralPanel.add(hpBar);// We add the progress bar hpBar at the panel
+		centralPanel.add(attackBar);
+		centralPanel.add(armourBar);
+		centralPanel.add(hpBar);
 
-		centralPanel.add(attackBarLabel);// We add the label attackBarLabel at the panel
-		centralPanel.add(armourBarLabel);// We add the label armourBarLabel at the panel
-		centralPanel.add(hpBarLabel);// We add the label hpBarLabel at the panel
+		centralPanel.add(attackBarLabel);
+		centralPanel.add(armourBarLabel);
+		centralPanel.add(hpBarLabel);
 		centralPanel.add(attributePoints);
 		centralPanel.add(doneButton);
 		centralPanel.add(doneLabel);
@@ -957,14 +1038,13 @@ public class Graph { // Creating the class Graph
 
 					Stages.giveAttributesPoints();
 
+					centralPanel.remove(attackBar);
+					centralPanel.remove(armourBar);
+					centralPanel.remove(hpBar);
 
-					centralPanel.remove(attackBar);// We remove the progress bar attackBar from the panel
-					centralPanel.remove(armourBar);// We remove the progress bar armorBar from the panel
-					centralPanel.remove(hpBar);// We remove the progress bar hpBar from the panel
-
-					centralPanel.remove(attackBarLabel);// We remove the progress bar attackBarLabel from the panel
-					centralPanel.remove(armourBarLabel);// We remove the progress bar armourBarLabel from the panel
-					centralPanel.remove(hpBarLabel);// We remove the progress bar hpBarLabel from the panel
+					centralPanel.remove(attackBarLabel);
+					centralPanel.remove(armourBarLabel);
+					centralPanel.remove(hpBarLabel);
 					centralPanel.remove(attributePoints);
 					centralPanel.remove(doneButton);
 					centralPanel.remove(doneLabel);
@@ -990,7 +1070,7 @@ public class Graph { // Creating the class Graph
 					centralPanel.remove(hpRemain);
 					centralPanel.remove(hpReset);
 
-					centralPanel.remove(mainButton);// We remove the progress bar mainButton from the panel
+					centralPanel.remove(mainButton);
 					Stages.setApStatsToZero();
 
 					mediaPlayer3.stop();
@@ -998,12 +1078,7 @@ public class Graph { // Creating the class Graph
 					createStartWindow();
 				} else {
 					try {
-						JOptionPane.showMessageDialog(null, getLine(6, getLanguage() + "-Graph.txt")); // Message: You
-						// haven't
-						// distributed
-						// all the
-						// attribute
-						// points!
+						JOptionPane.showMessageDialog(null, getLine(6, getLanguage() + "-Graph.txt"));
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
@@ -1115,6 +1190,12 @@ public class Graph { // Creating the class Graph
 		});
 	}
 
+	/**
+	 * @param plus is the button we want to modify
+	 * @param numOfPlus is the number of attribute points the button increases its attribute 
+	 * @param typeOfAttribute is the attribute its button increases
+	 * @param reset indicates if the button is a reset button. The value of the variable reset is either 1(for plus buttons) or 2(for reset buttons)
+	 */
 	private void modifyPlusButtons(Button plus, int numOfPlus, int typeOfAttribute, int reset) {
 		plus.setBounds((WIDTH / 10) + 450 + numOfPlus * 75, HEIGHT * typeOfAttribute / 5 + 25 / 2, reset * 50, 50);
 		plus.setBackground(Color.WHITE);
@@ -1122,6 +1203,10 @@ public class Graph { // Creating the class Graph
 		plus.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 	}
 
+	
+	/**
+	 * The method createRulesWindow displays the rules of the game
+	 */
 	public void createRulesWindow() {
 		String rulesDoc = getAllText(23, getLanguage() + "-Rules.txt");
 
@@ -1135,7 +1220,7 @@ public class Graph { // Creating the class Graph
 		centralPanel.add(mainButton);
 		centralPanel.add(rules);
 
-		mainButton.addActionListener(new ActionListener() {// If the user clicks the button mainButton the game returns
+		mainButton.addActionListener(new ActionListener() {
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.remove(rules);
@@ -1145,6 +1230,9 @@ public class Graph { // Creating the class Graph
 		});
 	}
 
+	/**
+	 * The method createSettingsWindow gives the permission to handle the settings of the game
+	 */
 	public void createSettingsWindow() {
 		lightMode = new Button("Light Mode");
 		lightMode.setBounds(WIDTH / 10, HEIGHT / 5, 200, 75);
@@ -1174,34 +1262,36 @@ public class Graph { // Creating the class Graph
 		centralPanel.add(lightMode);
 		centralPanel.add(greekButton);
 		centralPanel.add(englishButton);
+		centralPanel.add(mainButton);
 
-		lightMode.addActionListener(new ActionListener() {// The user has press the button quitButton
+		lightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.setBackground(Color.GRAY);
 			}
 		});
-		darkMode.addActionListener(new ActionListener() {// The user has press the button quitButton
+		darkMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.setBackground(Color.black);
 			}
 		});
 
-		greekButton.addActionListener(new ActionListener() {// The user has set the language to Greek.
+		greekButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Graph.language = "Gr";
-				JOptionPane.showMessageDialog(null, "Language set to Greek");			}
+				JOptionPane.showMessageDialog(null, "Language set to Greek");
+			}
 		});
-		englishButton.addActionListener(new ActionListener() {// The user has set the language to English
+		englishButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Graph.language = "En";
 				JOptionPane.showMessageDialog(null, "Language set to English");
 			}
 		});
 
-		mainButton.addActionListener(new ActionListener() { // If the user clicks the button mainButton the game returns
+		mainButton.addActionListener(new ActionListener() {
 			// to the menu window
 			public void actionPerformed(ActionEvent e) {
-				centralPanel.remove(mainButton); // We remove the progress bar mainButton from the panel
+				centralPanel.remove(mainButton);
 				centralPanel.remove(darkMode);
 				centralPanel.remove(lightMode);
 				centralPanel.remove(greekButton);
@@ -1211,6 +1301,10 @@ public class Graph { // Creating the class Graph
 		});
 	}
 
+	/**
+	 * @param character is the of object of the character 
+	 * This method shows the move of the character
+	 */
 	public void moveImage(Character character) {
 		final int WAIT_TIME = 1500;
 		final int TO_THE_RIGHT = 100;
