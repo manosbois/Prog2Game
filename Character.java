@@ -1,12 +1,13 @@
 
-/** Class to help implement the Character of the Game 
+/** Class to help implement the Characters of the Game 
  * This class is used by God and Hero classes
  * Every Character has his individual statistics.
- * The Temp statistics use every Character during a fight. 
+ * The Temp statistics are used by every Character during a fight.
+ * These stats are the ones that during the battle.
  */
 public abstract class Character {
 
-    /** Class Constructor. Used in God */
+    /** Class Constructor. Used only in God */
 	public Character() { }
 
     /** Class Constructor */
