@@ -11,7 +11,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.net.*;
 
-public class Graph {// Creating the class Graph
+/**
+ * 
+ */
+public class Graph { // Creating the class Graph
 	private static final Object graphLock = new Object();
 
 	public static Object getGraphLock() {
@@ -91,12 +94,7 @@ public class Graph {// Creating the class Graph
 	}
 
 	private final Runnable battleTasks = () -> {
-		try {
-			Stages.stageControl();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Stages.stageControl();
 	};
 
 	// Returns a String containing all lines of a file
@@ -258,14 +256,14 @@ public class Graph {// Creating the class Graph
 				createRulesWindow();// We call the method that controls the statistics of the player(Hero)
 			}
 		});
-		settingsButton.addActionListener(new ActionListener() {// The user has press the button settingsButton
+		settingsButton.addActionListener(new ActionListener() { // The user has press the button settingsButton
 			public void actionPerformed(ActionEvent e) {
 				removeMenuButtons();
 
 				createSettingsWindow();// We call the method that controls the settings
 			}
 		});
-		quitButton.addActionListener(new ActionListener() {// The user has press the button quitButton
+		quitButton.addActionListener(new ActionListener() { // The user has press the button quitButton
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);// We exit the game
 			}
