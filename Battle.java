@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -9,33 +8,42 @@ import javafx.scene.media.MediaPlayer;
 import java.net.*;
 
 
-//A class that implements the battle mechanic of our game
+/**
+ * A class that implements the battle mechanic of our game.
+ * Class can't be extended.
+ */
 public final class Battle {
 
+	/** Private default constructor so no Battle object can be constructed outside of Battle. */
 	private Battle() { }
 
-	private static final Random RAND = new Random(); // Creating Random object
+	/** Creating Random object for use in decideWhoGoesFirst and chooseOpponentsMove */
+	private static final Random RAND = new Random();
 
+	/** Object to be used as lock for Graph.battleThread */
 	private static final Object LOCK = new Object();
 
+	/** The object for the opposing god. It is used in other classes too. */
 	static God god;
 
+	/** @return LOCK for Graph.battleThread */
 	public static Object getLock() {
 		return LOCK;
 	}
 
-	private static final int ENERGY_REPLENISHMENT = 8; // The constant that
-	// shows how much energy is replenished every round
+	/** The constant that shows how much energy is replenished every round. */
+	private static final int ENERGY_REPLENISHMENT = 8;
 
+	/** Constants that help with the setting the probability of every move to be used by god.
+	 *They show the upper border. */
 	private static final int SWORD_BORDER = 37, SPEAR_BORDER = 62, SHIELD_BORDER = 77,
-							MEDITATE_BORDER = 97; /* Constants that help with the 
-				 setting the probability of every move to be used by god.
-				 They show the upper border. */
+							MEDITATE_BORDER = 97;
 
+	/**	Constants for important battles */
 	private static final int SIXTH_BATTLE = 6, NINTH_BATTLE = 9, ZEUS_BATTLE = 12;
 
-	// The most essential method of class Battle
-	// It implements the battle mechanic
+	/** The most essential method of class Battle
+	 *It implements the battle mechanic */
 	public static int battleMethod(Hero myHero, final int numOfBattle) {
 
 		// Setting the tempStats before the battle to the values of the non tempStats
@@ -92,7 +100,16 @@ public final class Battle {
 		// temporary Hp of the user to be used in class Game
 	} // End of method BattleMethod
 
-	// Lets user choose which move to use
+	
+	/** Lets user choose which move to use.
+	 *  It calls the getChosenMove method of Graph.
+	 *  It also does not allow the user to choose a move that requires 
+	 *  more energy than the user has.
+	 *
+	 * @param myHero the user's character
+	 * @param god the opponent's character (the rival god)
+	 * @return the Move that the user has chosen to use
+	 */
 	public static Move chooseMyMove(Hero myHero, God god) {
 		boolean sufficientEnergy;
 		Move move; // Creating a variable of type Move to assist us in switch structure.
@@ -146,6 +163,18 @@ public final class Battle {
 	} // End of method chooseMyMove
 
 
+	/**
+	 * Converts the move chosen in Graph class via mouse click into a Move variable.
+	 * 1 corresponds to character's damagingMove1.
+	 * 2 to damagingMove2.
+	 * 3 to protectiveMove.
+	 * 4 to buffMove.
+	 * 5 to noMove.
+	 * 
+	 * @param hero the user's character
+	 * @param chosenMove the move the user has chosen in Graph to use but as an integer [1,5]
+	 * @return the move which corresponds to the integer chosenMove
+	 */
 	private static Move getHeroMove(Hero hero, int chosenMove) {
 
 		switch (chosenMove) {
@@ -163,6 +192,14 @@ public final class Battle {
 
 	}
 
+	/**
+	 * Returns the move the rival god will do.
+	 * It also does not allow the pc to choose a move that requires 
+	 * more energy than the god has.
+	 * 
+	 * @param god the rival god
+	 * @return the move the rival god will do.
+	 */
 	// The PC decides which move the rival god uses
 	public static Move chooseOpponentsMove(God god) {
 
@@ -181,6 +218,12 @@ public final class Battle {
 		return move;
 	} // End of method chooseOpponentsMove
 
+	/**
+	 * The "algorithm" that decides which move will be chosen, using probabilities.
+	 * 
+	 * @param god the rival god
+	 * @return the move the rival god will do.
+	 */
 	private static Move getGodMove(God god) {
 		int randomNumber = RAND.nextInt(100) + 1;
 
@@ -197,7 +240,20 @@ public final class Battle {
 		}
 	}
 
-	// Decides if the users goes first
+	/**
+	 * Decides if the users goes first.
+	 * This depends on the god the user is battling.
+	 * Gods 1-6: the user goes always first,
+	 * Gods 7-9: the user has a 50% chance of going first,
+	 * Gods 10-12: the user goes always last.
+	 * The moves of the class protective move make the user always go first,
+	 * independently of the number of the battle.
+	 * 
+	 * @param numOfBattle the number indicating which god the user is battling.
+	 * @param myMove the user's move
+	 * @param opponentsMove the rival god's move
+	 * @return true if the users goes first and false if the god goes first.
+	 */
 	private static boolean decideWhoGoesFirst(final int numOfBattle, Move myMove, Move opponentsMove) {
 		// Checking if anyone used a Protective move
 		if (myMove instanceof ProtectiveMove) {
@@ -217,8 +273,15 @@ public final class Battle {
 		} // End of if
 	} // End of method decideWhoGoesFirst
 
-	// It modifies the TempStats of the objects myHero and god according to used
-	// moves
+	/**
+	 * It modifies the TempStats of the objects myHero and god according to used moves.
+	 * 
+	 * @param myMove the user's move
+	 * @param opponentsMove the rival god's move
+	 * @param myHero the user's character
+	 * @param god the rival god
+	 * @param iPlayFirst boolean variable that is true when the user goes first
+	 */
 	private static void roundResult(final Move myMove,final Move opponentsMove,
 									final Hero myHero, final God god, final boolean iPlayFirst) {
 		// Method that checks who plays first
@@ -237,7 +300,13 @@ public final class Battle {
 		}
 	}
 
-	// Replenishes the energy of the hero and god
+	/**
+	 * Replenishes the energy of the hero and god,
+	 * by the amount of ENERGY_REPLENISHMENT constant
+	 * 
+	 * @param myHero the user's character
+	 * @param god the rival god
+	 */
 	private static void replenishEnergy(final Hero myHero, final God god) {
 		myHero.setTempEnergy(myHero.getTempEnergy() + ENERGY_REPLENISHMENT);
 		god.setTempEnergy(god.getTempEnergy() + ENERGY_REPLENISHMENT);
