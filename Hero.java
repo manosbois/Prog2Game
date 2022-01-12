@@ -1,5 +1,8 @@
 
-/** Class to help implement the stats of the Hero */
+/** Class to help implement the stats of the Hero.
+ *  The non-temp stats are used outside the Battle 
+ *  to make the upgrade of the User's Character's stats possible.
+ */
 public class Hero extends Character {
 
 	/** Class Constructor */
