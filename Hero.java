@@ -1,4 +1,5 @@
 
+/** Class to help implement the stats of the Hero */
 public class Hero extends Character {
 
 	/** Class Constructor */
