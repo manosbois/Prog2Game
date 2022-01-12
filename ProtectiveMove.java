@@ -5,16 +5,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
+/** A class for Moves that protect */
 public class ProtectiveMove extends Move {
 
     public ProtectiveMove(int energy, String name,
                           String messageFileName, URL sound) {
         super(energy, name, messageFileName, sound);
     }
+    /** The default constant modifier that is used*/
     private static final double MODIFIER = 0.5;
 
+     /** @return the modifier */
     public double getModifier() { return MODIFIER; }
 
+    
+    /** The effect method that is overriden from the Move class  */
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
 
