@@ -14,9 +14,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class Move {
     /** Every move consumes an amount of energy */
-    private final int energy; //How much energy the Move consumes
+    private final int energy;
     /** Every move has a name */
-    private final String name; //The name of the Move
+    private final String name;
     /** Every move has a message that is displayed when used. The variable
      * messageFileName is the name of the file that includes those messages.
      * Every move must have two files: one in english and one in greek.
