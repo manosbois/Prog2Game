@@ -5,23 +5,27 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
-//A class for Moves that do damage
+/** A class for Moves that do damage */
 public class DamageMove extends Move {
 
-    private static final int DENOMINATOR_MULTIPLIER = 4; //A number
-    // that helps the calculation in effect method
-    private final int damage; //This variable show how much damage this move does
+    /** A number
+    // that helps the calculation in effect method */
+    private static final int DENOMINATOR_MULTIPLIER = 4; 
+    
+    /** This variable shows how much damage this move does */
+    private final int damage; 
 
-    //Constructor
+    /** Constructor */ 
     public DamageMove(int energy, String name, int damage, String messageFileName, URL sound) {
         super(energy, name, messageFileName, sound);
         this.damage = damage;
     }
-
+ /** @return the damage of the move */ 
     public int getDamage() {
         return damage;
     }
-
+    
+/** The effect method that is overriden from the Move class */
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
 
