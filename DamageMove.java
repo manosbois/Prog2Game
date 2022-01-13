@@ -1,3 +1,5 @@
+package gr.aueb.dmst.gameName;
+
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.URL;
@@ -11,7 +13,7 @@ public class DamageMove extends Move {
     /** A number
      * that helps the calculations in effect method.
      */
-    private static final int DENOMINATOR_MULTIPLIER = 4;
+    private static final double DENOMINATOR_MULTIPLIER = 4.35;
 
     /** This variable shows how much damage this move does.
      * Damage is NOT how much tempHP the opponent will lose.
@@ -40,7 +42,7 @@ public class DamageMove extends Move {
 
         Scanner myReader = new Scanner(new LineNumberReader(
                 new InputStreamReader(Objects.requireNonNull(
-                        this.getClass().getResourceAsStream(
+                        this.getClass().getResourceAsStream("Resources/" +
                                 this.getMessageFileName())), StandardCharsets.UTF_8)));
 
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
