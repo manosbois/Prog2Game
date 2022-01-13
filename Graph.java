@@ -1,15 +1,21 @@
+package gr.aueb.dmst.gameName;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.net.*;
 
 /**
  * The class Graph creates a graphic display of the game and the all the
@@ -141,7 +147,7 @@ public class Graph {// Creating the class Graph
 		if (numberOfLine <= 0)
 			return "Non positive number of line?";
 		try (BufferedReader bf = new BufferedReader(new InputStreamReader(
-				Objects.requireNonNull(Graph.class.getResourceAsStream(fileName)), StandardCharsets.UTF_8))) {
+				Objects.requireNonNull(Graph.class.getResourceAsStream("Resources/" + fileName)), StandardCharsets.UTF_8))) {
 			for (int i = 1; i <= numberOfLine; i++) {
 				if (i == numberOfLine) {
 					return bf.readLine();
@@ -263,10 +269,10 @@ public class Graph {// Creating the class Graph
 	 */
 	public void createMenuWindow() {
 		logo = new JLabel();
-		logo.setBounds(WIDTH * 13 / 20, 150, 300, 500);
+		logo.setBounds((WIDTH - 350 - WIDTH / 10 - 500) / 2 + WIDTH / 10 + 350, (HEIGHT - 590) / 2, 500, 590);
 
 		try {
-			InputStream resourceBf = Graph.class.getResourceAsStream("logo.png");
+			InputStream resourceBf = Graph.class.getResourceAsStream("Resources/logo.png");
 			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
 			ImageIcon im = new ImageIcon(bf);
 			logo.setIcon(im);
@@ -306,6 +312,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.add(creditButton);
 		centralPanel.add(quitButton);
 		centralPanel.add(logo);
+		centralPanel.updateUI();
 
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -364,6 +371,8 @@ public class Graph {// Creating the class Graph
 		centralPanel.remove(creditButton);
 		centralPanel.remove(quitButton);
 		centralPanel.remove(logo);
+		centralPanel.repaint();
+		
 
 	}
 
@@ -500,8 +509,8 @@ public class Graph {// Creating the class Graph
 		godImage.setBounds(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 450, 240, 403);
 
 		try {
-			InputStream resourceBf = Graph.class.getResourceAsStream(Battle.god.getName() + ".jpg");
-			System.out.println(Battle.god.getName() + ".jpg");
+			InputStream resourceBf = Graph.class.getResourceAsStream("Resources/" + Battle.god.getName() + ".jpg");
+			System.out.println("Resources/" + Battle.god.getName() + ".jpg");
 			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
 			ImageIcon im = new ImageIcon(bf);
 			godImage.setIcon(im);
@@ -512,7 +521,7 @@ public class Graph {// Creating the class Graph
 		heroImage = new JLabel();
 		heroImage.setBounds(WIDTH / 2 - 550, HEIGHT * 9 / 10 - 423, 212, 343);
 		try {
-			InputStream resourceBf = Graph.class.getResourceAsStream("Hero.jpg");
+			InputStream resourceBf = Graph.class.getResourceAsStream("Resources/Hero.jpg");
 			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
 			ImageIcon im = new ImageIcon(bf);
 			heroImage.setIcon(im);
@@ -535,7 +544,7 @@ public class Graph {// Creating the class Graph
 		}
 
 		try {
-			InputStream resourceBf3 = Graph.class.getResourceAsStream("background.jpg");
+			InputStream resourceBf3 = Graph.class.getResourceAsStream("Resources/background.jpg");
 			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
 			ImageIcon im = new ImageIcon(bf);
 			background.setIcon(im);
@@ -730,7 +739,7 @@ public class Graph {// Creating the class Graph
 
 		com.sun.javafx.application.PlatformImpl.startup(() -> {
 		});
-		URL file4 = Graph.class.getResource("GameOver.mp3");
+		URL file4 = Graph.class.getResource("Resources/GameOver.mp3");
 		Media hit4 = new Media(Objects.requireNonNull(file4).toString());
 		MediaPlayer mediaPlayer4 = new MediaPlayer(hit4);
 		mediaPlayer4.setCycleCount(MediaPlayer.INDEFINITE);
@@ -898,7 +907,7 @@ public class Graph {// Creating the class Graph
 	public void createStatisticsWindow() {
 		com.sun.javafx.application.PlatformImpl.startup(() -> {
 		});
-		URL file3 = Graph.class.getResource("Song3.mp3");
+		URL file3 = Graph.class.getResource("Resources/Song3.mp3");
 		Media hit3 = new Media(Objects.requireNonNull(file3).toString());
 		MediaPlayer mediaPlayer3 = new MediaPlayer(hit3);
 		mediaPlayer3.setCycleCount(MediaPlayer.INDEFINITE);
