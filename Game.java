@@ -1,3 +1,5 @@
+package gr.aueb.dmst.gameName;
+
 /**
  * Our game's program main class.
  *
