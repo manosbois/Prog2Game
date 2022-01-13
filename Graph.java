@@ -117,21 +117,23 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param move with the move the player chose */
+	 * @param move with the move the player chose
+	 */
 	public static void setChosenMove(int move) {
 		chosenMove = move;
 	}
 
-	/** @return the language of the game  */
+	/** @return the language of the game */
 	public static String getLanguage() {
 		return language;
 	}
 
-	
 	/**
-	 * @param numberOfLine indicates the number of the line of the file that we want to read
-	 * @param fileName shows the name of the file which we are reading
-	 * @return Returns the contents of the line of a file that is located the number specified
+	 * @param numberOfLine indicates the number of the line of the file that we want
+	 *                     to read
+	 * @param fileName     shows the name of the file which we are reading
+	 * @return Returns the contents of the line of a file that is located the number
+	 *         specified
 	 * @throws IOException
 	 */
 	public static String getLine(final int numberOfLine, final String fileName) throws IOException {
@@ -156,8 +158,9 @@ public class Graph {// Creating the class Graph
 	};
 
 	/**
-	 * @param numberOfLine indicates the number of the line of the file that we want to read
-	 * @param fileName shows the name of the file which we are reading
+	 * @param numberOfLine indicates the number of the line of the file that we want
+	 *                     to read
+	 * @param fileName     shows the name of the file which we are reading
 	 * @return Returns a String containing all lines of a file
 	 */
 	public static String getAllText(final int numOfLines, final String fileName) {
@@ -177,8 +180,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param title that is the title of the frame
-	 * This is the constructor of the class Graph
+	 * @param title that is the title of the frame This is the constructor of the
+	 *              class Graph
 	 */
 	public Graph(String title) {
 
@@ -200,13 +203,14 @@ public class Graph {// Creating the class Graph
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLayout(new BorderLayout());
-		
+
 		createMainWindow();
 	}
 
 	/**
-	 * The method createMainWindow creates the first window that the user will see when he opens the
-	 * game and designs the area where the user inserts his username
+	 * The method createMainWindow creates the first window that the user will see
+	 * when he opens the game and designs the area where the user inserts his
+	 * username
 	 */
 	public void createMainWindow() {
 		centralPanel = new JPanel();
@@ -233,7 +237,7 @@ public class Graph {// Creating the class Graph
 		introButton.setBackground(new Color(223, 255, 255));
 		introButton.setForeground(new Color(14, 114, 110));
 		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
-		
+
 		introLabel = new Label("WELCOME TO OUR GAME");
 		introLabel.setLocation((WIDTH - 600) / 2, HEIGHT * 2 / 10);
 		introLabel.setSize(600, 200);
@@ -271,7 +275,7 @@ public class Graph {// Creating the class Graph
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt"));
 			modifyMenuButtons(startButton, 0);
@@ -281,7 +285,7 @@ public class Graph {// Creating the class Graph
 
 			settingsButton = new Button(getLine(9, getLanguage() + "-Graph.txt"));
 			modifyMenuButtons(settingsButton, 2);
-			
+
 			creditButton = new Button("CREDITS");
 			modifyMenuButtons(creditButton, 3);
 
@@ -341,13 +345,13 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param menuButton is the button we give from the menu
+	 * @param menuButton  is the button we give from the menu
 	 * @param numOfButton is the number the button in the row
 	 */
 	private void modifyMenuButtons(Button menuButton, int numOfButton) {
 		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 25);
 		menuButton.setSize(350, 100);
-		menuButton.setBackground(new Color(53, 1, 70));
+		menuButton.setBackground(new Color(0, 153, 153));
 		menuButton.setForeground(Color.WHITE);
 		menuButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 	}
@@ -375,7 +379,7 @@ public class Graph {// Creating the class Graph
 		story.setBounds(0, 100, WIDTH - 10, 550);
 		story.setForeground(Color.WHITE);
 		story.setBackground(new Color(0, 51, 51));
-		story.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+		story.setFont(new Font(Font.MONOSPACED, Font.BOLD, 28));
 		story.setEditable(false);
 
 		try {
@@ -385,7 +389,7 @@ public class Graph {// Creating the class Graph
 		}
 		continueButton.setBounds((WIDTH - 150) / 2, 675, 150, 50);
 		continueButton.setForeground(Color.BLACK);
-		continueButton.setBackground(Color.WHITE);
+		continueButton.setBackground(new Color(255, 204, 51));
 		continueButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
 
 		centralPanel.add(story);
@@ -418,7 +422,7 @@ public class Graph {// Creating the class Graph
 			}
 		} else {
 			synchronized (Battle.getLock()) {
-				Battle.getLock().notify(); 
+				Battle.getLock().notify();
 			}
 			synchronized (graphLock) {
 				try {
@@ -490,7 +494,7 @@ public class Graph {// Creating the class Graph
 
 		mes1 = new Label();
 		mes1.setBounds(0, HEIGHT * 9 / 10 - 280 + 5 * 40, WIDTH, 40);
-		mes1.setBackground(Color.white);
+		mes1.setBackground(new Color(205, 217, 237));
 		mes1.setForeground(Color.BLACK);
 		mes1.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
@@ -527,25 +531,18 @@ public class Graph {// Creating the class Graph
 		background = new JLabel();
 		background.setBounds(0, 0, WIDTH, HEIGHT - 130);
 		background.setBackground(Color.BLACK);
+		
 		if (Battle.god.getName().equals("Zeus")) {
 			godImage.setLocation(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 480);
-			try {
-				InputStream resourceBf3 = Graph.class.getResourceAsStream("zeusback1.jpg");
-				BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
-				ImageIcon im = new ImageIcon(bf);
-				background.setIcon(im);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		} else {
-			try {
-				InputStream resourceBf3 = Graph.class.getResourceAsStream("background.jpg");
-				BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
-				ImageIcon im = new ImageIcon(bf);
-				background.setIcon(im);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+		}
+		
+		try {
+			InputStream resourceBf3 = Graph.class.getResourceAsStream("background.jpg");
+			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
+			ImageIcon im = new ImageIcon(bf);
+			background.setIcon(im);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 
 		swordButton = new JButton("1. Sword");
@@ -619,14 +616,14 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param move is the JButton for each move 
+	 * @param move      is the JButton for each move
 	 * @param numOfMove is the number of each move
-	 * @param damage is the damage that of each move
-	 * @param energy is the energy that of each move
+	 * @param damage    is the damage that of each move
+	 * @param energy    is the energy that of each move
 	 */
 	private void modifyMoveButtons(JButton move, int numOfMove, int damage, int energy) {
 		move.setBounds(40 * numOfMove + 200 * (numOfMove - 1), 20, 200, 50);
-		move.setBackground(new Color(153, 153, 255));
+		move.setBackground(new Color(205, 217, 237));
 		move.setForeground(new Color(0, 0, 0));
 		move.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 		move.setToolTipText("Damage:" + damage + " & Energy:" + energy);
@@ -658,7 +655,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * The method removeStartWindow remove all the elements on the Start the Game window
+	 * The method removeStartWindow remove all the elements on the Start the Game
+	 * window
 	 */
 	private void removeStartWindow() {
 		centralPanel.remove(background);
@@ -683,9 +681,12 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param hero the object of the hero either is a hero object or a god object
-	 * @param currentHp is the value of the health power of the object hero after his opponent has made his move
-	 * @param initialHp is the value of the health power of the object hero with which the character starts the battle
+	 * @param hero      the object of the hero either is a hero object or a god
+	 *                  object
+	 * @param currentHp is the value of the health power of the object hero after
+	 *                  his opponent has made his move
+	 * @param initialHp is the value of the health power of the object hero with
+	 *                  which the character starts the battle
 	 */
 	public static void modifyHpLabels(Character hero, int currentHp, int initialHp) {
 		if (hero.getName().equals(Stages.myHero.getName())) {
@@ -719,7 +720,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * The method createLoseWindow creates the window which appears when the player loses and has not checkpoint
+	 * The method createLoseWindow creates the window which appears when the player
+	 * loses and has not checkpoint
 	 */
 	public void createLoseWindow() {
 		centralPanel.setSize(WIDTH, HEIGHT);
@@ -736,16 +738,17 @@ public class Graph {// Creating the class Graph
 
 		try {
 			loseMes = new Label();
-			loseMes.setBounds(WIDTH / 2 - 100, HEIGHT / 2 - 50, 200, 100);
+			loseMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
 			loseMes.setForeground(Color.RED);
 			loseMes.setText(getLine(11, getLanguage() + "-Graph.txt"));
-			loseMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+			loseMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 45));
 			loseMes.setAlignment(Label.CENTER);
 
 			gameOver = new Button(getLine(12, getLanguage() + "-Graph.txt"));
-			gameOver.setBounds(WIDTH / 2 - 200, HEIGHT / 2 + 150, 400, 70);
-			gameOver.setForeground(Color.BLACK);
-			gameOver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+			gameOver.setBounds(WIDTH / 2 - 300, HEIGHT / 2 + 150, 600, 70);
+			gameOver.setBackground(new Color(0, 204,204));
+			gameOver.setForeground(Color.white);
+			gameOver.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -766,7 +769,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * The method createWinWindow creates the window which appears when the player wins the game
+	 * The method createWinWindow creates the window which appears when the player
+	 * wins the game
 	 */
 	public void createWinWindow() {
 		centralPanel.setSize(WIDTH, HEIGHT);
@@ -775,20 +779,21 @@ public class Graph {// Creating the class Graph
 
 		winMes = new Label();
 		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
-		winMes.setForeground(new Color(255, 204, 51));
+		winMes.setForeground((new Color(255, 204, 51)).darker());
 		try {
 			winMes.setText(getLine(1, getLanguage() + "-Graph.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		winMes.setFont(new Font(Font.SERIF, Font.BOLD, 32));
+		winMes.setFont(new Font(Font.SERIF, Font.BOLD, 45));
 		winMes.setAlignment(Label.CENTER);
 
 		centralPanel.add(winMes);
 	}
 
 	/**
-	 * The method createBattleWinWindow creates the window which appears when the player wins the current battle he fights
+	 * The method createBattleWinWindow creates the window which appears when the
+	 * player wins the current battle he fights
 	 */
 	public void createBattleWinWindow(String godName) {
 		centralPanel.setSize(WIDTH, HEIGHT);
@@ -797,8 +802,8 @@ public class Graph {// Creating the class Graph
 
 		battleWin = new Label();
 		battleWin.setBounds(0, HEIGHT / 2 - 150, WIDTH, 200);
-		battleWin.setForeground(new Color(255, 204, 51));
-		battleWin.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
+		battleWin.setForeground(new Color(102,0,204));
+		battleWin.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 45));
 		battleWin.setAlignment(Label.CENTER);
 		try {
 			battleWin.setText(getLine(2, getLanguage() + "-Graph.txt") + godName); // Message YOU WON $
@@ -813,7 +818,8 @@ public class Graph {// Creating the class Graph
 		}
 
 		nextGod.setBounds((WIDTH - 750) / 2, HEIGHT / 2 - 150 + 250, 750, 75);
-		nextGod.setForeground(Color.RED);
+		nextGod.setBackground(new Color(0, 204,204));
+		nextGod.setForeground(Color.white);
 		nextGod.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 
 		centralPanel.add(battleWin);
@@ -830,7 +836,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * The method createCheckpointWindow creates the window which appears when the player loses, but has checkpoint
+	 * The method createCheckpointWindow creates the window which appears when the
+	 * player loses, but has checkpoint
 	 */
 	public void createCheckpointWindow() {
 		centralPanel.setSize(WIDTH, HEIGHT);
@@ -842,15 +849,15 @@ public class Graph {// Creating the class Graph
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		checkpointMes.setBounds((WIDTH - 800) / 2, (HEIGHT - 100) / 2, 800, 100);
-		checkpointMes.setForeground(new Color(255, 204, 51));
-		checkpointMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+		checkpointMes.setBounds(0, (HEIGHT - 100) / 2, WIDTH, 100);
+		checkpointMes.setForeground(new Color(102,0,204));
+		checkpointMes.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 45));
 		checkpointMes.setAlignment(Label.CENTER);
 
 		checkpoint = new Button("CHECKPOINT");
 		checkpoint.setBounds((WIDTH - 150) / 2, (HEIGHT - 100) / 2 + 200, 150, 50);
-		checkpoint.setBackground(new Color(223, 255, 255));
-		checkpoint.setForeground(new Color(255, 204, 51));
+		checkpoint.setBackground(new Color(255, 204, 51));
+		checkpoint.setForeground(Color.black);
 		checkpoint.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 
 		centralPanel.add(checkpointMes);
@@ -869,7 +876,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * The method createStatisticsWindow creates the window which appears when the player loses and has not checkpoint
+	 * The method createStatisticsWindow creates the window which appears when the
+	 * player loses and has not checkpoint
 	 */
 	public void createStatisticsWindow() {
 		com.sun.javafx.application.PlatformImpl.startup(() -> {
@@ -885,15 +893,15 @@ public class Graph {// Creating the class Graph
 
 		attackBarLabel = new Label("ATTACK: " + Stages.myHero.getAttack());
 		attackBarLabel.setBounds(WIDTH / 10, 110, 325, 75);
-		attackBarLabel.setForeground(Color.WHITE);
+		attackBarLabel.setForeground(new Color(0, 153, 153));
 		attackBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 		attackBar = new JProgressBar();
 		attackBar.setValue((int) (double) Stages.myHero.getAttack() * 100
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));
 		attackBar.setStringPainted(true);
-		attackBar.setBackground(Color.red);
+		attackBar.setBackground(new Color(102, 0, 102));
 		attackBar.setBounds(WIDTH / 10, HEIGHT / 5, 325, 75);
-		
+
 		apAttackLabel = new Label(String.valueOf(Stages.getApAttack()));
 		apAttackLabel.setBounds((WIDTH / 10) + 350, HEIGHT / 5 + 25 / 2, 75, 50);
 		apAttackLabel.setBackground(Color.WHITE);
@@ -911,14 +919,14 @@ public class Graph {// Creating the class Graph
 
 		attackRemain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
 		attackRemain.setBounds((WIDTH / 10) + 800, HEIGHT / 5 + 25 / 2, 180, 50);
-		attackRemain.setForeground(Color.RED);
+		attackRemain.setForeground(new Color(0, 153, 153));
 		attackRemain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		armourBarLabel = new Label("ARMOUR: " + Stages.myHero.getArmour());
 		armourBarLabel.setBounds(WIDTH / 10, 270, 325, 75);
-		armourBarLabel.setForeground(Color.WHITE);
+		armourBarLabel.setForeground(new Color(0, 153, 153));
 		armourBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
-		
+
 		attackReset = new Button("Reset");
 		modifyPlusButtons(attackReset, 3, 1, 2);
 
@@ -926,7 +934,7 @@ public class Graph {// Creating the class Graph
 		armourBar.setValue((int) (double) Stages.myHero.getArmour() * 100
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));
 		armourBar.setStringPainted(true);
-		armourBar.setBackground(Color.red);
+		armourBar.setBackground(new Color(102, 0, 102));
 		armourBar.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 325, 75);
 
 		apArmourLabel = new Label(String.valueOf(Stages.getApArmour()));
@@ -947,7 +955,7 @@ public class Graph {// Creating the class Graph
 		armourRemain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
 		armourRemain.setBounds((WIDTH / 10) + 800, HEIGHT * 2 / 5 + 25 / 2, 180, 50);
 
-		armourRemain.setForeground(Color.RED);
+		armourRemain.setForeground(new Color(0, 153, 153));
 		armourRemain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		armourReset = new Button("Reset");
@@ -956,12 +964,13 @@ public class Graph {// Creating the class Graph
 		hpBarLabel = new Label("HEALTH POWER: " + Stages.myHero.getHp());
 		hpBarLabel.setBounds(WIDTH / 10, 430, 325, 75);
 		hpBarLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
-		
+		hpBarLabel.setForeground(new Color(0, 153, 153));
+
 		hpBar = new JProgressBar();
 		hpBar.setValue((int) (double) Stages.myHero.getHp() * 100
 				/ (Stages.myHero.getAttack() + Stages.myHero.getArmour() + Stages.myHero.getHp()));
 		hpBar.setStringPainted(true);
-		hpBar.setBackground(Color.red);
+		hpBar.setBackground(new Color(102, 0, 102));
 		hpBar.setBounds(WIDTH / 10, HEIGHT * 3 / 5, 325, 75);
 
 		apHpLabel = new Label(String.valueOf(Stages.getApHp()));
@@ -981,7 +990,7 @@ public class Graph {// Creating the class Graph
 
 		hpRemain = new Label(" (MAX: " + Stages.getAttributePoints() / 2 + ")");
 		hpRemain.setBounds((WIDTH / 10) + 800, HEIGHT * 3 / 5 + 25 / 2, 180, 50);
-		hpRemain.setForeground(Color.RED);
+		hpRemain.setForeground(new Color(0, 153, 153));
 		hpRemain.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
 
 		hpReset = new Button("Reset");
@@ -1203,10 +1212,13 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param plus is the button we want to modify
-	 * @param numOfPlus is the number of attribute points the button increases its attribute 
+	 * @param plus            is the button we want to modify
+	 * @param numOfPlus       is the number of attribute points the button increases
+	 *                        its attribute
 	 * @param typeOfAttribute is the attribute its button increases
-	 * @param reset indicates if the button is a reset button. The value of the variable reset is either 1(for plus buttons) or 2(for reset buttons)
+	 * @param reset           indicates if the button is a reset button. The value
+	 *                        of the variable reset is either 1(for plus buttons) or
+	 *                        2(for reset buttons)
 	 */
 	private void modifyPlusButtons(Button plus, int numOfPlus, int typeOfAttribute, int reset) {
 		plus.setBounds((WIDTH / 10) + 450 + numOfPlus * 75, HEIGHT * typeOfAttribute / 5 + 25 / 2, reset * 50, 50);
@@ -1215,7 +1227,6 @@ public class Graph {// Creating the class Graph
 		plus.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 	}
 
-	
 	/**
 	 * The method createRulesWindow displays the rules of the game
 	 */
@@ -1225,7 +1236,7 @@ public class Graph {// Creating the class Graph
 		rules = new TextArea(rulesDoc, 25, 40, TextArea.SCROLLBARS_NONE);
 		rules.setBounds(0, 100, WIDTH - 10, HEIGHT - 135);
 		rules.setForeground(Color.BLACK);
-		rules.setBackground(Color.WHITE);
+		rules.setBackground(new Color(204, 229, 255));
 		rules.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 20));
 		rules.setEditable(false);
 
@@ -1243,29 +1254,30 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * The method createSettingsWindow gives the permission to handle the settings of the game
+	 * The method createSettingsWindow gives the permission to handle the settings
+	 * of the game
 	 */
 	public void createSettingsWindow() {
 		lightMode = new Button("Light Mode");
-		lightMode.setBounds(WIDTH / 10, HEIGHT / 5, 200, 75);
+		lightMode.setBounds((WIDTH - 450) / 2, (HEIGHT - 150 - HEIGHT / 5) / 2, 200, 75);
 		lightMode.setBackground(Color.WHITE);
 		lightMode.setForeground(Color.BLACK);
 		lightMode.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
 		darkMode = new Button("Dark Mode");
-		darkMode.setBounds(WIDTH / 10 + 250, HEIGHT / 5, 200, 75);
+		darkMode.setBounds((WIDTH - 450) / 2 + 250, (HEIGHT - 150 - HEIGHT / 5) / 2, 200, 75);
 		darkMode.setBackground(Color.WHITE);
 		darkMode.setForeground(Color.BLACK);
 		darkMode.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
 		greekButton = new Button("Greek");
-		greekButton.setBounds(WIDTH / 10, HEIGHT * 2 / 5, 200, 75);
+		greekButton.setBounds((WIDTH - 450) / 2, (HEIGHT - 150 - HEIGHT / 5) / 2 + HEIGHT / 5, 200, 75);
 		greekButton.setBackground(Color.WHITE);
 		greekButton.setForeground(Color.BLACK);
 		greekButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
 		englishButton = new Button("English");
-		englishButton.setBounds(WIDTH / 10 + 250, HEIGHT * 2 / 5, 200, 75);
+		englishButton.setBounds((WIDTH - 450) / 2 + 250, (HEIGHT - 150 - HEIGHT / 5) / 2 + HEIGHT / 5, 200, 75);
 		englishButton.setBackground(Color.WHITE);
 		englishButton.setForeground(Color.BLACK);
 		englishButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
@@ -1278,7 +1290,7 @@ public class Graph {// Creating the class Graph
 
 		lightMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				centralPanel.setBackground(Color.GRAY);
+				centralPanel.setBackground(new Color(180, 228, 223));
 			}
 		});
 		darkMode.addActionListener(new ActionListener() {
@@ -1312,18 +1324,17 @@ public class Graph {// Creating the class Graph
 			}
 		});
 	}
-	
+
 	public void createCreditsWindow() {
-		creditText = new TextArea(getAllText(15, "En-Credits.txt"), 20,20,TextArea.SCROLLBARS_VERTICAL_ONLY);
-		creditText.setBounds(0, 100, WIDTH-15, HEIGHT-110);
-		creditText.setBackground(new Color(0,51,51));
+		creditText = new TextArea(getAllText(14, "En-Credits.txt"), 20, 20, TextArea.SCROLLBARS_VERTICAL_ONLY);
+		creditText.setBounds(0, 100, WIDTH - 15, HEIGHT - 110);
+		creditText.setBackground(new Color(0, 51, 51));
 		creditText.setForeground(Color.white);
-		creditText.setFont(new Font(Font.SERIF, Font.BOLD, 24));
-		
+		creditText.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));
+
 		centralPanel.add(creditText);
 		centralPanel.add(mainButton);
-		
-		
+
 		mainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.remove(creditText);
@@ -1334,8 +1345,8 @@ public class Graph {// Creating the class Graph
 	}
 
 	/**
-	 * @param character is the of object of the character 
-	 * This method shows the move of the character
+	 * @param character is the of object of the character This method shows the move
+	 *                  of the character
 	 */
 	public void moveImage(Character character) {
 		final int WAIT_TIME = 1500;
