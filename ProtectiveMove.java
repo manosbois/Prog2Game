@@ -1,3 +1,5 @@
+package gr.aueb.dmst.gameName;
+
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.URL;
@@ -18,7 +20,7 @@ public class ProtectiveMove extends Move {
      * in order to lessen the damage the hero using the move
      * will take from the opponent's move.
      */
-    private static final double MODIFIER = 0.5;
+    private static final double MODIFIER = 0.25;
 
     /** @return the modifier */
     public double getModifier() { return MODIFIER; }
@@ -34,7 +36,7 @@ public class ProtectiveMove extends Move {
 
         Scanner myReader = new Scanner(new LineNumberReader(
                 new InputStreamReader(Objects.requireNonNull(
-                        this.getClass().getResourceAsStream(
+                        this.getClass().getResourceAsStream("Resources/" +
                                 this.getMessageFileName())), StandardCharsets.UTF_8)));
 
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
