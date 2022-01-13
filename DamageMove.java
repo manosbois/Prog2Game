@@ -9,23 +9,32 @@ import java.util.Scanner;
 public class DamageMove extends Move {
 
     /** A number
-    // that helps the calculation in effect method */
-    private static final int DENOMINATOR_MULTIPLIER = 4; 
-    
-    /** This variable shows how much damage this move does */
-    private final int damage; 
+     * that helps the calculations in effect method.
+     */
+    private static final int DENOMINATOR_MULTIPLIER = 4;
 
-    /** Constructor */ 
+    /** This variable shows how much damage this move does.
+     * Damage is NOT how much tempHP the opponent will lose.
+     * Damage indicates how strong the move is. 
+     */
+    private final int damage;
+
+    /** Class Constructor */
     public DamageMove(int energy, String name, int damage, String messageFileName, URL sound) {
         super(energy, name, messageFileName, sound);
         this.damage = damage;
     }
- /** @return the damage of the move */ 
+    /** @return the damage of the move */
     public int getDamage() {
         return damage;
     }
-    
-/** The effect method that is overriden from the Move class */
+
+    /**
+     * The effect method that is overridden from the Move class
+     * This move's effect is that it raises removes some tempHP from hero2.
+     * This depends on how much damage the move does as well as on the tempAttack of hero1
+     * and tempArmour of hero2.
+     */
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
 
@@ -54,7 +63,6 @@ public class DamageMove extends Move {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //Calculating damage
 
     }
 
