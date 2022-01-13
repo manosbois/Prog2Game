@@ -1,3 +1,4 @@
+package gr.aueb.dmst.gameName;
 
 /** Class to help implement the Characters of the Game 
  * This class is used by God and Hero classes
@@ -8,7 +9,7 @@
 public abstract class Character {
 
     /** Class Constructor. Used only in God */
-	public Character() { }
+    public Character() { }
 
     /** Class Constructor */
     public Character(int tempHP, int tempAttack,
@@ -35,24 +36,24 @@ public abstract class Character {
     // Moves
     /** The first damaging Move (Sword) */
     private final DamageMove damagingMove1 = new DamageMove(
-            6, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt",
-                    this.getClass().getResource("SwordSound.mp3"));
+            8, "Sword", 90, Graph.getLanguage() + "-DamageMove.txt",
+            this.getClass().getResource("Resources/SwordSound.mp3"));
     /** The second damaging Move (Spear) */
     private final DamageMove damagingMove2 = new DamageMove(
-            4, "Spear", 70, Graph.getLanguage() + "-DamageMove.txt",
-                    this.getClass().getResource("SpearSound.mp3"));
+            6, "Spear", 70, Graph.getLanguage() + "-DamageMove.txt",
+            this.getClass().getResource("Resources/SpearSound.mp3"));
     /** The Buff Move (Meditate) */
     private final BuffMove buffMove = new BuffMove(
             10, "Meditate", Graph.getLanguage() + "-BuffMove.txt",
-                    this.getClass().getResource("Meditate.mp3"));
+            this.getClass().getResource("Resources/Meditate.mp3"));
     /** The Protective Move (Shield) */
     private final ProtectiveMove protectiveMove = new ProtectiveMove(
             5, "Shield", Graph.getLanguage() + "-ProtectiveMove.txt",
-                    this.getClass().getResource("Shield.mp3"));
+            this.getClass().getResource("Resources/Shield.mp3"));
     /** The No Move (NoMove) */
     private final Move noMove = new Move(
             0, "No Move", Graph.getLanguage() + "-Move.txt",
-                    this.getClass().getResource("NoMove.mp3"));
+            this.getClass().getResource("Resources/NoMove.mp3"));
 
     /** @return HP of the Character */
     public int getHp() {
@@ -106,19 +107,19 @@ public abstract class Character {
 
     /** @return the Name of the Character */
     public String getName() {
-    	return name; 
+        return name;
     }
 
     /** @param name, set the Name of the Character */
-    public void setName(String name) { 
-    	this.name = name; 
+    public void setName(String name) {
+        this.name = name;
     }
 
     /** @return the DamagingMove1 */
     public DamageMove getDamagingMove1() {
         return damagingMove1;
     }
-    
+
     /** @return the DamagingMove2 */
     public DamageMove getDamagingMove2() {
         return damagingMove2;
@@ -130,8 +131,8 @@ public abstract class Character {
     }
 
     /** @return the ProtectiveMove */
-    public ProtectiveMove getProtectiveMove() { 
-    	return protectiveMove; 
+    public ProtectiveMove getProtectiveMove() {
+        return protectiveMove;
     }
 
     /** @return the NoMove */
