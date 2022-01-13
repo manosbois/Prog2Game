@@ -1,11 +1,15 @@
-import java.io.*;
+package gr.aueb.dmst.gameName;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.net.*;
 
 
 /**
@@ -35,7 +39,7 @@ public final class Battle {
 	private static final int ENERGY_REPLENISHMENT = 8;
 
 	/** Constants that help with the setting the probability of every move to be used by god.
-	 *They show the upper border. */
+	 * They show the upper border. */
 	private static final int SWORD_BORDER = 37, SPEAR_BORDER = 62, SHIELD_BORDER = 77,
 							MEDITATE_BORDER = 97;
 
@@ -59,9 +63,9 @@ public final class Battle {
 		System.out.println(myHero.getName() + " VS " + god.getName());
 
 		com.sun.javafx.application.PlatformImpl.startup(() -> { });
-		URL file = Battle.class.getResource("Song1.mp3");
-		URL fileSong2 = Battle.class.getResource("Song2.mp3");
-		URL zeusMusic = Battle.class.getResource("ZeusMusic.mp3");
+		URL file = Battle.class.getResource("Resources/Song1.mp3");
+		URL fileSong2 = Battle.class.getResource("Resources/Song2.mp3");
+		URL zeusMusic = Battle.class.getResource("Resources/ZeusMusic.mp3");
 		Media hit;
 		if (numOfBattle == ZEUS_BATTLE) {
 			hit = new Media(Objects.requireNonNull(zeusMusic).toString());
@@ -127,7 +131,7 @@ public final class Battle {
 
 			Scanner	myReader = new Scanner(new BufferedReader(
 					new InputStreamReader(Objects.requireNonNull(
-							Battle.class.getResourceAsStream(
+							Battle.class.getResourceAsStream("Resources/" +
 									Graph.getLanguage() + "-Battle.txt")), StandardCharsets.UTF_8)));
 
 
@@ -282,8 +286,8 @@ public final class Battle {
 	 * @param god the rival god
 	 * @param iPlayFirst boolean variable that is true when the user goes first
 	 */
-	private static void roundResult(final Move myMove,final Move opponentsMove,
-									final Hero myHero, final God god, final boolean iPlayFirst) {
+	private static void roundResult(final Move myMove, final Move opponentsMove,
+                                    final Hero myHero, final God god, final boolean iPlayFirst) {
 		// Method that checks who plays first
 		if (iPlayFirst) { // If the user plays first
 			myMove.effect(myHero, god, opponentsMove.getModifier()); // The user makes his move
