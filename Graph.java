@@ -53,7 +53,7 @@ public class Graph {// Creating the class Graph
 	 * We define the buttons that are beings used on the Checkpoint, the Lose and
 	 * the Battle Win window
 	 */
-	Button nextGod, checkpoint, gameOver;
+	Button nextGod, checkpoint, gameOver, exitGame;
 	/**
 	 * We define the labels that are referred to the hero's and the god's health
 	 * power
@@ -778,7 +778,7 @@ public class Graph {// Creating the class Graph
 		removeStartWindow();
 
 		winMes = new Label();
-		winMes.setBounds(0, HEIGHT / 2 - 50, WIDTH, 100);
+		winMes.setBounds(0, HEIGHT / 2 - 150, WIDTH, 100);
 		winMes.setForeground((new Color(255, 204, 51)).darker());
 		try {
 			winMes.setText(getLine(1, getLanguage() + "-Graph.txt"));
@@ -787,8 +787,24 @@ public class Graph {// Creating the class Graph
 		}
 		winMes.setFont(new Font(Font.SERIF, Font.BOLD, 45));
 		winMes.setAlignment(Label.CENTER);
+		
+		exitGame = new Button("Exit The Game");
+		exitGame.setBounds((WIDTH-400)/2, HEIGHT/2 + 100, 400, 100);
+		exitGame.setBackground(new Color(0, 204,204));
+		exitGame.setForeground(Color.white);
+		exitGame.setFont(new Font(Font.SERIF, Font.BOLD, 35));
 
 		centralPanel.add(winMes);
+		centralPanel.add(exitGame);
+		
+		exitGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				centralPanel.remove(exitGame);
+				centralPanel.remove(winMes);
+				createMenuWindow();
+			}
+		});
+
 	}
 
 	/**
