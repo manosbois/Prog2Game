@@ -73,7 +73,7 @@ public class Graph {// Creating the class Graph
 	 * and the checkpoint message
 	 */
 	Label battleWin, winMes, loseMes, checkpointMes;
-	/** We define the buttons that sets the attribute points of the hero */
+	/** We define the buttons that set the attribute points of the hero */
 	Button attackPlus1, attackPlus5, attackPlus10, attackReset, armourPlus1, armourPlus5, armourPlus10, armourReset,
 			hpPlus1, hpPlus5, hpPlus10, hpReset, doneButton;
 	/** We define the labels of the statistics window */
@@ -134,7 +134,7 @@ public class Graph {// Creating the class Graph
 	 * @param fileName     shows the name of the file which we are reading
 	 * @return Returns the contents of the line of a file that is located the number
 	 *         specified
-	 * @throws IOException
+	 * @throws IOException because file may not exist
 	 */
 	public static String getLine(final int numberOfLine, final String fileName) throws IOException {
 
@@ -153,12 +153,10 @@ public class Graph {// Creating the class Graph
 		return null;
 	}
 
-	private final Runnable battleTasks = () -> {
-		Stages.stageControl();
-	};
+	private final Runnable battleTasks = Stages::stageControl;
 
 	/**
-	 * @param numberOfLine indicates the number of the line of the file that we want
+	 * @param numOfLines indicates the number of the line of the file that we want
 	 *                     to read
 	 * @param fileName     shows the name of the file which we are reading
 	 * @return Returns a String containing all lines of a file
@@ -531,11 +529,11 @@ public class Graph {// Creating the class Graph
 		background = new JLabel();
 		background.setBounds(0, 0, WIDTH, HEIGHT - 130);
 		background.setBackground(Color.BLACK);
-		
+
 		if (Battle.god.getName().equals("Zeus")) {
 			godImage.setLocation(WIDTH / 2 + 300, HEIGHT * 9 / 10 - 480);
 		}
-		
+
 		try {
 			InputStream resourceBf3 = Graph.class.getResourceAsStream("background.jpg");
 			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf3));
@@ -545,20 +543,22 @@ public class Graph {// Creating the class Graph
 			e1.printStackTrace();
 		}
 
-		swordButton = new JButton("1. Sword");
-		modifyMoveButtons(swordButton, 1, 90, 6);
+		swordButton = new JButton("1. " + Stages.myHero.getDamagingMove1().getName());
+		modifyMoveButtons(swordButton, 1, Stages.myHero.getDamagingMove1().getDamage(),
+				Stages.myHero.getDamagingMove1().getEnergy());
 
-		spearButton = new JButton("2. Spear");
-		modifyMoveButtons(spearButton, 2, 70, 4);
+		spearButton = new JButton("2. "+ Stages.myHero.getDamagingMove2().getName());
+		modifyMoveButtons(spearButton, 2, Stages.myHero.getDamagingMove2().getDamage(),
+				Stages.myHero.getDamagingMove2().getEnergy());
 
-		shieldButton = new JButton("3. Shield");
-		modifyMoveButtons(shieldButton, 3, 0, 5);
+		shieldButton = new JButton("3. " + Stages.myHero.getProtectiveMove().getName());
+		modifyMoveButtons(shieldButton, 3, 0, Stages.myHero.getProtectiveMove().getEnergy());
 
-		meditateButton = new JButton("4. Meditate");
-		modifyMoveButtons(meditateButton, 4, 0, 10);
+		meditateButton = new JButton("4. " + Stages.myHero.getBuffMove().getName());
+		modifyMoveButtons(meditateButton, 4, 0, Stages.myHero.getBuffMove().getEnergy());
 
-		noMoveButton = new JButton("5. No Move");
-		modifyMoveButtons(noMoveButton, 5, 0, 0);
+		noMoveButton = new JButton("5. " + Stages.myHero.getNoMove().getName());
+		modifyMoveButtons(noMoveButton, 5, 0, Stages.myHero.getNoMove().getEnergy());
 
 		addStartWindow();
 
@@ -787,7 +787,7 @@ public class Graph {// Creating the class Graph
 		}
 		winMes.setFont(new Font(Font.SERIF, Font.BOLD, 45));
 		winMes.setAlignment(Label.CENTER);
-		
+
 		exitGame = new Button("Exit The Game");
 		exitGame.setBounds((WIDTH-400)/2, HEIGHT/2 + 100, 400, 100);
 		exitGame.setBackground(new Color(0, 204,204));
@@ -796,12 +796,12 @@ public class Graph {// Creating the class Graph
 
 		centralPanel.add(winMes);
 		centralPanel.add(exitGame);
-		
+
 		exitGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				centralPanel.remove(exitGame);
 				centralPanel.remove(winMes);
-				createMenuWindow();
+				System.exit(0);
 			}
 		});
 
