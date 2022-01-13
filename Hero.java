@@ -1,3 +1,4 @@
+package gr.aueb.dmst.gameName;
 
 /** Class to help implement the stats of the Hero.
  *  The non-temp stats are used outside the Battle 
@@ -15,7 +16,7 @@ public class Hero extends Character {
 		this.energy = tempEnergy;
 	}
 
-	
+
 	/** The attack of the Hero */
 	private int attack;
 	/** The armour of the Hero */
@@ -24,7 +25,7 @@ public class Hero extends Character {
 	private int energy;
 
 
-	
+
 	/** @return the Attack of the Hero */
 	public int getAttack() {
 		return attack;
@@ -51,11 +52,11 @@ public class Hero extends Character {
 	}
 
 	/** @param energy, set the energy of the Hero */
-	public void setEnergy(int energy) { 
-		this.energy = energy; 
+	public void setEnergy(int energy) {
+		this.energy = energy;
 	}
 
-	
+
 	/** Method that sets the Statistics of the Hero */
 	public void setStats(int hp, int attack, int armour, int energy) {
 		super.setHp(hp);
