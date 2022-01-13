@@ -1,11 +1,14 @@
+package gr.aueb.dmst.gameName;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.LineNumberReader;
+
 import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.net.URL;
-import java.util.Scanner;
-import java.util.Objects;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * Class to help implement the Move concept
@@ -85,7 +88,7 @@ public class Move {
 
         Scanner myReader = new Scanner(new LineNumberReader(
                 new InputStreamReader(Objects.requireNonNull(
-                        this.getClass().getResourceAsStream(
+                        this.getClass().getResourceAsStream("Resources/" +
                                 messageFileName)), StandardCharsets.UTF_8)));
 
         System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
