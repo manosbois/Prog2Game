@@ -41,7 +41,7 @@ public class Graph {// Creating the class Graph
 	 * We define the buttons that are contained on the introductory and the menu
 	 * window
 	 */
-	Button introButton, mainButton, startButton, rulesButton, settingsButton, quitButton, continueButton;
+	Button introButton, mainButton, startButton, rulesButton, settingsButton, creditButton, quitButton, continueButton;
 	/**
 	 * We define the labels that are referred to the hero's and the god's health
 	 * power's bar and name
@@ -67,7 +67,7 @@ public class Graph {// Creating the class Graph
 	/** We define the label that contains the messages during the battle */
 	static Label mes1;
 	/** We define the text areas that contains the story and the rules */
-	TextArea rules, story;
+	TextArea rules, story, creditText;
 	/**
 	 * We define the label that contains the win, the win of the battle, the lose
 	 * and the checkpoint message
@@ -260,29 +260,6 @@ public class Graph {// Creating the class Graph
 	 * The method createMenuWindow creates the window that contains the menu
 	 */
 	public void createMenuWindow() {
-		try {
-			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt"));
-			modifyMenuButtons(startButton, 0);
-
-			rulesButton = new Button(getLine(8, getLanguage() + "-Graph.txt"));
-			modifyMenuButtons(rulesButton, 1);
-
-			settingsButton = new Button(getLine(9, getLanguage() + "-Graph.txt"));
-			modifyMenuButtons(settingsButton, 2);
-
-			quitButton = new Button(getLine(10, getLanguage() + "-Graph.txt"));
-			modifyMenuButtons(quitButton, 3);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		mainButton = new Button("CODERUNNERS");
-		mainButton.setLocation((WIDTH - 350) / 2, 0);
-		mainButton.setSize(350, 50);
-		mainButton.setBackground(Color.BLACK);
-		mainButton.setForeground(new Color(255, 204, 51));
-		mainButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
 		logo = new JLabel();
 		logo.setBounds(WIDTH * 13 / 20, 150, 300, 500);
 
@@ -294,10 +271,37 @@ public class Graph {// Creating the class Graph
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		try {
+			startButton = new Button(getLine(7, getLanguage() + "-Graph.txt"));
+			modifyMenuButtons(startButton, 0);
+
+			rulesButton = new Button(getLine(8, getLanguage() + "-Graph.txt"));
+			modifyMenuButtons(rulesButton, 1);
+
+			settingsButton = new Button(getLine(9, getLanguage() + "-Graph.txt"));
+			modifyMenuButtons(settingsButton, 2);
+			
+			creditButton = new Button("CREDITS");
+			modifyMenuButtons(creditButton, 3);
+
+			quitButton = new Button(getLine(10, getLanguage() + "-Graph.txt"));
+			modifyMenuButtons(quitButton, 4);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		mainButton = new Button("CODERUNNERS");
+		mainButton.setLocation((WIDTH - 350) / 2, 0);
+		mainButton.setSize(350, 50);
+		mainButton.setBackground(Color.BLACK);
+		mainButton.setForeground(new Color(255, 204, 51));
+		mainButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
 		centralPanel.add(startButton);
 		centralPanel.add(rulesButton);
 		centralPanel.add(settingsButton);
+		centralPanel.add(creditButton);
 		centralPanel.add(quitButton);
 		centralPanel.add(logo);
 
@@ -322,6 +326,13 @@ public class Graph {// Creating the class Graph
 				createSettingsWindow();
 			}
 		});
+		creditButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeMenuButtons();
+
+				createCreditsWindow();
+			}
+		});
 		quitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -334,7 +345,7 @@ public class Graph {// Creating the class Graph
 	 * @param numOfButton is the number the button in the row
 	 */
 	private void modifyMenuButtons(Button menuButton, int numOfButton) {
-		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 20);
+		menuButton.setLocation(WIDTH / 10, HEIGHT * (3 + 4 * numOfButton) / 25);
 		menuButton.setSize(350, 100);
 		menuButton.setBackground(new Color(53, 1, 70));
 		menuButton.setForeground(Color.WHITE);
@@ -348,6 +359,7 @@ public class Graph {// Creating the class Graph
 		centralPanel.remove(startButton);
 		centralPanel.remove(rulesButton);
 		centralPanel.remove(settingsButton);
+		centralPanel.remove(creditButton);
 		centralPanel.remove(quitButton);
 		centralPanel.remove(logo);
 
@@ -1271,7 +1283,7 @@ public class Graph {// Creating the class Graph
 		});
 		darkMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				centralPanel.setBackground(Color.black);
+				centralPanel.setBackground(new Color(0, 51, 51));
 			}
 		});
 
@@ -1296,6 +1308,26 @@ public class Graph {// Creating the class Graph
 				centralPanel.remove(lightMode);
 				centralPanel.remove(greekButton);
 				centralPanel.remove(englishButton);
+				createMenuWindow();
+			}
+		});
+	}
+	
+	public void createCreditsWindow() {
+		creditText = new TextArea(getAllText(15, "En-Credits.txt"), 20,20,TextArea.SCROLLBARS_VERTICAL_ONLY);
+		creditText.setBounds(0, 100, WIDTH-15, HEIGHT-110);
+		creditText.setBackground(new Color(0,51,51));
+		creditText.setForeground(Color.white);
+		creditText.setFont(new Font(Font.SERIF, Font.BOLD, 24));
+		
+		centralPanel.add(creditText);
+		centralPanel.add(mainButton);
+		
+		
+		mainButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				centralPanel.remove(creditText);
+				centralPanel.remove(mainButton);
 				createMenuWindow();
 			}
 		});
