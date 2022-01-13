@@ -18,7 +18,7 @@ public class BuffMove extends Move {
 
 	/** 
 	* The effect method that is overridden from the Move class
-	* This move's effect is that it raises the tempStats of, multiplying them with the MULTIPLICATION_FACTOR
+	* This move's effect is that it raises the tempStats of hero1, multiplying them with the MULTIPLICATION_FACTOR
 	* and using the set methods.
 	*/
 	@Override
