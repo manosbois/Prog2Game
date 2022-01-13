@@ -1,3 +1,5 @@
+package gr.aueb.dmst.gameName;
+
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.URL;
@@ -9,24 +11,24 @@ import java.util.Scanner;
 public class BuffMove extends Move {
 
 	/** The constant Multiplication factor that is used in raising the tempStats */
-	private static final double MULTIPLICATION_FACTOR = 1.5;
+	private static final double MULTIPLICATION_FACTOR = 1.2;
 
 	/** Class Constructor */
 	public BuffMove(int energy, String name, String messageFileName, URL sound) {
 		super(energy, name, messageFileName, sound);
 	}
 
-	/** 
-	* The effect method that is overridden from the Move class
-	* This move's effect is that it raises the tempStats of hero1, multiplying them with the MULTIPLICATION_FACTOR
-	* and using the set methods.
-	*/
+	/**
+	 * The effect method that is overridden from the Move class
+	 * This move's effect is that it raises the tempStats of hero1, multiplying them with the MULTIPLICATION_FACTOR
+	 * and using the set methods.
+	 */
 	@Override
 	public void effect(Character hero1, Character hero2, double modifier) {
 
 		Scanner myReader = new Scanner(new LineNumberReader(
 				new InputStreamReader(Objects.requireNonNull
-						(this.getClass().getResourceAsStream(
+						(this.getClass().getResourceAsStream("Resources/" +
 								this.getMessageFileName())), StandardCharsets.UTF_8)));
 
 		System.out.printf("%s used %s.%n",
