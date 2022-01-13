@@ -3,7 +3,7 @@ public final class Stages {
 
 	private Stages() { }
 
-	/**	Object of Hero class that represents the user's character */
+	/** Object of Hero class that represents the user's character */
 	static Hero myHero;
 
 	/** The starting Stats of myHero variable */
