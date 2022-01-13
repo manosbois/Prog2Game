@@ -12,14 +12,23 @@ public class ProtectiveMove extends Move {
                           String messageFileName, URL sound) {
         super(energy, name, messageFileName, sound);
     }
-    /** The default constant modifier that is used*/
+    /** 
+     * The default constant modifier that is used.
+     * In this class the value of MODIFIER is less than 1
+     * in order to lessen the damage the hero using the move
+     * will take from the opponent's move.
+     */
     private static final double MODIFIER = 0.5;
 
-     /** @return the modifier */
+    /** @return the modifier */
     public double getModifier() { return MODIFIER; }
 
-    
-    /** The effect method that is overriden from the Move class  */
+
+    /**
+     * The effect method that is overridden from the Move class.
+     * This move's effect method is almost the same as Move Class's.
+     * Its effect is actually implemented just by the MODIFIER constant.
+     */
     @Override
     public void effect(Character hero1, Character hero2, double modifier) {
 
