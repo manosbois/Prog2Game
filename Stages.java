@@ -1,13 +1,14 @@
+package gr.aueb.dmst.gameName;
 
 public final class Stages {
 
 	private Stages() { }
 
-	/** Object of Hero class that represents the user's character */
+	/**	Object of Hero class that represents the user's character */
 	static Hero myHero;
 
 	/** The starting Stats of myHero variable */
-	private static final int MY_HERO_ENERGY = 10, MY_HERO_HP = 100,
+	private static final int MY_HERO_ENERGY = 8, MY_HERO_HP = 100,
 			MY_HERO_ATTACK = 100, MY_HERO_ARMOUR = 100;
 
 
@@ -161,13 +162,13 @@ public final class Stages {
 					}
 				}
 
-				if (i == FIRST_CHECKPOINT || i == SECOND_CHECKPOINT) { //We use temps for the checkpoints
+				if (i == FIRST_CHECKPOINT || i == SECOND_CHECKPOINT) { // We use temps for the checkpoints
 					tempHP = myHero.getHp();
 					tempAttack = myHero.getAttack();
 					tempArmor = myHero.getArmour();
 				}
-				i++; //i will be increased only when the user wins.
-			} else { //After the user's player is dead we check for the checkpoints
+				i++; // i will be increased only when the user wins.
+			} else { // After the user's player is dead we check for the checkpoints
 				if (!hasDied) {
 					findCheckpoint(myHero);
 					hasDied = true;
