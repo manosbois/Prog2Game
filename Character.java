@@ -59,7 +59,7 @@ public abstract class Character {
         return hp;
     }
 
-    /** @param HP, set the HP of the Character */
+    /** @param hp, set the HP of the Character */
     public void setHp(int hp) {
         this.hp = hp;
     }
