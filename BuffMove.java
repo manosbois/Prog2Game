@@ -10,12 +10,17 @@ public class BuffMove extends Move {
 
 	/** The constant Multiplication factor that is used in raising the tempStats */
 	private static final double MULTIPLICATION_FACTOR = 1.5;
-	
+
+	/** Class Constructor */
 	public BuffMove(int energy, String name, String messageFileName, URL sound) {
 		super(energy, name, messageFileName, sound);
 	}
 
-	/** The effect method that is overriden from the Move class */
+	/** 
+	* The effect method that is overridden from the Move class
+	* This move's effect is that it raises the tempStats of, multiplying them with the MULTIPLICATION_FACTOR
+	* and using the set methods.
+	*/
 	@Override
 	public void effect(Character hero1, Character hero2, double modifier) {
 
