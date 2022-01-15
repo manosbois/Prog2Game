@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
@@ -39,9 +39,6 @@ public class ProtectiveMove extends Move {
                         this.getClass().getResourceAsStream("Resources/" +
                                 this.getMessageFileName())), StandardCharsets.UTF_8)));
 
-        System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
-        System.out.printf("%s will be partially protected by the shield%n%n",
-                hero1.getName());
         Game.graph.moveImage(hero1);
         makeSound(getSound());
         Game.graph.modifyMes(myReader.nextLine() + hero1.getName()
