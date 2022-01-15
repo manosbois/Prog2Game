@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -55,12 +55,10 @@ public final class Battle {
 
 		god = new God(numOfBattle); // Creating the object for the rival god
 		synchronized (Graph.getGraphLock()) {
-			System.out.println("FIRST: " + Battle.god.getName());
 			Graph.getGraphLock().notify();
 		}
 
 		boolean roundEnds;
-		System.out.println(myHero.getName() + " VS " + god.getName());
 
 		com.sun.javafx.application.PlatformImpl.startup(() -> { });
 		URL file = Battle.class.getResource("Resources/Song1.mp3");
@@ -119,15 +117,6 @@ public final class Battle {
 		Move move; // Creating a variable of type Move to assist us in switch structure.
 		do {
 			sufficientEnergy = true;
-			System.out.printf("%s %14s%nHP: %d %14d%nEnergy: %d%n%n", myHero.getName(), god.getName(),
-					myHero.getTempHP(), god.getTempHP(), myHero.getTempEnergy());
-			System.out.println("Choose your move!");
-			// Printing user's moves
-			System.out.println(myHero.getDamagingMove1().toString());
-			System.out.println(myHero.getDamagingMove2().toString());
-			System.out.println(myHero.getBuffMove().toString());
-			System.out.println(myHero.getProtectiveMove().toString());
-			System.out.println(myHero.getNoMove().toString());
 
 			Scanner	myReader = new Scanner(new BufferedReader(
 					new InputStreamReader(Objects.requireNonNull(
@@ -151,8 +140,6 @@ public final class Battle {
 				// Checking if the user has enough energy
 				sufficientEnergy = false;
 				Game.graph.clearMes();
-				System.out.printf("You need %d more Energy to use the move %s%n",
-						move.getEnergy() - myHero.getTempEnergy(), move.getName());
 				Game.graph.modifyMes(myReader.nextLine() + (move.getEnergy() - myHero.getTempEnergy())
 						+ myReader.nextLine() + move.getName() + "."); //Message: Yoy need $ more energy to use the move %.
 				try {
