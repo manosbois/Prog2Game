@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 /** Class to help implement the Characters of the Game 
  * This class is used by God and Hero classes
