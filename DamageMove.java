@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
@@ -45,7 +45,6 @@ public class DamageMove extends Move {
                         this.getClass().getResourceAsStream("Resources/" +
                                 this.getMessageFileName())), StandardCharsets.UTF_8)));
 
-        System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         Game.graph.moveImage(hero1);
         makeSound(getSound());
         Game.graph.modifyMes(myReader.nextLine() + hero1.getName() + myReader.nextLine() + this.getName() + ".");
@@ -56,8 +55,7 @@ public class DamageMove extends Move {
         hero2.setTempHP(hero2.getTempHP() - (int) Math.round(tempHP));
         //Removing Energy from player using the move
         hero1.setTempEnergy(hero1.getTempEnergy() - this.getEnergy());
-        System.out.printf("%s's HP is now %d. The damage was %d HP.%n%n",
-                hero2.getName(), hero2.getTempHP(), (int) Math.round(tempHP));
+
         Graph.modifyHpLabels(hero2, hero2.getTempHP(),hero2.getHp());
 
         try {
