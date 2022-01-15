@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 public final class Stages {
 
@@ -173,8 +173,6 @@ public final class Stages {
 					findCheckpoint(myHero);
 					hasDied = true;
 				} else {
-					System.out.println("You have already used your checkpoint.");
-					System.out.println("Game over!");
 					Game.graph.createLoseWindow();
 					i = END_OF_GAME;
 				}
@@ -193,7 +191,6 @@ public final class Stages {
 	public static void findCheckpoint(Hero myHero) { // A method that finds the checkpoint of the player
 		try {
 			if (i <= FIRST_CHECKPOINT) { // Before the battle with the sixth god
-				System.out.println("Game Over!");
 				Game.graph.createLoseWindow();
 				i = END_OF_GAME;
 			} else if (/* i > FIRST_CHECKPOINT && */ i < ZEUS_BATTLE) { // Before the battle with the twelfth god
