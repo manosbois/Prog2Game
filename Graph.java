@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -242,11 +242,11 @@ public class Graph {// Creating the class Graph
 		introButton.setForeground(new Color(14, 114, 110));
 		introButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
 
-		introLabel = new Label("WELCOME TO OUR GAME");
+		introLabel = new Label("GODS' NEMESIS");
 		introLabel.setLocation((WIDTH - 600) / 2, HEIGHT * 2 / 10);
 		introLabel.setSize(600, 200);
 		introLabel.setForeground(new Color(255, 204, 51));
-		introLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
+		introLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 70));
 		introLabel.setAlignment(Label.CENTER);
 
 		centralPanel.add(introLabel);
@@ -383,7 +383,7 @@ public class Graph {// Creating the class Graph
 		String storyText = getAllText(2, getLanguage() + "-Story.txt");
 
 		story = new TextArea(storyText, 20, 10, TextArea.SCROLLBARS_NONE);
-		story.setBounds(0, 100, WIDTH - 10, 550);
+		story.setBounds(0, 100, WIDTH - 20, 550);
 		story.setForeground(Color.WHITE);
 		story.setBackground(new Color(0, 51, 51));
 		story.setFont(new Font(Font.MONOSPACED, Font.BOLD, 28));
@@ -433,7 +433,6 @@ public class Graph {// Creating the class Graph
 			}
 			synchronized (graphLock) {
 				try {
-					System.out.println("WAITING");
 					graphLock.wait();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -510,7 +509,6 @@ public class Graph {// Creating the class Graph
 
 		try {
 			InputStream resourceBf = Graph.class.getResourceAsStream("Resources/" + Battle.god.getName() + ".jpg");
-			System.out.println("Resources/" + Battle.god.getName() + ".jpg");
 			BufferedImage bf = ImageIO.read(Objects.requireNonNull(resourceBf));
 			ImageIcon im = new ImageIcon(bf);
 			godImage.setIcon(im);
@@ -1256,10 +1254,10 @@ public class Graph {// Creating the class Graph
 	 * The method createRulesWindow displays the rules of the game
 	 */
 	public void createRulesWindow() {
-		String rulesDoc = getAllText(23, getLanguage() + "-Rules.txt");
+		String rulesDoc = getAllText(25, getLanguage() + "-Rules.txt");
 
 		rules = new TextArea(rulesDoc, 25, 40, TextArea.SCROLLBARS_NONE);
-		rules.setBounds(0, 100, WIDTH - 10, HEIGHT - 135);
+		rules.setBounds(0, 100, WIDTH - 20, HEIGHT - 175);
 		rules.setForeground(Color.BLACK);
 		rules.setBackground(new Color(204, 229, 255));
 		rules.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 20));
@@ -1351,11 +1349,12 @@ public class Graph {// Creating the class Graph
 	}
 
 	public void createCreditsWindow() {
-		creditText = new TextArea(getAllText(14, "En-Credits.txt"), 20, 20, TextArea.SCROLLBARS_VERTICAL_ONLY);
-		creditText.setBounds(0, 100, WIDTH - 15, HEIGHT - 110);
+		creditText = new TextArea(getAllText(65, "En-Credits.txt"), 20, 20, TextArea.SCROLLBARS_VERTICAL_ONLY);
+		creditText.setBounds(0, 100, WIDTH - 15, HEIGHT - 175);
 		creditText.setBackground(new Color(0, 51, 51));
 		creditText.setForeground(Color.white);
 		creditText.setFont(new Font(Font.MONOSPACED, Font.BOLD, 24));
+		creditText.setEditable(false);
 
 		centralPanel.add(creditText);
 		centralPanel.add(mainButton);
