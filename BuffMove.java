@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
@@ -31,14 +31,11 @@ public class BuffMove extends Move {
 						(this.getClass().getResourceAsStream("Resources/" +
 								this.getMessageFileName())), StandardCharsets.UTF_8)));
 
-		System.out.printf("%s used %s.%n",
-				hero1.getName(), this.getName());
 		double tempAttack = hero1.getTempAttack() * MULTIPLICATION_FACTOR; //Raising tempAttack by half
 		double tempArmour = hero1.getTempArmour() * MULTIPLICATION_FACTOR; //Raising tempArmour by half
 		hero1.setTempAttack((int) Math.round(tempAttack));
 		hero1.setTempArmour((int) Math.round(tempArmour));
-		System.out.printf("%s's Attack and Armour "
-				+ "were raised by half%n%n", hero1.getName());
+
 		Game.graph.moveImage(hero1);
 		makeSound(getSound());
 		String message = myReader.nextLine() + hero1.getName() + myReader.nextLine()
