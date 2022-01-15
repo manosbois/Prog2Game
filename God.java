@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 /** Class to help implement the stats of the Gods 
  * Gods have only Temp stats and HP.
@@ -74,7 +74,7 @@ public class God extends Character {
                 setTempStats(1.33* Stages.myHero.getHp(),1.33* Stages.myHero.getAttack(),1.33* Stages.myHero.getArmour(), 33);
                 break;
             default:
-                System.out.println("There is no such god");
+                break; // There is no such god.
         }
     }
 
