@@ -1,4 +1,4 @@
-package gr.aueb.dmst.gameName;
+package gr.aueb.dmst.GodsNemesis;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -91,7 +91,6 @@ public class Move {
                         this.getClass().getResourceAsStream("Resources/" +
                                 messageFileName)), StandardCharsets.UTF_8)));
 
-        System.out.printf("%s used %s.%n", hero1.getName(), this.getName());
         Game.graph.moveImage(hero1);
         makeSound(getSound());
         Game.graph.modifyMes(myReader.nextLine() + hero1.getName()
@@ -101,8 +100,7 @@ public class Move {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.printf("This move had no effect%n%n");
-        System.out.println(Graph.getLanguage());
+
     }
 
 
