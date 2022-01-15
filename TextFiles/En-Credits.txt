@@ -1,14 +1,65 @@
+Graphics Design:
+Νικολαΐδης Νικόλαος
+___
+
+Gameplay Testing:
+Ανδρουλακάκης Γεώργιος
+___
+
+Backend Design:
+Μπόης Εμμανουήλ
+___
+
 Images' Administrators & Graphic Designers:
-Ασκοξυλάκη Έρικα-Νικολέττα & Λαγουδάκη Ελευθερία 
+Ασκοξυλάκη Έρικα-Νικολέττα & Λαγουδάκη Ελευθερία
+___
 
 Music's & Sound Effects':
 Οικονόμου Στέφανος-Κυριάκος
- 
+___
+
 Story Writers:
 Αμπουλού Εμμανουέλα & Αυγερόπουλος Βασίλειος
+___
 
+Logo Creator:
+Γεώργιος Μερωνιανάκης
+___
 Music & Sound Effects:
+Song 1: Vans in Japan | Higher Octane
+https://www.youtube.com/watch?v=0HU_CDYBK_s&ab_channel=NoCopyrightAudioLibrary
+
+Song 2: RKVC | Tropical Thunder
+https://www.youtube.com/watch?v=WyUt53NrD1M&ab_channel=NoCopyrightAudioLibrary
+
+ZeusMusic: Action Rock by MaxKoMusic 
+https://www.chosic.com/download-audio/28701/
+https://www.chosic.com/free-music/all/?keyword=MaxKoMusic&artist
+
+Song 3 : "Superepic" by Alexander Nakarada
+https://www.youtube.com/watch?v=IApzFD_5YXA&ab_channel=RoyaltyFreeMusic-AlexanderNakarada
+
+GameOver: Rain Fuse by French Fuse
+https://www.youtube.com/watch?v=Oz6osI5Lv3Q&ab_channel=NoCopyrightAudioLibrary
+
+Sword sound effect:
+https://www.youtube.com/watch?v=BQV5rbBMjCQ&ab_channel=CPhTFluke
+
+Spear sound effect:
+https://www.youtube.com/watch?
+
+Meditate sound effect:
+https://www.youtube.com/watch?v=j8Jx_2eBmDY&ab_channel=Kingsoundeffects%E2%99%9B
+
+Shield sound effect:
+https://www.youtube.com/watch?v=YW4iFqtPrjo&ab_channel=InstrumentingEffects
+
+NoMove sound effect:
+https://www.youtube.com/watch?v=RktX4lbe_g4&ab_channel=ViralVidzNL
 ___
 
-Images:
+God Images: ID 171290198 © Tatyana Merkusheva | Dreamstime.com
+Game Background: https://www.freepik.com/photos/snow | created by @travel-photography - www.freepik.com
 ___
+
+Game: Built by CODERUNNERS
