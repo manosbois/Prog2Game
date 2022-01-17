@@ -1,0 +1,25 @@
+The aim of the game is for the player to conquer Olympus. He can 
+achieve this by defeating his respective god-opponent in each round.
+
+Each player and each God has 4 characteristics:
+1) Health Power: The state in which the player finds himself after each hit of the opponent.
+2) Attack: The player's ability to attack the opponent.
+3) Armor: The player's ability to defend himself in the opponent's attack, in other words how resistant he is against the hits.
+4) Energy: The energy of the player in the particular round, which varies depending on the move he chooses.
+
+After the end of each round and if the player has won, he has at his disposal some points that he can distribute to his 
+3 characteristics(Health Power, Attack, Armour) as he wishes.
+The available upgrade points are given in proportion to the Health Power of the player who survived the battle.
+
+The player has 5 moves at his disposal:
+2 attack moves the Sword (the strongest) and the Spear.
+The Shield move is a defensive move.
+The Meditate move multiplies the defense and attack stats.
+The player also has the option of No Move where nothing happens.
+The movements of the gods are in full correspondence.
+
+Rounds 6 (God: Apollo) and 12 (God: Zeus) are considered checkpoints.
+Therefore, if the player loses after these rounds, he does not start the game from the
+beginning but returns to the last checkpoint, but he has this possibility only once.
+
+Use: Left Click
